@@ -1,0 +1,124 @@
+.loginContainer {
+    font-family: "Kaiti SC";
+
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    margin-top: 5vh;
+    margin-left: 5vw;
+
+    width: 100%;
+}
+
+.loginForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
+}
+
+.loginLegend {
+    color: #000;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 4vh;
+}
+
+.loginField {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    border-radius: 2px;
+    font-size: 16px;
+    background-color: #E4E5E8;
+    
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 15px 20px 15px 45px;
+}
+
+.un {
+    background-image: url('../assets/username.svg');
+}
+
+.pw {
+    background-image: url('../assets/password.svg');
+}
+
+.loginSubmit {
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: #0F1F3C;
+
+    color: #FFF;
+    text-align: center;
+    font-family: "Kaiti SC";
+    font-size: 3vh;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    width: 100%;
+}
+
+.forgor {
+    align-self: center;
+    margin-top: 0;
+
+    color: #000;
+    font-size: 1.8vh;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Mobile phones and down */
+@media screen and (max-width: 425px) {
+    .un, .pw {
+        background-size: 7vw;
+    }
+
+    .loginContainer {
+        max-width: 80vw;
+        margin: 5vh auto;
+    }
+}
+
+/* Tablets and up */
+@media screen and (min-width: 768px) {
+    .un, .pw{
+        background-size: 4vw;
+    }
+
+    .loginContainer {
+        max-width: 50vw;
+        margin: 5vh auto;
+    }
+}
+
+/* Laptops and up */
+@media screen and (min-width: 1024px) {
+    .un, .pw {
+        background-size: 2vw;
+    }
+
+    .loginContainer {
+        max-width: 40vw;
+        margin: 5vh auto;
+    }
+}
+
+/* large screens, external monitors and up */
+@media screen and (min-width: 1440px) {
+    .un, .pw {
+        background-size: 2vw;
+    }
+
+    .loginContainer {
+        max-width: 30vw;
+        margin: 5vh auto;
+    }
+}
