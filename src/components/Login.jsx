@@ -20,7 +20,7 @@ function login () {
     return (
         <div className='loginContainer'>
             <legend className='loginLegend'>Login</legend>
-            <form className='loginForm' name='loginForm' onSubmit={handleSubmit}>
+            <form className='loginForm' onSubmit={handleSubmit}>
                 <input type="text" placeholder='Username' className='loginField un' required 
                     value={un}
                     onChange={(e) => {setUn(e.target.value)}}
@@ -31,7 +31,9 @@ function login () {
                 />
                 <button className='loginSubmit'>Login</button>
             </form>
-            <p className='forgor'>Forgot your password?</p>
+            <a href='https://careers.fdmgroup.com/forgotten-password.aspx' target='_blank' rel='noreferrer' className='forgor'>
+                Forgot your password?
+            </a>
         </div>
     )
 }
