@@ -120,6 +120,21 @@ a:hover::before {
     transform: scaleX(1);
 }
 
+/* Login Button Animation */
+
+.loginSubmit {
+    background: linear-gradient(0deg, #0f1f3c, 80%, #204382);
+    background-size: 400% 400%;
+    transition: .3s;
+}
+
+.loginSubmit:hover {
+    transition: .3s;
+    background-position:50% 20%
+}
+
+
+
 /* Mobile phones and down */
 @media screen and (max-width: 425px) {
    .loginContainer {
@@ -157,17 +172,3 @@ a:hover::before {
         /* margin: 5vh auto; */
     }
 }
-
-/* Login Button Animation */
-
-.loginSubmit {
-    background: linear-gradient(0deg, #0f1f3c, 80%, #204382);
-    background-size: 400% 400%;
-    transition: .3s;
-}
-
-.loginSubmit:hover {
-    transition: .3s;
-    background-position:50% 20%
-}
-
