@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './css/App.css'
 import Login from './components/Login'
+import Navbar from './components/navbar'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
 
@@ -31,7 +32,8 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>*/
-    <Login />
+    //<Login />
+    <Navbar />
   )
 }
 

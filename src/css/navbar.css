@@ -1,0 +1,82 @@
+nav {
+    background: linear-gradient(1deg, #0F1F3C 29.91%, #204382 98.99%);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* mobile view of the navbar */
+@media screen and (max-width: 1024px) {
+    nav {
+        position: absolute;
+        bottom: 0;
+        width: 100vw;
+        height: 6vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-left: 25vw;
+        padding-right: 25vw;
+        align-items: center;
+    }
+
+    nav div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav svg {
+        height: 2vh;
+        color: white;
+    }
+
+    nav div p{
+        margin-top: 0;
+        margin-bottom: 0;
+        color: white;
+        font-family: "Kaiti SC";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+}
+
+/* laptop view of the navbar */
+@media screen and (min-width: 1024px) {
+    nav {
+        position: absolute;
+        left: 0;
+        width: 5vw;
+        height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        align-items: center;
+    }
+
+    nav div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    nav svg {
+        height: 2vh;
+        color: white;
+    }
+
+    nav div p{
+        margin-top: 0;
+        margin-bottom: 0;
+        color: white;
+        font-family: "Kaiti SC";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+}
