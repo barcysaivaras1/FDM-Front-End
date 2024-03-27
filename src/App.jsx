@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Login from './components/Login'
+import CreateClaim from './components/CreateClaim';
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,7 +12,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' exact element={<Login/>}/>
+        <Route path='/' exact element={
+          //<Login/>
+          <CreateClaim />
+        }/>
         <Route path='/expenses' exact element={<Expense/>}/>
       </Routes>
     </Router>
