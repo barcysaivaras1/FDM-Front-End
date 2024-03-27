@@ -9,7 +9,7 @@ import {
     NavLink,
   } from "react-router-dom";
 import { ClaimantExpenses } from "./ClaimantExpenses";
-import { CreateExpense } from "./CreateExpense";
+import { CreateClaim } from "./CreateClaim";
 import { Profile } from "./Profile";
 
 function navbar () {
@@ -17,7 +17,7 @@ function navbar () {
         <Router>
           <Routes>
             <Route path="/" element={<ClaimantExpenses />} />
-            <Route path="/CreateExpense" element={<CreateExpense />} />
+            <Route path="/CreateClaim" element={<CreateClaim />} />
             <Route path="/Profile" element={<Profile />} />
           </Routes>
 
@@ -36,10 +36,10 @@ function navbar () {
                 </div>
             </NavLink>
 
-            <NavLink to="/CreateExpense">
+            <NavLink to="/CreateClaim">
                 <div>
                     <CreateExpenseIcon />
-                    <p className="DesktopIdentifiers" >Create Expense</p>
+                    <p className="DesktopIdentifiers" >Create Claim</p>
                 </div>
             </NavLink>
 

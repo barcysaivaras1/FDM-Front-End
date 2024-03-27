@@ -9,7 +9,7 @@ import {
   NavLink,
 } from "react-router-dom";
 import { ClaimantExpenses } from "./components/ClaimantExpenses";
-import { CreateExpense } from "./components/CreateExpense";
+import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
 
 // Dear Aivaras Barcys,
@@ -25,7 +25,7 @@ function App() {
       <Routes>
         <Route path='/' exact element={<Login/>}/>
         <Route path="/ClaimantExpenses" exact element={<ClaimantExpenses />} />
-        <Route path="/CreateExpense" exact element={<CreateExpense />} />
+        <Route path="/CreateClaim" exact element={<CreateClaim />} />
         <Route path="/Profile" exact element={<Profile />} />
         {/* TODO (Mo): Add Line Manager buttons in the navbar  */}
         {/* <Route path='/expenses' exact element={<Expense/>}/> */}
@@ -35,7 +35,7 @@ function App() {
     // <Router>
     //   <Routes>
         // <Route path="/" element={<ClaimantExpenses />} />
-        // <Route path="/CreateExpense" element={<CreateExpense />} />
+        // <Route path="/CreateClaim" exact element={<CreateClaim />} />
         // <Route path="/Profile" element={<Profile />} />
     //   </Routes>
     // </Router>
