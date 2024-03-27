@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import '../css/Login.css'
+import { useNavigate } from 'react-router-dom';
 
 function login () {
     const [un, setUn] = useState("");
     const [pw, setPw] = useState("");
+    const navigate = useNavigate();
 
     document.title = "Login"
 
@@ -15,6 +17,7 @@ function login () {
         // for now it will just alarm the user with the
         // inputted data fo8r debugging puproses
         alert(`Successful submit. \nUsername: ${un} \nPassword: ${pw}`);
+        navigate("/expenses");
     }
     
     return (
@@ -39,3 +42,6 @@ function login () {
 }
 
 export default login;
+
+
+
