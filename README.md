@@ -15,14 +15,14 @@
 - the dev server starting command is <u>**NOT**</u> <code>npm start</code> instead it is <code>npm run dev</code>
 
 ## Pages and assignments
-- [] ClaimantExpenses - the mobile view expenses of ALL submitted expenses 
-- [] ClaimantViewExpense - the mobile view of ONE expense from the view expense (ClaimantExpenses) page 
-- [] CreateClaim - the mobile view of creating an expense
-- [] LineManagerExpenses - the desktop view of ALL expenses submitted to one Line Manager
+- [x] ClaimantExpenses - the mobile view expenses of ALL submitted expenses 
+- [ ] ClaimantViewExpense - the mobile view of ONE expense from the view expense (ClaimantExpenses) page 
+- [x] CreateClaim - the mobile view of creating an expense
+- [ ] LineManagerExpenses - the desktop view of ALL expenses submitted to one Line Manager
 - [x] Login - u know what this is :3
 - [x] navbar (component) -  component for other pages to display the navbar
-- [] Profile - both mobile and desktop view of the users profile
-- [] ReviewExpense - the dektop view of ONE expense from the LineManagerExpenses page
+- [x] Profile - both mobile and desktop view of the users profile
+- [ ] ReviewExpense - the dektop view of ONE expense from the LineManagerExpenses page
 
 ## Goals at a glance
 - [x] Make documentation:
