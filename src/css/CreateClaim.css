@@ -16,6 +16,7 @@ body{
     justify-content: center;
 
     width: 100%;
+    max-width: 1024px; /* ensures that the form stays in a "mobile" config*/
 }
 
 .createLegend {
@@ -36,6 +37,7 @@ body{
 }
 
 .infield {
+    font-family: "Kaiti SC";
     width: 100%;
     box-sizing: border-box;
     border: 1px solid rgba(0, 0, 0, 0.20);
@@ -48,7 +50,6 @@ body{
 
 .infield::placeholder, option[value="placeholder"]{
     color: #000;
-    font-family: "Kaiti SC";
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -63,6 +64,51 @@ body{
 .descriptionInput {
     resize: none;
     height: 20vh;
+}
+
+.proofArea {
+    height: 25vh;
+    max-height: 20vh;
+    border: 3px dashed #0F1F3C;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.proofPreview {
+    height: 15vh;
+    max-width: 100%;
+    margin-bottom: 1vh;
+}
+
+.proofArea svg {
+   font-size: 40px; /* set's the size of the image */
+} 
+
+.imageInput { 
+    /* 
+        taken from 
+        https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+    */
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.almostButton, .cancelButton {
+    border-radius: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    background: var(--Background-Dark, #E4E5E8);
+    font-weight: bolder;
 }
 
 .createSubmit {
