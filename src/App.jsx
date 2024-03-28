@@ -1,6 +1,5 @@
 import React from "react";
 import Login from './components/Login'
-import NavBar from './components/navbar'
 import './css/navbar.css';
 import {
   BrowserRouter as Router,
@@ -11,6 +10,7 @@ import {
 import { ClaimantExpenses } from "./components/ClaimantExpenses";
 import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
+import { LineManagerExpenses } from "./components/LineManagerExpenses";
 
 // Dear Aivaras Barcys,
 // I have been humbled.
@@ -18,6 +18,10 @@ import { Profile } from "./components/Profile";
 // who thought that he can conquer the realm of routing.
 // Scattered here are my hopes and dreams. Please avenge me.
 // Please fix my errors so that my legacy can be cleansed.
+
+// Dear Aivaras Barcys,
+// Upon resting my person and my mind, I was able
+// to corrct my ways. Routing, I believe, works as intended.
 
 function App() {
   return(
@@ -27,20 +31,9 @@ function App() {
         <Route path="/ClaimantExpenses" exact element={<ClaimantExpenses />} />
         <Route path="/CreateClaim" exact element={<CreateClaim />} />
         <Route path="/Profile" exact element={<Profile />} />
-        {/* TODO (Mo): Add Line Manager buttons in the navbar  */}
-        {/* <Route path='/expenses' exact element={<Expense/>}/> */}
+        <Route path="/LineManagerExpenses" exact element={<LineManagerExpenses />} />
       </Routes>
     </Router>
-
-    // <Router>
-    //   <Routes>
-        // <Route path="/" element={<ClaimantExpenses />} />
-        // <Route path="/CreateClaim" exact element={<CreateClaim />} />
-        // <Route path="/Profile" element={<Profile />} />
-    //   </Routes>
-    // </Router>
-
-    // <NavBar /> 
 )
 }
 

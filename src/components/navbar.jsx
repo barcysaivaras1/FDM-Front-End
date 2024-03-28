@@ -2,44 +2,35 @@ import React from "react";
 import '../css/navbar.css';
 import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icons";
 import FDMLogo from "../assets/FDMLogo.png";
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    NavLink,
-  } from "react-router-dom";
-import { ClaimantExpenses } from "./ClaimantExpenses";
-import { CreateClaim } from "./CreateClaim";
-import { Profile } from "./Profile";
+import { NavLink } from "react-router-dom";
 
 function navbar () {
     return(
-        <Router>
-          <Routes>
-            <Route path="/" element={<ClaimantExpenses />} />
-            <Route path="/CreateClaim" element={<CreateClaim />} />
-            <Route path="/Profile" element={<Profile />} />
-          </Routes>
-
+        <nav>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
         </style>
-
-        <nav>
             <img src={FDMLogo} />
 
-            <NavLink to="/">
+        {/* All this needs now is an if statement to check whether user is a line manager */}
+            <NavLink to="/LineManagerExpenses"  className="DesktopIdentifiers">
+                <div>
+                    <p>Review Expenses</p>
+                </div>
+            </NavLink>
+
+            <NavLink to="/ClaimantExpenses">
                 <div>
                     <ViewExpensesIcon/>
                     <p className="MobileIdentifiers">View</p>
-                    <p className="DesktopIdentifiers" >View Expenses</p>
+                    <p className="DesktopIdentifiers">View Expenses</p>
                 </div>
             </NavLink>
 
             <NavLink to="/CreateClaim">
                 <div>
                     <CreateExpenseIcon />
-                    <p className="DesktopIdentifiers" >Create Claim</p>
+                    <p className="DesktopIdentifiers">Create Claim</p>
                 </div>
             </NavLink>
 
@@ -51,7 +42,7 @@ function navbar () {
             </NavLink>
 
         </nav>
-        </Router>
+
     )
 }
 
