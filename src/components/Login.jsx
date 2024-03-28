@@ -12,7 +12,7 @@ function login () {
         e.preventDefault();
         // stuff that will handle the inputs
         await axios.post(
-            `http://localhost:5000/auth/login`, 
+            'http://localhost:5000/auth/login', 
             { 
                 username: un,
                 password: pw
@@ -31,11 +31,11 @@ function login () {
         <div className='loginContainer'>
             <legend className='loginLegend'>Login</legend>
             <form className='loginForm' onSubmit={handleSubmit}>
-                <input type="text" placeholder='Username' className='loginField un' required 
+                <input name="username" type="text" placeholder='Username' className='loginField un' required 
                     value={un}
                     onChange={(e) => {setUn(e.target.value)}}
                 />
-                <input type="password" placeholder='Password'className='loginField pw' required
+                <input name="password" type="password" placeholder='Password'className='loginField pw' required
                     value={pw}
                     onChange={(e) => {setPw(e.target.value)}}
                 />
