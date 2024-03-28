@@ -14,7 +14,7 @@ function login () {
         await axios.post(
             `http://localhost:5000/auth/login`, 
             { 
-                username : un,
+                username: un,
                 password: pw
             }
         )

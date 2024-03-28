@@ -20,7 +20,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch()
+    // fetch()
   }, [])
 
   return (
