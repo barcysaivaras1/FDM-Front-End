@@ -12,7 +12,7 @@ function login () {
         e.preventDefault();
         // stuff that will handle the inputs
         await axios.post(
-            'http://localhost:5000/auth/login', 
+            'http://127.0.0.1:5000/auth/login', 
             { 
                 username: un,
                 password: pw
