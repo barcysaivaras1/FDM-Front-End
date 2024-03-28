@@ -23,7 +23,7 @@ import { LineManagerExpenses } from "./components/LineManagerExpenses";
 // Upon resting my person and my mind, I was able
 // to corrct my ways. Routing, I believe, works as intended.
 
-//Dear Mohammed,
+//Dear Mohamed,
 //I've been thinking of this each night,
 //Sleep has become a difficulty of recent days,
 //Today as i opened this file and upon further inspection
