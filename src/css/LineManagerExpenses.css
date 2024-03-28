@@ -1,0 +1,19 @@
+#LineManagerExpensesBody {
+    margin-left: 10vw;
+}
+
+.LineManagerExpensesContainer {
+    font-family: "Kaiti SC";
+
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
+    margin: auto;
+    /* margin-top: 20vh; */
+
+    height: 100vh;
+    justify-content: center;
+
+    width: 100%;
+}

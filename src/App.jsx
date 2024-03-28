@@ -11,6 +11,7 @@ import {
 import { ClaimantExpenses } from "./components/ClaimantExpenses";
 import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
+import LineManagerExpenses from "./components/LineManagerExpenses";
 
 // Dear Aivaras Barcys,
 // I have been humbled.
@@ -23,10 +24,11 @@ function App() {
   return(
     <Router>
       <Routes>
-        <Route path='/' exact element={<Login/>}/>
+        <Route path='/' exact element={<Login/>} />
         <Route path="/ClaimantExpenses" exact element={<ClaimantExpenses />} />
         <Route path="/CreateClaim" exact element={<CreateClaim />} />
         <Route path="/Profile" exact element={<Profile />} />
+        <Route path="/LineManagerExpenses" exact element={<LineManagerExpenses />} />
         {/* TODO (Mo): Add Line Manager buttons in the navbar  */}
         {/* <Route path='/expenses' exact element={<Expense/>}/> */}
       </Routes>
