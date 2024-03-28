@@ -17,7 +17,7 @@ function CreateClaim () {
 
 
         // for now it will just alarm the user with the
-        // inputted data fo8r debugging puproses
+        // inputted data for debugging puproses
         alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
         console.log(image)
     }

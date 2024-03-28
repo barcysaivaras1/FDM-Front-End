@@ -94,10 +94,10 @@ body{
         taken from 
         https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
     */
-    width: 0.1px;
+    /*width: 0.1px;
 	height: 0.1px;
+    overflow: hidden;*/
 	opacity: 0;
-	overflow: hidden;
 	position: absolute;
 	z-index: -1;
 }
