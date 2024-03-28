@@ -5,14 +5,14 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import Expense from './components/ClaimantExpenses';
+import ClaimantExpenses from './components/ClaimantExpenses';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path='/' exact element={<Login/>}/>
-        <Route path='/expenses' exact element={<Expense/>}/>
+        <Route path='/expenses' exact element={<ClaimantExpenses/>}/>
       </Routes>
     </Router>
   )
