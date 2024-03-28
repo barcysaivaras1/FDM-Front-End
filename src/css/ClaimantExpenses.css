@@ -2,7 +2,7 @@
     font-family: "Kaiti SC";
 }
 #PhoneBox{
-    width: 50%;
+    width: 100%;
     box-sizing: border-box;
     height: 100vh;
     border: 1px solid black;
@@ -11,6 +11,77 @@
 }
 #Title{
     max-width: fit-content;
-    margin-left: 2rem;
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 1rem;
+    font-size: 2.5em;
+}
+.h2-collapse{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 1em;
+    border-bottom: 1px solid black;
+    height: 2em;
+    width: 90%;
+}
+.ExpenseType{
+    font-size: 2em;
+    font-weight: 600;;
+}
+.h2-collapse .collapse-text{
+    font-size: 1vh;
+    font-weight: bold;
+    color: rgba(128, 128, 128, 0.527);
+    margin-left: auto;
+}
+.h2-collapse svg{
+    padding-left: 1rem;
+    font-size: 3vh;
+    transform: rotate(180deg);
+}
+
+
+
+.claim-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: hsla(206, 22%, 81%, 0.418);
+    border-radius: 20px;
+    border: 1px solid black;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+}
+
+.claim-info{
+    margin: 1em 0 1em 1em;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8em;
+}
+/*I HAVE NO IDEA WHY THIS CENTERS THE IMAGE BUT LEAVE IT*/
+.claim-box svg{
+    display: flex;
+}
+.claim-arrow{
+    margin-left: auto;
+}
+.claim-arrow svg{
+    transform: rotate(90deg);   
+    font-size: 2.5em;
+}
+.Status-Img{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 4em;
+    padding: 0.1em;
+}
+.ExpenseType{
+    padding-left: 2rem;
 }
