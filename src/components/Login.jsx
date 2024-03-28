@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import '../css/Login.css'
+import axios from 'axios';
 
 function login () {
     const [un, setUn] = useState("");
@@ -7,10 +8,19 @@ function login () {
 
     document.title = "Login"
 
-    function handleSubmit (e) {
+    async function handleSubmit (e) {
         e.preventDefault();
         // stuff that will handle the inputs
-
+        await axios.post(
+            `http://localhost:5000/auth/login`, 
+            { 
+                username : un,
+                password: pw
+            }
+        )
+        .then(function(response){
+            console.log(response)
+        })
 
         // for now it will just alarm the user with the
         // inputted data fo8r debugging puproses
