@@ -24,11 +24,12 @@ function App() {
   }, [])
 
   return (
-    // <Login />
+    <Login />
+    /*
     <div>
-      {/* the default pfp file is being hosted on the server at path {backend_folder}/static/default.png */}
+      {/* the default pfp file is being hosted on the server at path {backend_folder}/static/default.png }
       <img src="http://localhost:5000/static/default.png" width={100} />
-    </div>
+    </div>*/
   )
 }
 
