@@ -1,5 +1,9 @@
 .ViewExpensesPage{
+    overflow: hidden;
     font-family: "Kaiti SC";
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 #PhoneBox{
     width: 100%;
@@ -9,6 +13,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 #Title{
     max-width: fit-content;
     margin-left: auto;
@@ -30,17 +35,20 @@
 }
 .ExpenseType{
     font-size: 2em;
-    font-weight: 600;;
 }
 .h2-collapse .collapse-text{
-    font-size: 1vh;
+    font-size: 1em;
     font-weight: bold;
     color: rgba(128, 128, 128, 0.527);
     margin-left: auto;
 }
+.h2-collapse button{
+    border: none;
+    background-color: white;
+}
 .h2-collapse svg{
     padding-left: 1rem;
-    font-size: 3vh;
+    font-size: 1.5em;
     transform: rotate(180deg);
 }
 
