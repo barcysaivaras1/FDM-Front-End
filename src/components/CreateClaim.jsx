@@ -7,6 +7,7 @@ function CreateClaim () {
     const [type, setType] = useState();
     const [currency, setCurrency] = useState();
     const [amount, setAmount] = useState();
+    const [date, setDate] = useState();
     const [description, setDescription] = useState();
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState();
@@ -18,7 +19,7 @@ function CreateClaim () {
 
         // for now it will just alarm the user with the
         // inputted data for debugging puproses
-        alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
+        alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
         console.log(image)
     }
 
@@ -67,6 +68,15 @@ function CreateClaim () {
                         required
                     />
                 </div>
+                <input type="text"
+                    onFocus={(e) => {e.target.type = "date"}}
+                    className='infield dateInput'
+                    name="date"
+                    placeholder='Date of expense'
+                    value={date}
+                    onChange={(e) => {setDate(e.target.value)}}
+                    required
+                />
                 <textarea name="description" 
                     className='infield descriptionInput' 
                     placeholder='Description' 
