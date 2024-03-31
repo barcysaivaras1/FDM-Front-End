@@ -13,7 +13,7 @@ var RejectedArr = []
 var counter = 4;
 
 
-function ClaimantExpenses(){
+export function ClaimantExpenses(){
 
     //Example expense object, This is used to display
     const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:"19",desc:"Fortnite Card",state:"Accepted"})
