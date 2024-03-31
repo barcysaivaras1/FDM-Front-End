@@ -60,6 +60,10 @@ a:link {
             display: none;
         }
     }
+
+    #LogoutBtn {
+        display: none;
+    }
 }
 
 /* laptop view of the navbar */
@@ -100,20 +104,32 @@ a:link {
         font-weight: 400;
         line-height: normal;
     }
-
+    
     img {
         margin-top: 25px;
         margin-bottom: 30px;
     }
-
+    
     .MobileIdentifiers {
         display: none;
     }
-
+    
     nav div:hover, .active {
         cursor: pointer;
         background-color: #0F1F3C;
         box-shadow: 0 4px 4px rgba(255, 255, 255, 0.25);
+    }
+    
+    #LogoutBtn {
+        display: unset;
+        font-family: Inter;
+        position: absolute;
+        bottom: 3.237vh;
+        color: white;
+    }
+
+    #LogoutBtn p {
+        margin: 0;
     }
 
 }
