@@ -5,6 +5,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import { GrStatusGood } from "react-icons/gr";
 import {React, useState} from 'react';
 import { useTransition,animated } from 'react-spring';
+import Navbar from './navbar';
 
 //Maybe we would retrieve each expense on the server and store them in specific arrays?
 var AcceptedArr = []
@@ -126,6 +127,7 @@ export function ClaimantExpenses(){
                        : '')
                        ))}
             </div>
+            <Navbar/>
         </div>
     )
 }
@@ -155,7 +157,7 @@ const ExpenseBox = (props) =>{
                 <div>{props.expense.desc}</div>
             </div>
             <div className='claim-arrow'>
-                <FcCollapse color='black' />
+                <FcCollapse/>
             </div>
         </div>
 

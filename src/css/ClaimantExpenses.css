@@ -1,7 +1,6 @@
 .ViewExpensesPage{
     overflow: hidden;
     font-family: "Kaiti SC";
-    max-width: 500px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -29,9 +28,9 @@
     margin-left: auto;
     margin-right: auto;
     gap: 1em;
-    border-bottom: 1px solid black;
     height: 2em;
     width: 90%;
+    box-shadow: 0 3px 0px #204382;
 }
 .ExpenseType{
     font-size: 2em;
@@ -50,6 +49,8 @@
     padding-left: 1rem;
     font-size: 1.5em;
     transform: rotate(180deg);
+    stroke: #204382;
+    stroke-width: 4px;
 }
 
 
@@ -65,8 +66,9 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 1em;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
 }
-
+ 
 .claim-info{
     margin: 1em 0 1em 1em;
     display: flex;
@@ -83,6 +85,8 @@
 .claim-arrow svg{
     transform: rotate(90deg);   
     font-size: 2.5em;
+    stroke: #204382;
+    stroke-width: 4px;
 }
 .Status-Img{
     margin-top: auto;
