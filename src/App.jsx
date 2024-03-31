@@ -11,6 +11,7 @@ import { ClaimantExpenses } from "./components/ClaimantExpenses";
 import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
 import { LineManagerExpenses } from "./components/LineManagerExpenses";
+import { ReviewExpense } from "./components/ReviewExpense";
 
 function App() {
   return(
@@ -21,6 +22,7 @@ function App() {
         <Route path="/CreateClaim" exact element={<CreateClaim />} />
         <Route path="/Profile" exact element={<Profile />} />
         <Route path="/LineManagerExpenses" exact element={<LineManagerExpenses />} />
+        <Route path="/ReviewExpense" exact element={<ReviewExpense />} />
       </Routes>
     </Router>
 )
