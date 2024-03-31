@@ -12,20 +12,28 @@ function login () {
         e.preventDefault();
         // stuff that will handle the inputs
         await axios.post(
-            'http://127.0.0.1:5000/auth/login', 
-            { 
+            `http://127.0.0.1:5000/auth/login`,
+            {
                 username: un,
                 password: pw
             }
         )
         .then(function(response){
-            console.log(response)
+             console.log(response);
+            //navigate("/ClaimantExpenses"); //  if no error is caught, then that's a successful login, so navigate
+            // commented out this line because the routing is not set up in this branch
+        })
+        .catch(function(err) {
+            alert("Incorrect username or password")
         })
 
         // for now it will just alarm the user with the
-        // inputted data fo8r debugging puproses
-        alert(`Successful submit. \nUsername: ${un} \nPassword: ${pw}`);
+        // inputted data fo8r debugging puproses or when the dev don't wanna use backend, remove comment from these and 
+        // comment out the axios stuff above
+        //alert(`Successful submit. \nUsername: ${un} \nPassword: ${pw}`);
+        //navigate("/ClaimantExpenses");
     }
+
     
     return (
         <div className='loginContainer'>
