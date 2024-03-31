@@ -1,9 +1,14 @@
-import '../css/ClaimantExpenses.css'
+import React from "react";
+import "../css/ClaimantExpenses.css"
+import NavBar from "./navbar";
 
-
-function Expense(){
-    return(
-        <h1>Yipee!</h1>
+export function ClaimantExpenses() {
+    return (
+        <div>
+            <NavBar/> 
+            <div id="ExpensesBody">
+                <p>Hello Expenses World!</p>
+            </div>
+        </div>
     )
 }
-export default Expense;
