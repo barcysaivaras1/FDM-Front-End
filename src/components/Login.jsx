@@ -12,14 +12,18 @@ function login () {
         e.preventDefault();
         // stuff that will handle the inputs
         await axios.post(
-            `http://127.0.0.1:5000/auth/login`,
+            '/api/auth/login',
             {
                 username: un,
                 password: pw
             }
         )
-        .then(function(response){
+        .then(async function(response){
              console.log(response);
+             await axios.get('/api/users/profile')
+             .then(function (response) {
+                console.log(response)
+             })
             //navigate("/ClaimantExpenses"); //  if no error is caught, then that's a successful login, so navigate
             // commented out this line because the routing is not set up in this branch
         })
