@@ -41,6 +41,9 @@ function navbar () {
                 </div>
             </NavLink>
 
+            <NavLink to="/" id="LogoutBtn">
+                <p>Logout</p>
+            </NavLink>
         </nav>
 
     )
