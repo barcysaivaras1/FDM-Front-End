@@ -1,13 +1,7 @@
-import '../css/LineManagerExpenses.css'
 import React from "react";
+import "../css/LineManagerExpenses.css"
+import NavBar from "./navbar";
 
-<<<<<<< Updated upstream
-function LineManagerExpenses() {
-    return (
-        <div className='LineManagerExpensesContainer'>
-            <h1>Expenses</h1>
-            <p>Hello World!</p>
-=======
 export function LineManagerExpenses() {
 
     // test datas
@@ -41,14 +35,10 @@ export function LineManagerExpenses() {
                 //expenses listed vertically in rows
                 <div className = "scrollboxExpenses"><ExpenseList eel = {bigList} /></div>
             </div>
->>>>>>> Stashed changes
         </div>
     )
 }
 
-<<<<<<< Updated upstream
-export default LineManagerExpenses;
-=======
 const Expense = (props) =>{
     return(
         <div className='expense'>
@@ -71,4 +61,3 @@ const ExpenseList = (props) =>{
         )
     );
 }
->>>>>>> Stashed changes

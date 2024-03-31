@@ -18,7 +18,7 @@
 - [x] ClaimantExpenses - the mobile view expenses of ALL submitted expenses 
 - [ ] ClaimantViewExpense - the mobile view of ONE expense from the view expense (ClaimantExpenses) page 
 - [x] CreateClaim - the mobile view of creating an expense
-- [ ] LineManagerExpenses - the desktop view of ALL expenses submitted to one Line Manager
+- [x] LineManagerExpenses - the desktop view of ALL expenses submitted to one Line Manager
 - [x] Login - u know what this is :3
 - [x] navbar (component) -  component for other pages to display the navbar
 - [x] Profile - both mobile and desktop view of the users profile

@@ -17,7 +17,7 @@ function login () {
         // for now it will just alarm the user with the
         // inputted data fo8r debugging puproses
         alert(`Successful submit. \nUsername: ${un} \nPassword: ${pw}`);
-        navigate("/expenses");
+        navigate("/ClaimantExpenses");
     }
     
     return (

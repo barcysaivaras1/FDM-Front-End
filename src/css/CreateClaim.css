@@ -1,3 +1,139 @@
-#CreateClaimBody {
-    margin-left: 10vw;
+body{
+    margin: 0;
+}
+
+.createContainer{
+    font-family: "Kaiti SC";
+
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
+    margin: auto;
+    /* margin-top: 20vh; */
+
+    height: 100vh;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 1024px; /* ensures that the form stays in a "mobile" config*/
+}
+
+.createLegend {
+    color: #0F1F3C;
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 1.08vh;
+    text-align: center;
+}
+
+.createForm {
+    width: 65.975%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.infield {
+    font-family: "Kaiti SC";
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    border-radius: 2px;
+    font-size: 14px;
+
+    background-color: #E4E5E8;
+    padding-left: 2vw;
+}
+
+.infield::placeholder, option[value="placeholder"]{
+    color: #000;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.inlineContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+}
+
+.descriptionInput {
+    resize: none;
+    height: 20vh;
+}
+
+.proofArea {
+    height: 25vh;
+    max-height: 20vh;
+    border: 3px dashed #0F1F3C;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.proofPreview {
+    height: 15vh;
+    max-width: 100%;
+    margin-bottom: 1vh;
+}
+
+.proofArea svg {
+   font-size: 40px; /* set's the size of the image */
+} 
+
+.imageInput { 
+    /* 
+        taken from 
+        https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+    */
+    /*width: 0.1px;
+	height: 0.1px;
+    overflow: hidden;*/
+	opacity: 0;
+	position: absolute;
+	z-index: -1;
+}
+
+.almostButton, .cancelButton {
+    border-radius: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    background: var(--Background-Dark, #E4E5E8);
+    font-weight: bolder;
+}
+
+.createSubmit {
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: #0F1F3C;
+
+    color: #FFF;
+    text-align: center;
+    font-family: "Kaiti SC";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    width: 100%;
+    height: 25px;
+    cursor: pointer;
+
+    background: linear-gradient(0deg, #0f1f3c, 80%, #204382);
+    background-size: 400% 400%;
+    transition: .3s;
+}
+
+.createSubmit:hover {
+    transition: .3s;
+    background-position:50% 20%
 }
