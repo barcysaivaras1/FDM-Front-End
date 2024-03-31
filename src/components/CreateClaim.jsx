@@ -50,23 +50,23 @@ export function CreateClaim () {
             setDescription(parsed.description);
 
             // create new image from imageData in "image"
-            // const image = new Image();
-            // image.src = parsed.image;
-            // const blob = new Blob([parsed.image], {type: "image/png"});
-            // const file = new File([blob], "some-image.png", {type: "image/png"});
-            // setImage(file);
+            const image = new Image();
+            image.src = parsed.image;
+            const blob = new Blob([parsed.image], {type: "image/png"});
+            const file = new File([blob], "some-image.png", {type: "image/png"});
+            setImage(file);
 
-            // const imgElement = document.createElement("img");
-            // imgElement.src = parsed.image;
-            // console.log(imgElement);
-            // const legend = document.querySelector("legend");
-            // console.log(legend, imgElement);
-            // legend?.appendChild(imgElement);
-            // // imgElement.onload = ()=>{
-            // // };
-            // imgElement.style.display = "block";
-            // console.log(file, blob);
-            // setPreview(URL.createObjectURL(parsed.image));
+            const imgElement = document.createElement("img");
+            imgElement.src = parsed.image;
+            console.log(imgElement);
+            const legend = document.querySelector("legend");
+            console.log(legend, imgElement);
+            legend?.appendChild(imgElement);
+            // imgElement.onload = ()=>{
+            // };
+            imgElement.style.display = "block";
+            console.log(file, blob);
+            setPreview(URL.createObjectURL(file));
 
             localStorage.removeItem(ls_key);
         }
@@ -79,6 +79,12 @@ export function CreateClaim () {
             if (!somethingIsBlank) {
                 // nothing is left blank, no need to hold them here.
                 evt.returnValue = false;
+            }
+
+            if (!image) {
+                // no image is selected, no need to hold it here.
+                evt.returnValue = false;
+                return;
             }
 
             /**
