@@ -10,7 +10,7 @@ import {
 import { ClaimantExpenses } from "./components/ClaimantExpenses";
 import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
-import LineManagerExpenses from "./components/LineManagerExpenses";
+import {LineManagerExpenses} from "./components/LineManagerExpenses";
 
 function App() {
   return(
