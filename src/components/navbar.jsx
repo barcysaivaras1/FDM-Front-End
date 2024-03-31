@@ -23,7 +23,7 @@ function navbar () {
                 <div>
                     <ViewExpensesIcon/>
                     <p className="MobileIdentifiers">View</p>
-                    <p className="DesktopIdentifiers">View Expenses</p>
+                    <p className="DesktopIdentifiers">My Expenses</p>
                 </div>
             </NavLink>
 
