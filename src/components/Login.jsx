@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import '../css/Login.css'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import { getApiURL } from './api';
 
 function login () {
     const [un, setUn] = useState("");
@@ -14,17 +15,15 @@ function login () {
         e.preventDefault();
         // stuff that will handle the inputs
 
-        await axios.post('/api/auth/login', {
+        await axios.post(getApiURL("/auth/login"), {
             username: un,
             password: pw
-        })
-        .then(function (response) {
-            console.log(response)
-            navigate('/profile')
-        })
-        .catch(function (error) {
-            console.log(error)
-        })
+        }).then(function(response) {
+            console.log(`RESPONSE: `, response);
+            navigate('/profile');
+        }).catch(function(error) {
+            console.log(error);
+        });
         
         // for now it will just alarm the user with the
         // inputted data fo8r debugging puproses
@@ -40,7 +39,7 @@ function login () {
                     value={un}
                     onChange={(e) => {setUn(e.target.value)}}
                 />
-                <input type="password" placeholder='Password'className='loginField pw' required
+                <input type="password" placeholder='Password' className='loginField pw' required
                     value={pw}
                     onChange={(e) => {setPw(e.target.value)}}
                 />
