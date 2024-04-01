@@ -44,22 +44,22 @@ export function CreateClaim () {
         // console.info({c});
 
 
-        const loginResponse = await fetch(getApiURL("/auth/login"), {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                'Accept': 'application/json',
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({username: "armin2", password: "password"})
-        });
-        // cookie is set automatically by the browser
-        try {
-            const json = await loginResponse.json();
-            console.info(json);
-        } catch (e) {
-            console.error(e);
-        }
+        // const loginResponse = await fetch(getApiURL("/auth/login"), {
+        //     method: "POST",
+        //     credentials: "include",
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({username: "armin2", password: "password"})
+        // });
+        // // cookie is set automatically by the browser
+        // try {
+        //     const json = await loginResponse.json();
+        //     console.info(json);
+        // } catch (e) {
+        //     console.error(e);
+        // }
 
 
         const image_contents_base64 = "something";
@@ -92,20 +92,20 @@ export function CreateClaim () {
         }
 
 
-        const logoutResponse = await fetch(getApiURL("/auth/logout"), {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                'Accept': 'application/json',
-                "Content-Type": "application/json"
-            }
-        });
-        try {
-            const json = await logoutResponse.json();
-            console.info(json);
-        } catch (e) {
-            console.error(e);
-        }
+        // const logoutResponse = await fetch(getApiURL("/auth/logout"), {
+        //     method: "POST",
+        //     credentials: "include",
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         "Content-Type": "application/json"
+        //     }
+        // });
+        // try {
+        //     const json = await logoutResponse.json();
+        //     console.info(json);
+        // } catch (e) {
+        //     console.error(e);
+        // }
 
 
 
