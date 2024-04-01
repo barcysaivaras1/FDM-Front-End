@@ -35,7 +35,7 @@
 * If it is not on 5000, change this.
 */
 const flaskServerPort = 5000;
-const apiServerURLFragment = `http://localhost:${flaskServerPort}`;
+const apiServerURLFragment = `http://127.0.0.1:${flaskServerPort}`;
 /**
 * # getApiURL 
 * 
