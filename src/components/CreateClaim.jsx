@@ -6,7 +6,6 @@ import { getApiURL } from './api';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
-const ls_key = "fdm-expenses-client/create-claim/form-data";
 export function CreateClaim () {
     const [title, setTitle] = useState();
     const [type, setType] = useState();
