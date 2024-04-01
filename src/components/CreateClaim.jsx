@@ -3,6 +3,8 @@ import NavBar from "./NavBar";
 import '../css/CreateClaim.css'
 import { CiImageOn } from "react-icons/ci";
 
+const ls_key = "fdm-expenses-client/create-claim/form-data";
+
 export function CreateClaim () {
     const [title, setTitle] = useState();
     const [type, setType] = useState();
