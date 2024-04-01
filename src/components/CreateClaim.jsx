@@ -42,18 +42,64 @@ export function CreateClaim () {
         const c = getApiURL("/claims/{id}/images", [12345, 67890]);
         console.info({c});
 
+
+        const loginResponse = await fetch(getApiURL("/auth/login"), {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({username: "armin2", password: "password"})
+        });
+        // cookie is set automatically by the browser
+        try {
+            const json = await loginResponse.json();
+            console.info(json);
+        } catch (e) {
+            console.error(e);
+        }
+
+
         const image_contents_base64 = "something";
         const output_to_server = {
             title, type, currency, amount, date, description, image: image_contents_base64
         };
-        const response = await fetch(getApiURL("/claims/"), {
-            method: "POST",
+        /**
+         * @type {Response}
+         */
+        const response = await fetch(getApiURL("/claims"), {
+            method: "GET",
+            credentials: 'include',
             headers: {
+                'Accept': 'application/json',
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(output_to_server)
+            // body: JSON.stringify(output_to_server),
         });
-        console.info({response});
+        try {
+            const json = await response.json();
+            console.info(json);
+        } catch (e) {
+            console.error(e);
+        }
+
+
+        const logoutResponse = await fetch(getApiURL("/auth/logout"), {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": "application/json"
+            }
+        });
+        try {
+            const json = await logoutResponse.json();
+            console.info(json);
+        } catch (e) {
+            console.error(e);
+        }
+
+
 
         return response;
     }
