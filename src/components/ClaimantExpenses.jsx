@@ -7,9 +7,6 @@ import {React, useEffect, useState} from 'react';
 import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
 import { BiSliderAlt } from "react-icons/bi";
-import { React, useState } from 'react';
-import { useTransition,animated } from 'react-spring';
-import NavBar from './NavBar';
 import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon } from '../assets/Icons';
 import { NavLink } from 'react-router-dom';
 
@@ -111,6 +108,7 @@ export function ClaimantExpenses(){
     }
 
     return(
+        <div>
         <div className='ViewExpensesPage'>
             <div id='PhoneBox'>
                 <h1 id='Title'>View Expenses</h1>
@@ -121,11 +119,6 @@ export function ClaimantExpenses(){
                 <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
                     <BiSliderAlt />
                 </button>
-                <div className='expense-column'>
-        <div>
-            <div className='ViewExpensesPage'>
-                <div id='PhoneBox'>
-                    <h1 id='Title'>View Expenses</h1>
                     <div className='expense-column'>
                         <div className='h2-collapse'>
                             <h2 className='ExpenseType'>Pending</h2>
@@ -178,34 +171,7 @@ export function ClaimantExpenses(){
                             </animated.div>
                         : '')
                         ))}
-                </div>
-                <div className='h2-collapse'>
-                    <h2 className='ExpenseType'>Rejected</h2>
-                    <p className='collapse-text'>{isCollapsed.rejected ? "Collapse" : "Expand"}</p>
-                    <button onClick={() => handleCollapse("rejected")}><FcCollapse/></button>
-                </div>
-                {
-                     RejectedArr.map((expense, index) => 
-                     (transition_rejected((style, item) =>
-                     item ? <animated.div style={style}><ExpenseBox key={index} expense={expense}/></animated.div>
-                     : '')
-                     ))
-                }
-                <div className='h2-collapse'>
-                    <h2 className='ExpenseType'>Accepted</h2>
-                    <p className='collapse-text'>{isCollapsed.accepted ? "Collapse" : "Expand"}</p>
-                    <button onClick={() => handleCollapse("accepted")}><FcCollapse/></button>
-                    </div>
-                { AcceptedArr.map((expense, index) => 
-                       (transition_accepted((style, item) =>
-                       item ? <animated.div style={style}><ExpenseBox key={index} expense={expense}/></animated.div>
-                       : '')
-                       ))}
-
-
-
-                
-                    
+            </div>                    
             </div>
             {transition_filter((style, item) =>
                        item ? <animated.div style={style}><FilterBox handleCollapse={handleCollapse} handleApplyFilters={handleApplyFilters}/></animated.div>
