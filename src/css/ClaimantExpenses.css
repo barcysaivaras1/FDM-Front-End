@@ -18,11 +18,12 @@
 
 #Title{
     max-width: fit-content;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
     padding-top: 1rem;
     font-size: 2.5em;
 }
+
 .h2-collapse{
     display: flex;
     flex-direction: row;
@@ -99,4 +100,95 @@
 }
 .ExpenseType{
     padding-left: 2rem;
+}
+
+
+
+
+/*This is all to do with the Filtering component of the page*/
+.Filter-Icon{ 
+    margin-right: auto;
+    background-color: white;
+    border: 0px;
+}
+.Filter-Icon svg{
+   font-size: 2rem;
+   text-align: center;
+}
+.filter-box{
+    position: absolute;
+    background-color: rgb(18, 62, 104);
+    z-index: 100;
+    width: 100%;
+    height: 500vh;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.Filter-Title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: 600;
+    color: rgb(255, 245, 245);
+    background: linear-gradient(1deg, #0F1F3C 29.91%, #204382 98.99%);
+    border-radius: 20px 20px 0px 0px;
+}
+.Filter-Cross{
+    display: flex;
+    background-color: transparent;
+    border: 0px;
+    color: white;
+    font-size: 1.5em;
+}
+#Time-Frame, #Amount, #Currency{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+#Time-Frame h3, #Amount h3, #Currency h3{
+    border-bottom: #596783 2px solid;
+}
+#Currency-Buttons , #Amount-Buttons , #Time-Buttons{
+    display: flex;
+    gap: 2vw;
+}
+#Currency-Buttons button, #Amount-Buttons button, #Time-Buttons button, #Apply-button{
+    background-color: hsla(0, 0%, 100%, 0.096);
+    color: white;
+    border-radius: 20px;
+    border: 0px;
+    min-width: 20vw;
+    font-size: 2vh;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+#Apply-Filters{
+    display: flex;
+    justify-content: center;
+    margin-top: 8vh;   
+}
+#Apply-button{
+    background-color: white;
+    font-weight: 400;
+    color: black;
+    min-width: 40vw;
+    min-height: 5vh;
+    border: #000000 2px solid;
+}
+
+.Filters-Applied-Text{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(1deg, #0F1F3C 29.91%, #204382 98.99%);
+    border: none;
+    color: #ffffff;
+    font-size: 5vw;
+    border: #000000 solid 1px;
+    border-radius: 20px;
+    padding-left: 1em;
+    padding-right: 1em;
 }
