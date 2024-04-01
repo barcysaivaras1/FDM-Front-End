@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavBar from "./NavBar";
 import '../css/CreateClaim.css'
 import { CiImageOn } from "react-icons/ci";
+import { getApiURL } from './api';
 
+const ls_key = "fdm-expenses-client/create-claim/form-data";
 export function CreateClaim () {
     const [title, setTitle] = useState();
     const [type, setType] = useState();
@@ -13,6 +15,7 @@ export function CreateClaim () {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState();
 
+    
     function handeSubmit (e) {
         e.preventDefault();
         // stuff that will handle the inputs
@@ -21,8 +24,108 @@ export function CreateClaim () {
         // for now it will just alarm the user with the
         // inputted data for debugging puproses
         alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
-        console.log(image)
+        console.log(image);
+        const data = localStorage.getItem(ls_key);
+        if (data) {
+            const parsed = JSON.parse(data);
+            const imgElement = document.createElement("img");
+            imgElement.src = parsed.image;
+            const legend = document.querySelector("legend");
+            legend?.appendChild(imgElement);
+        }
+
+        const a = getApiURL("/claims");
+        console.info({a});
+        const b = getApiURL("/claims/{id}", [12345, 67890]);
+        console.info({b});
+        const c = getApiURL("/claims/{id}/images", [12345, 67890]);
+        console.info({c});
     }
+
+    /**
+     * Check if a value is null or undefined
+     * @param {any} thing - The value to check
+     * @returns {boolean} - True if the value is null or undefined, false otherwise
+     */
+    function isNullish(thing) {
+        return thing === null || thing === undefined;
+    };
+
+    useEffect(()=>{
+        const data = localStorage.getItem(ls_key);
+        if (data) {
+            const parsed = JSON.parse(data);
+            setTitle(parsed.title);
+            setType(parsed.type);
+            setCurrency(parsed.currency);
+            setAmount(parsed.amount);
+            setDate(parsed.date);
+            setDescription(parsed.description);
+
+            // create new image from imageData in "image"
+            const image = new Image();
+            image.src = parsed.image;
+            const blob = new Blob([parsed.image], {type: "image/png"});
+            const file = new File([blob], "some-image.png", {type: "image/png"});
+            setImage(file);
+
+            const imgElement = document.createElement("img");
+            imgElement.src = parsed.image;
+            console.log(imgElement);
+            const legend = document.querySelector("legend");
+            console.log(legend, imgElement);
+            legend?.appendChild(imgElement);
+            // imgElement.onload = ()=>{
+            // };
+            imgElement.style.display = "block";
+            console.log(file, blob);
+            setPreview(URL.createObjectURL(file));
+
+            localStorage.removeItem(ls_key);
+        }
+    }, []);
+    useEffect(()=>{
+        const thingsToCheck = [title, type, currency, amount, date, description, image];
+        const handleBeforeUnload = (evt)=>{
+            const somethingIsBlank = thingsToCheck.some(isNullish);
+            console.log(`Checking for nullish values: ${thingsToCheck.map((v)=>{console.log(v);return isNullish(v);})}`);
+            if (!somethingIsBlank) {
+                // nothing is left blank, no need to hold them here.
+                evt.returnValue = false;
+            }
+
+            if (!image) {
+                // no image is selected, no need to hold it here.
+                evt.returnValue = false;
+                return;
+            }
+
+            /**
+             * @type {File}
+             */
+            const _img = image;
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const imgBase64Data = reader.result;
+                // Use the base64Data as needed
+                
+                const data_to_save = {
+                    title, type, currency, amount, date, description, image: imgBase64Data
+                };
+                console.log(data_to_save);
+                localStorage.setItem(ls_key, JSON.stringify(data_to_save));
+            };
+            reader.readAsDataURL(_img);
+
+            evt.returnValue = true;
+        };
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return ()=>{
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+
+    }, [title, type, currency, amount, date, description, image]);
+
 
     document.title = "Create new claim"
     return(
