@@ -4,7 +4,7 @@ import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icon
 import FDMLogo from "../assets/FDMLogo.png";
 import { NavLink } from "react-router-dom";
 
-function navbar () {
+function NavBar () {
     return(
         <nav>
         <style>
@@ -49,4 +49,4 @@ function navbar () {
     )
 }
 
-export default navbar;
+export default NavBar;
