@@ -24,10 +24,16 @@ export function CreateClaim () {
         // inputted data for debugging puproses
         alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
         console.log(image);
-        const imgElement = document.createElement("img");
-        imgElement.src = parsed.image;
-        const legend = document.querySelector("legend");
-        legend?.appendChild(imgElement);
+        const data = localStorage.getItem(ls_key);
+        if (data) {
+            const parsed = JSON.parse(data);
+            const imgElement = document.createElement("img");
+            imgElement.src = parsed.image;
+            const legend = document.querySelector("legend");
+            legend?.appendChild(imgElement);
+        }
+
+        
     }
 
     /**
