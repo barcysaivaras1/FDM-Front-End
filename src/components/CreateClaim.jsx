@@ -7,17 +7,17 @@ import { getApiURL } from './api';
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
 export function CreateClaim () {
-    const [title, setTitle] = useState();
-    const [type, setType] = useState();
-    const [currency, setCurrency] = useState();
-    const [amount, setAmount] = useState();
-    const [date, setDate] = useState();
-    const [description, setDescription] = useState();
+    const [title, setTitle] = useState(null);
+    const [type, setType] = useState(null);
+    const [currency, setCurrency] = useState(null);
+    const [amount, setAmount] = useState(null);
+    const [date, setDate] = useState(null);
+    const [description, setDescription] = useState(null);
     const [image, setImage] = useState(null);
-    const [preview, setPreview] = useState();
+    const [preview, setPreview] = useState(null);
 
     
-    function handeSubmit (e) {
+    async function handeSubmit(e) {
         e.preventDefault();
         // stuff that will handle the inputs
 
@@ -41,6 +41,21 @@ export function CreateClaim () {
         console.info({b});
         const c = getApiURL("/claims/{id}/images", [12345, 67890]);
         console.info({c});
+
+        const image_contents_base64 = "something";
+        const output_to_server = {
+            title, type, currency, amount, date, description, image: image_contents_base64
+        };
+        const response = await fetch(getApiURL("/claims/"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(output_to_server)
+        });
+        console.info({response});
+
+        return response;
     }
 
     /**
