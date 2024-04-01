@@ -5,7 +5,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import { GrStatusGood } from "react-icons/gr";
 import {React, useState} from 'react';
 import { useTransition,animated } from 'react-spring';
-import Navbar from './navbar';
+import Navbar from './NavBar';
 
 //Maybe we would retrieve each expense on the server and store them in specific arrays?
 var AcceptedArr = []

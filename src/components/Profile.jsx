@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/Profile.css"
-import NavBar from "./navbar";
+import NavBar from "./NavBar";
 
 
 export function Profile() {
