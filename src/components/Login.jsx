@@ -18,6 +18,8 @@ function login () {
         await axios.post(getApiURL("/auth/login"), {
             username: un,
             password: pw
+        }, {
+            withCredentials: true
         }).then(function(response) {
             console.log(`RESPONSE: `, response);
             navigate('/profile');

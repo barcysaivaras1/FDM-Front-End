@@ -6,7 +6,7 @@ import { getApiURL } from './api'
 export function Profile() {
     const [profile, setProfile] = useState()
     async function fetchProfile() {
-        await axios.get(getApiURL("/users/profile")).then(function(response) {
+        await axios.get(getApiURL("/users/profile"), { withCredentials: true }).then(function(response) {
             console.log(`USER PROFILE RESPONSE: `, response);
             setProfile(response.data);
         }).catch(function (error) {
