@@ -3,6 +3,20 @@ import '../css/navbar.css';
 import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icons";
 import FDMLogo from "../assets/FDMLogo.png";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
+import { getApiURL } from "./api";
+
+async function logoutBackend () {
+    await axios.post(
+        getApiURL("/auth/logout")
+    ) 
+    .then(function(response){
+        console.log("Response:  ", response);
+    })
+    .catch(function(error){
+        console.log("Error: ", error);
+    })
+}
 
 function NavBar () {
     return(
@@ -41,7 +55,7 @@ function NavBar () {
                 </div>
             </NavLink>
 
-            <NavLink to="/" id="LogoutBtn">
+            <NavLink to="/" id="LogoutBtn" onClick={() => { logoutBackend() }}>
                 <p>Logout</p>
             </NavLink>
         </nav>

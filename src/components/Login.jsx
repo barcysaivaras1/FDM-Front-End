@@ -11,19 +11,33 @@ function login () {
 
     document.title = "Login"
 
-    function handleSubmit (e) {
+    async function handleSubmit (e) {
         e.preventDefault();
-        
-        axios.post(getApiURL('/auth/login'), {
-            username: un,
-            password: pw
-        }, { withCredentials: true })
-        .then(function(response) {
-            navigate('/profile');
+        // stuff that will handle the inputs
+        await axios.post(
+            getApiURL("/auth/login"), 
+            {
+                username: un,
+                password: pw
+            }, 
+            {
+                withCredentials: true
+            }
+        ) 
+        .then(function(response){
+            console.log("Response:  ", response);
+            navigate("/profile");
         })
-        .catch(function(error) {
-            console.log("Incorrect username/password");
+        .catch(function(error){
+            console.log("Error: ", error);
+            alert("Incorrect username or password");
         })
+
+
+        // for now it will just alarm the user with the
+        // inputted data fo8r debugging puproses
+        // alert(`Successful submit. \nUsername: ${un} \nPassword: ${pw}`);
+        // navigate("/ClaimantExpenses");
     }
     
     return (

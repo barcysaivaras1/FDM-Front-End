@@ -30,16 +30,44 @@
 */
 
 
+
+
 /**
 * This assumes that the Flask Server is running on port 5000.
 * If it is not on 5000, change this.
 */
 const flaskServerPort = 5000;
-const apiServerURLFragment = `http://localhost:${flaskServerPort}`;
+const mac_specific_localhost = "127.0.0.1";
+
+
+let localhost_portion = "";
+if (window.navigator["platform"] !== undefined) {
+	localhost_portion = (window.navigator.platform.includes("Mac")) ? (mac_specific_localhost) : ("localhost");
+} else {
+	if (window.navigator.userAgent.indexOf("Windows") != -1) {
+		console.log("The user is running Windows");
+		localhost_portion = "localhost";
+	} else if (window.navigator.userAgent.indexOf("Mac OS") != -1) {
+		console.log("The user is running Mac OS");
+		localhost_portion = "127.0.0.1";
+	} else if (window.navigator.userAgent.indexOf("Linux") != -1) {
+		console.log("The user is running Linux");
+		localhost_portion = "127.0.0.1";
+	} else {
+		console.log("The user's operating system could not be determined");
+		localhost_portion = "127.0.0.1";
+	}
+}
+const apiServerURLFragment = `http://${localhost_portion}:${flaskServerPort}`;
+console.info(`Your User Agent is ${window.navigator.userAgent}`);
+console.info(`Your OS is ${window.navigator.platform}`);
+
 /**
+* # getApiURL 
 * 
-* @param {APIRoute} route 
-* @param {unknown[]} substitutions
+* @param {APIRoute} route : The route to the API endpoint. Can optionally include {a} {b} substitution bits.
+* @param {unknown[]} substitutions : The values to substitute in the route. Only use this if you see {a} {b} stuff.
+* @returns {string}
 */
 export function getApiURL(route, substitutions=[]) {
 
@@ -54,7 +82,7 @@ export function getApiURL(route, substitutions=[]) {
 				throw new Error(`Substitution for ${pathseg} is missing`);
 			}
 			how_many_segments_have_been_subbed += 1;
-			return subbed;
+			return String(subbed);
 		}
 		return pathseg;
 	});
