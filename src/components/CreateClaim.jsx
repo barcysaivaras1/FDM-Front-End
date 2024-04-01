@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import NavBar from "./NavBar";
 import '../css/CreateClaim.css'
 import { CiImageOn } from "react-icons/ci";
+import { getApiURL } from './api';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 export function CreateClaim () {
@@ -33,7 +34,12 @@ export function CreateClaim () {
             legend?.appendChild(imgElement);
         }
 
-        
+        const a = getApiURL("/claims");
+        console.info({a});
+        const b = getApiURL("/claims/{id}", [12345, 67890]);
+        console.info({b});
+        const c = getApiURL("/claims/{id}/images", [12345, 67890]);
+        console.info({c});
     }
 
     /**
