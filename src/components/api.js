@@ -37,9 +37,11 @@
 const flaskServerPort = 5000;
 const apiServerURLFragment = `http://localhost:${flaskServerPort}`;
 /**
+* # getApiURL 
 * 
-* @param {APIRoute} route 
-* @param {unknown[]} substitutions
+* @param {APIRoute} route : The route to the API endpoint. Can optionally include {a} {b} substitution bits.
+* @param {unknown[]} substitutions : The values to substitute in the route. Only use this if you see {a} {b} stuff.
+* @returns {string}
 */
 export function getApiURL(route, substitutions=[]) {
 
@@ -54,7 +56,7 @@ export function getApiURL(route, substitutions=[]) {
 				throw new Error(`Substitution for ${pathseg} is missing`);
 			}
 			how_many_segments_have_been_subbed += 1;
-			return subbed;
+			return String(subbed);
 		}
 		return pathseg;
 	});
