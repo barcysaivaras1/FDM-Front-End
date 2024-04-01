@@ -4,7 +4,7 @@ import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icon
 import FDMLogo from "../assets/FDMLogo.png";
 import { NavLink } from "react-router-dom";
 
-function navbar () {
+function NavBar () {
     return(
         <nav>
         <style>
@@ -23,7 +23,7 @@ function navbar () {
                 <div>
                     <ViewExpensesIcon/>
                     <p className="MobileIdentifiers">View</p>
-                    <p className="DesktopIdentifiers">View Expenses</p>
+                    <p className="DesktopIdentifiers">My Expenses</p>
                 </div>
             </NavLink>
 
@@ -49,4 +49,4 @@ function navbar () {
     )
 }
 
-export default navbar;
+export default NavBar;

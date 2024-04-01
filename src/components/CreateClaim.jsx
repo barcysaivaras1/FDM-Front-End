@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import NavBar from "./navbar";
+import NavBar from "./NavBar";
 import '../css/CreateClaim.css'
 import { CiImageOn } from "react-icons/ci";
 
