@@ -10,6 +10,7 @@ export function Profile() {
     function fetchProfile() {
         axios.get(getApiURL('/users/profile'), { withCredentials: true })
         .then(function(response) {
+            console.log(response.data)
             setProfile(response.data)
         })
         .catch(function(error) {
@@ -27,6 +28,10 @@ export function Profile() {
             <div id="ProfileBody">
             <p>Hello Profile World!</p>
             <div>{JSON.stringify(profile)}</div>
+
+            {profile ? (
+                <img src={'http://localhost:5000/' + profile.profile_picture} width={100} />
+            ): null}
             </div>
         </div>
     )
