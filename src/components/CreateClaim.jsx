@@ -281,6 +281,21 @@ export function CreateClaim () {
                         </>
                     )}
                 </div>
+                <b 
+                    className='infield clearSubmit'
+                    onClick={() => {
+                        setTitle("");
+                        setType("");
+                        setCurrency("");
+                        setAmount("");
+                        setDate("");
+                        setDescription("");
+                        setImage(null);
+                        setPreview(null);
+                    }}
+                >
+                    Clear form
+                </b>
                 <button className='infield createSubmit'>Submit Claim</button>
             </form>
         </div>
