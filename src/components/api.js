@@ -30,12 +30,16 @@
 */
 
 
+
+
 /**
 * This assumes that the Flask Server is running on port 5000.
 * If it is not on 5000, change this.
 */
 const flaskServerPort = 5000;
-const apiServerURLFragment = `http://127.0.0.1:${flaskServerPort}`;
+const mac_specific_localhost = "127.0.0.1";
+const localhost_portion = (window.navigator.userAgent.includes("Mac")) ? (mac_specific_localhost) : ("localhost");
+const apiServerURLFragment = `http://${localhost_portion}:${flaskServerPort}`;
 /**
 * # getApiURL 
 * 
