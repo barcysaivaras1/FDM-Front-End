@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/LineManagerExpenses.css"
-import NavBar from "./navbar";
+import NavBar from "./NavBar";
 
 export function LineManagerExpenses() {
 

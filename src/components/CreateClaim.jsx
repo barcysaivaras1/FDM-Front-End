@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import NavBar from "./NavBar";
 import '../css/CreateClaim.css'
 import { CiImageOn } from "react-icons/ci";
+import { getApiURL } from './api';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
+const ls_key = "fdm-expenses-client/create-claim/form-data";
 export function CreateClaim () {
     const [title, setTitle] = useState();
     const [type, setType] = useState();
@@ -14,6 +17,7 @@ export function CreateClaim () {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState();
 
+    
     function handeSubmit (e) {
         e.preventDefault();
         // stuff that will handle the inputs
@@ -23,10 +27,21 @@ export function CreateClaim () {
         // inputted data for debugging puproses
         alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
         console.log(image);
-        const imgElement = document.createElement("img");
-        imgElement.src = parsed.image;
-        const legend = document.querySelector("legend");
-        legend?.appendChild(imgElement);
+        const data = localStorage.getItem(ls_key);
+        if (data) {
+            const parsed = JSON.parse(data);
+            const imgElement = document.createElement("img");
+            imgElement.src = parsed.image;
+            const legend = document.querySelector("legend");
+            legend?.appendChild(imgElement);
+        }
+
+        const a = getApiURL("/claims");
+        console.info({a});
+        const b = getApiURL("/claims/{id}", [12345, 67890]);
+        console.info({b});
+        const c = getApiURL("/claims/{id}/images", [12345, 67890]);
+        console.info({c});
     }
 
     /**
