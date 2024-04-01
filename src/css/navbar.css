@@ -46,7 +46,7 @@ a:link {
         margin-bottom: 0
     }
 
-    img, .DesktopIdentifiers {
+    #FDMLogo, .DesktopIdentifiers {
         display: none;
     }
 
@@ -105,7 +105,7 @@ a:link {
         line-height: normal;
     }
     
-    img {
+    #FDMLogo {
         margin-top: 25px;
         margin-bottom: 30px;
     }

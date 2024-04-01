@@ -10,7 +10,7 @@ function NavBar () {
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
         </style>
-            <img src={FDMLogo} />
+            <img src={FDMLogo} id="FDMLogo"/>
 
         {/* All this needs now is an if statement to check whether user is a line manager */}
             <NavLink to="/LineManagerExpenses"  className="DesktopIdentifiers">
