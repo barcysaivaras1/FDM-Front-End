@@ -38,8 +38,30 @@
 */
 const flaskServerPort = 5000;
 const mac_specific_localhost = "127.0.0.1";
-const localhost_portion = (window.navigator.userAgent.includes("Mac")) ? (mac_specific_localhost) : ("localhost");
+
+
+let localhost_portion = "";
+if (window.navigator["platform"] !== undefined) {
+	localhost_portion = (window.navigator.platform.includes("Mac")) ? (mac_specific_localhost) : ("localhost");
+} else {
+	if (window.navigator.userAgent.indexOf("Windows") != -1) {
+		console.log("The user is running Windows");
+		localhost_portion = "localhost";
+	} else if (window.navigator.userAgent.indexOf("Mac OS") != -1) {
+		console.log("The user is running Mac OS");
+		localhost_portion = "127.0.0.1";
+	} else if (window.navigator.userAgent.indexOf("Linux") != -1) {
+		console.log("The user is running Linux");
+		localhost_portion = "127.0.0.1";
+	} else {
+		console.log("The user's operating system could not be determined");
+		localhost_portion = "127.0.0.1";
+	}
+}
 const apiServerURLFragment = `http://${localhost_portion}:${flaskServerPort}`;
+console.info(`Your User Agent is ${window.navigator.userAgent}`);
+console.info(`Your OS is ${window.navigator.platform}`);
+
 /**
 * # getApiURL 
 * 

@@ -27,20 +27,21 @@ export function CreateClaim () {
         alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
         console.log(image);
         const data = localStorage.getItem(ls_key);
-        if (data) {
-            const parsed = JSON.parse(data);
-            const imgElement = document.createElement("img");
-            imgElement.src = parsed.image;
-            const legend = document.querySelector("legend");
-            legend?.appendChild(imgElement);
-        }
+        console.log(`localstorage data: `, {data});
+        // if (data) {
+        //     const parsed = JSON.parse(data);
+        //     const imgElement = document.createElement("img");
+        //     imgElement.src = parsed.image;
+        //     const legend = document.querySelector("legend");
+        //     legend?.appendChild(imgElement);
+        // }
 
-        const a = getApiURL("/claims");
-        console.info({a});
-        const b = getApiURL("/claims/{id}", [12345, 67890]);
-        console.info({b});
-        const c = getApiURL("/claims/{id}/images", [12345, 67890]);
-        console.info({c});
+        // const a = getApiURL("/claims");
+        // console.info({a});
+        // const b = getApiURL("/claims/{id}", [12345, 67890]);
+        // console.info({b});
+        // const c = getApiURL("/claims/{id}/images", [12345, 67890]);
+        // console.info({c});
 
 
         const loginResponse = await fetch(getApiURL("/auth/login"), {
@@ -138,15 +139,15 @@ export function CreateClaim () {
             const file = new File([blob], "some-image.png", {type: "image/png"});
             setImage(file);
 
-            const imgElement = document.createElement("img");
-            imgElement.src = parsed.image;
-            console.log(imgElement);
-            const legend = document.querySelector("legend");
-            console.log(legend, imgElement);
-            legend?.appendChild(imgElement);
+            // const imgElement = document.createElement("img");
+            // imgElement.src = parsed.image;
+            // console.log(imgElement);
+            // const legend = document.querySelector("legend");
+            // console.log(legend, imgElement);
+            // legend?.appendChild(imgElement);
             // imgElement.onload = ()=>{
             // };
-            imgElement.style.display = "block";
+            // imgElement.style.display = "block";
             console.log(file, blob);
             setPreview(URL.createObjectURL(file));
 
