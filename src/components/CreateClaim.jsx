@@ -69,7 +69,7 @@ export function CreateClaim () {
          */
         const response = await fetch(getApiURL("/claims"), {
             method: "GET",
-            credentials: 'include',
+            credentials: 'same-origin',
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json"
@@ -77,8 +77,12 @@ export function CreateClaim () {
             // body: JSON.stringify(output_to_server),
         });
         try {
-            const json = await response.json();
-            console.info(json);
+            if (response.status === 200) {
+                const json = await response.json();
+                console.info(json);
+            } else {
+                console.error(`Failed to do/view claim. Status: ${response.status}`);
+            }
         } catch (e) {
             console.error(e);
         }
@@ -86,7 +90,7 @@ export function CreateClaim () {
 
         const logoutResponse = await fetch(getApiURL("/auth/logout"), {
             method: "POST",
-            credentials: 'include',
+            credentials: 'same-origin',
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json"
