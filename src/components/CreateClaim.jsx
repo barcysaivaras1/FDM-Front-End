@@ -45,6 +45,7 @@ export function CreateClaim () {
 
         const loginResponse = await fetch(getApiURL("/auth/login"), {
             method: "POST",
+            credentials: "include",
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json"
@@ -64,18 +65,20 @@ export function CreateClaim () {
         const output_to_server = {
             title, type, currency, amount, date, description, image: image_contents_base64
         };
-        /**
-         * @type {Response}
-         */
-        const response = await fetch(getApiURL("/claims"), {
-            method: "GET",
-            credentials: 'same-origin',
+        const reqClaims = new Request(getApiURL("/claims"), {
+            method: "POST",
+            credentials: "include",
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json"
             },
-            // body: JSON.stringify(output_to_server),
+            body: JSON.stringify(output_to_server),
         });
+        console.info({reqClaims});
+        /**
+         * @type {Response}
+         */
+        const response = await fetch(reqClaims);
         try {
             if (response.status === 200) {
                 const json = await response.json();
@@ -90,7 +93,7 @@ export function CreateClaim () {
 
         const logoutResponse = await fetch(getApiURL("/auth/logout"), {
             method: "POST",
-            credentials: 'same-origin',
+            credentials: "include",
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json"
