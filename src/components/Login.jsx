@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import '../css/Login.css'
 import { useNavigate } from 'react-router-dom';
+import { getApiURL } from './api';
+import axios from 'axios';
 
 function login () {
     const [un, setUn] = useState("");
@@ -11,13 +13,17 @@ function login () {
 
     function handleSubmit (e) {
         e.preventDefault();
-        // stuff that will handle the inputs
-
-
-        // for now it will just alarm the user with the
-        // inputted data fo8r debugging puproses
-        alert(`Successful submit. \nUsername: ${un} \nPassword: ${pw}`);
-        navigate("/ClaimantExpenses");
+        
+        axios.post(getApiURL('/auth/login'), {
+            username: un,
+            password: pw
+        }, { withCredentials: true })
+        .then(function(response) {
+            navigate('/profile');
+        })
+        .catch(function(error) {
+            console.log("Incorrect username/password");
+        })
     }
     
     return (
