@@ -92,6 +92,14 @@ export function CreateExpenseIcon() {
     )
 }
 
+export function CollapseIcon() {
+    return (
+        <svg width="15" height="10" viewBox="0 0 15 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.137513 1.91465L1.69962 0.352538L7.54845 6.19834L13.3943 0.352539L14.9564 1.91465L7.54845 9.32256L0.137513 1.91465Z" fill="black"/>
+        </svg>
+    )
+}
+
 export function ArrowRightIcon() {
     return (
         <svg width="74" height="74" viewBox="0 0 74 74" fill="none" xmlns="http://www.w3.org/2000/svg">

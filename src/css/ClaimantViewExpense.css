@@ -89,6 +89,11 @@
     #AppealClaim {
         width: 86vw;
     }
+
+    .AI {
+        color: red;
+        font-size: 16px;
+    }
 }
 
 

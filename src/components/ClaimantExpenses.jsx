@@ -7,12 +7,17 @@ import {React, useEffect, useState} from 'react';
 import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
 import { BiSliderAlt } from "react-icons/bi";
+import { React, useState } from 'react';
+import { useTransition,animated } from 'react-spring';
+import NavBar from './NavBar';
+import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon } from '../assets/Icons';
+import { NavLink } from 'react-router-dom';
 
 //Maybe we would retrieve each expense on the server and store them in specific arrays?
 var AcceptedArr = []
 var PendingArr = []
 var RejectedArr = []
-var counter = 4;
+var counter = 14;
 
 
 export function ClaimantExpenses(){
@@ -51,19 +56,19 @@ export function ClaimantExpenses(){
     //Animations
     const transition_pending = useTransition(isCollapsed.pending ,{
         from: {x:-2000,opacty:0, height:0},
-        enter: {x:0, opacity:1, height:100},
+        enter: {x:0, opacity:1, height:76},
         leave: {x:2000 ,opacity:0, height:0},
         config: { duration: 400 },
     })
     const transition_rejected = useTransition(isCollapsed.rejected ,{
         from: {x:-2000, opacty:0, height:0},
-        enter: {x:0, opacity:1, height:100},
+        enter: {x:0, opacity:1, height:76},
         leave: {x:2000 ,opacity:0, height:0},
         config: { duration: 400 },
     })
     const transition_accepted = useTransition(isCollapsed.accepted ,{
         from: {x:-2000, opacty:0, height:0},
-        enter: {x:0, opacity:1, height:100},
+        enter: {x:0, opacity:1, height:76},
         leave: {x:2000 ,opacity:0, height:0},
         config: { duration: 400 },
     })
@@ -117,18 +122,62 @@ export function ClaimantExpenses(){
                     <BiSliderAlt />
                 </button>
                 <div className='expense-column'>
-                    <div className='h2-collapse'>
-                        <h2 className='ExpenseType'>Pending</h2>
-                        <p className='collapse-text'>{isCollapsed.pending ? "Collapse" : "Expand"}</p>
-                        <button onClick={() => handleCollapse("pending")}><FcCollapse/></button>
+        <div>
+            <div className='ViewExpensesPage'>
+                <div id='PhoneBox'>
+                    <h1 id='Title'>View Expenses</h1>
+                    <div className='expense-column'>
+                        <div className='h2-collapse'>
+                            <h2 className='ExpenseType'>Pending</h2>
+                            <button onClick={() => handleCollapse("pending")}>
+                                <p className='collapse-text'>{isCollapsed.pending ? "Collapse" : "Expand"}</p>
+                                <CollapseIcon/>
+                            </button>
+                        </div>
+                        {     
+                        PendingArr.map((expense, index) => 
+                        (transition_pending((style, item) =>
+                        item ? <animated.div style={style}>
+                            <NavLink to="/ClaimantViewExpense">
+                                <ExpenseBox key={index} expense={expense}/>
+                            </NavLink>
+                        </animated.div>
+                        : '')
+                        ))
+                        }
                     </div>
-                    {     
-                       PendingArr.map((expense, index) => 
-                       (transition_pending((style, item) =>
-                       item ? <animated.div style={style}><ExpenseBox key={index} expense={expense}/></animated.div>
-                       : '')
-                       ))
+                    <div className='h2-collapse'>
+                        <h2 className='ExpenseType'>Rejected</h2>
+                        <button onClick={() => handleCollapse("rejected")}>
+                            <p className='collapse-text'>{isCollapsed.rejected ? "Collapse" : "Expand"}</p>
+                            <CollapseIcon/>
+                        </button>
+                    </div>
+                    {
+                        RejectedArr.map((expense, index) => 
+                        (transition_rejected((style, item) =>
+                        item ? <animated.div style={style}>
+                            <NavLink to="/ClaimantViewExpense">
+                                <ExpenseBox key={index} expense={expense}/>
+                            </NavLink>
+                        </animated.div>
+                        : '')
+                        ))
                     }
+                    <div className='h2-collapse'>
+                        <h2 className='ExpenseType'>Accepted</h2>
+                        <button onClick={() => handleCollapse("accepted")}>
+                            <p className='collapse-text'>{isCollapsed.accepted ? "Collapse" : "Expand"}</p>
+                            <CollapseIcon/>
+                        </button>
+                        </div>
+                    { AcceptedArr.map((expense, index) => 
+                        (transition_accepted((style, item) =>
+                        item ? <animated.div style={style}>
+                            <ExpenseBox key={index} expense={expense}/>
+                            </animated.div>
+                        : '')
+                        ))}
                 </div>
                 <div className='h2-collapse'>
                     <h2 className='ExpenseType'>Rejected</h2>
@@ -174,13 +223,13 @@ const ExpenseBox = (props) =>{
     var img
 
     if(props.expense.state === "Pending"){
-        img = <AiOutlineClockCircle />
+        img = <PendingIcon />
     }
     else if(props.expense.state === "Rejected"){
-        img = <RxCrossCircled />
+        img = <RejectedIcon />
     }
     else if(props.expense.state === "Accepted"){
-        img = <GrStatusGood />
+        img = <AcceptedIcon />
     }
 
     return(
@@ -192,7 +241,7 @@ const ExpenseBox = (props) =>{
                 <div>{props.expense.desc}</div>
             </div>
             <div className='claim-arrow'>
-                <FcCollapse/>
+                <ArrowRightIcon/>
             </div>
         </div>
 

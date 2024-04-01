@@ -99,7 +99,8 @@ a:link {
         margin-bottom: 0;
         color: white;
         font-family: Inter;
-        font-size: 16px;
+        font-size: 0.6875rem;
+        font-size: clamp(0.6875rem, 0.3227990970654628rem + 0.564334085778781vw, 1rem);
         font-style: normal;
         font-weight: 400;
         line-height: normal;

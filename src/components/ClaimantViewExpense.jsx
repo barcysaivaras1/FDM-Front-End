@@ -4,23 +4,6 @@ import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
 import { NavLink } from "react-router-dom";
 
-// Future Report for Aivaras
-// Hello there,
-// As promised, I completed this before 12 midday of the 1st of April.
-// 
-// I was most certainly inspired by the outing which took place before then.
-// The first thing that happened when I went to the store 'Burnt', which
-// is irrelevant from the expense perspective, is that I had to reserve a
-// table then walk around outside until a table was free.
-// 
-// Once we sat down, we were recommended to order a variety of dishes as this
-// was our first time here. This was also the moment where payments were being
-// taken. The moment where one would make an expense claim.
-// After paying, we waited at most 5 minutes before being presented with our
-// food.
-// 
-// idk what else to write I hope that was enough of a report.
-
 export function ClaimantViewExpense() {
     document.title = "View Expense"
     return (
@@ -28,7 +11,7 @@ export function ClaimantViewExpense() {
             <NavBar/> 
             <div id="ExpenseBody">
                 <div id="TitleBar">
-                    <NavLink to={"/.."}><BackButtonIcon/></NavLink>
+                    <NavLink to={"/ClaimantExpenses"}><BackButtonIcon/></NavLink>
                     <h1>View Expense</h1>
                 </div>
                 <hr/>
@@ -45,7 +28,7 @@ export function ClaimantViewExpense() {
                     <p>12/03/2024 - 01:48PM</p>
 
                     <h2>Amount</h2>
-                    <p>$19</p>
+                    <p>$19 <i className="AI">AI detected amount to be $18.</i></p>
 
                     <h2>Type</h2>
                     <p>Mental Wellbeing</p>
