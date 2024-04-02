@@ -7,7 +7,7 @@ import {React, useEffect, useState} from 'react';
 import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
 import { BiSliderAlt } from "react-icons/bi";
-import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon } from '../assets/Icons';
+import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon } from '../assets/Icons';
 import { NavLink } from 'react-router-dom';
 
 //Maybe we would retrieve each expense on the server and store them in specific arrays?
@@ -18,6 +18,7 @@ var counter = 14;
 
 
 export function ClaimantExpenses(){
+    document.title = "My Expenses"
 
     //Example expense object, This is used to display
     const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:"19",desc:"Fortnite Card",state:"Accepted"})
@@ -111,14 +112,16 @@ export function ClaimantExpenses(){
         <div>
         <div className='ViewExpensesPage'>
             <div id='PhoneBox'>
+                <div id='TitleBox'>
                 <h1 id='Title'>View Expenses</h1>
                 {apply_filters?
                 <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button>
                 : ""
                 }
                 <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
-                    <BiSliderAlt />
+                    <FilterIcon />
                 </button>
+                </div>
                     <div className='expense-column'>
                         <div className='h2-collapse'>
                             <h2 className='ExpenseType'>Pending</h2>
@@ -167,7 +170,9 @@ export function ClaimantExpenses(){
                     { AcceptedArr.map((expense, index) => 
                         (transition_accepted((style, item) =>
                         item ? <animated.div style={style}>
-                            <ExpenseBox key={index} expense={expense}/>
+                                <NavLink to="/ClaimantViewExpense">
+                                    <ExpenseBox key={index} expense={expense}/>
+                                </NavLink>
                             </animated.div>
                         : '')
                         ))}

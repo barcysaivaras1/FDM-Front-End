@@ -6,6 +6,12 @@ body {
     overflow-y: scroll;
 }
 
+@media screen and (max-width: 1024px) {
+    .ViewExpensesPage {
+        height: 88vh;
+    }
+}
+
 #PhoneBox{
     width: 81.67vw;
     height: 91vh;
@@ -15,9 +21,14 @@ body {
     margin-block: 3.025vh;
 }
 
+#TitleBox {
+    margin-top: 3.35vh;
+    display: flex;
+}
+
 #Title{
     max-width: fit-content;
-    margin-top: 3.35vh;
+    margin: 0;
 }
 
 
@@ -97,9 +108,10 @@ body {
 
 /*This is all to do with the Filtering component of the page*/
 .Filter-Icon{ 
-    margin-right: auto;
+    margin-left: auto;
     background-color: white;
     border: 0px;
+    cursor: pointer;
 }
 .Filter-Icon svg{
    font-size: 2rem;

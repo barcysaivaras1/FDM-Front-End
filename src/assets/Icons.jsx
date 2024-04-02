@@ -142,3 +142,16 @@ export function AcceptedIcon() {
         </svg>
     )
 }
+
+export function FilterIcon() {
+    return (
+        <svg width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 3.53638H12.2727" stroke="#0C0310" stroke-width="2" stroke-linecap="round"/>
+            <path d="M19.0364 3.53638H23.5455" stroke="#0C0310" stroke-width="2" stroke-linecap="round"/>
+            <path d="M1 13.6818H5.50909" stroke="#0C0310" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13.4 13.6818L23.5454 13.6818" stroke="#0C0310" stroke-width="2" stroke-linecap="round"/>
+            <path d="M15.0909 6.63636C16.6473 6.63636 17.9091 5.37462 17.9091 3.81818C17.9091 2.26174 16.6473 1 15.0909 1C13.5345 1 12.2727 2.26174 12.2727 3.81818C12.2727 5.37462 13.5345 6.63636 15.0909 6.63636Z" stroke="#0C0310" stroke-width="2" stroke-linecap="round"/>
+            <path d="M9.45455 16.5C11.011 16.5 12.2727 15.2383 12.2727 13.6818C12.2727 12.1254 11.011 10.8636 9.45455 10.8636C7.89811 10.8636 6.63637 12.1254 6.63637 13.6818C6.63637 15.2383 7.89811 16.5 9.45455 16.5Z" stroke="#0C0310" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    )
+}
