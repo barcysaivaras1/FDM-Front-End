@@ -8,7 +8,8 @@ import { getApiURL } from "./api";
 
 async function logoutBackend () {
     await axios.post(
-        getApiURL("/auth/logout")
+        // getApiURL("/auth/logout")
+        "/api/auth/logout"
     ) 
     .then(function(response){
         console.log("Response:  ", response);
