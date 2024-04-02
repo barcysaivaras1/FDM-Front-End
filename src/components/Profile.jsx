@@ -8,7 +8,13 @@ import { getApiURL } from './api';
 export function Profile() {
     const [profile, setProfile] = useState()
     function fetchProfile() {
-        axios.get(getApiURL('/users/profile'), { withCredentials: true })
+        axios.get(
+            // getApiURL('/users/profile'), 
+            '/api/users/profile',
+            { 
+                withCredentials: true 
+            }
+        )
         .then(function(response) {
             console.log(response.data)
             setProfile(response.data)
@@ -30,7 +36,7 @@ export function Profile() {
             <div>{JSON.stringify(profile)}</div>
 
             {profile ? (
-                <img src={'http://localhost:5000/' + profile.profile_picture} width={100} />
+                <img src={'http://localhost:5000' + profile.profile_picture} width={100} />
             ): null}
             </div>
         </div>

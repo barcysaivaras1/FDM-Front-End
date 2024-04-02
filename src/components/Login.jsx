@@ -15,7 +15,8 @@ function login () {
         e.preventDefault();
         // stuff that will handle the inputs
         await axios.post(
-            getApiURL("/auth/login"), 
+            // getApiURL("/auth/login"), 
+            "/api/auth/login",
             {
                 username: un,
                 password: pw
