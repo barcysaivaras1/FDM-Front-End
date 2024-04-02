@@ -1,9 +1,7 @@
 import '../css/Profile.css'
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import pfp from '../assets/johnpork.png';
 import NavBar from "./NavBar";
-import { getApiURL } from './api';
 
 
 export function Profile() {
@@ -32,7 +30,7 @@ export function Profile() {
         // console.log(profile);
         if (profile.claims.length !== 0) {
             profile.claims.map((claim) => {
-                if (claim.status == "approved") {
+                if (claim.status == "Approved") {
                     setTotalAccepted(totalAccepted + 1);
                     setTotalSpent((totalSpent) => {return totalSpent + parseFloat(claim.amount)});
                     // console.log(claim.amount);
@@ -61,7 +59,12 @@ export function Profile() {
             </div>
             <div className="personal">
                 {profile ? (
-                    <img className='pfp' src={'http://127.0.0.1:5000/' + profile.profile_picture} alt="pfp" />
+                    profile.profile_picture ? (
+                        <img className='pfp' src={'http://127.0.0.1:5000/' + profile.profile_picture} alt="pfp" />
+                    ) : (
+                        // ensure that even with an unset profile picture, the default picture gets displayed
+                        <img className='pfp' src={'http://127.0.0.1:5000//static/profile-pictures/default.png'} alt="pfp" />  
+                    )
                 ) : null}
                 <p className="name">
                     {profile ? (profile.first_name + " " + profile.last_name) : "-"}
@@ -73,7 +76,9 @@ export function Profile() {
             <div className="data">
                 <p className="title">Line Manager</p>
                 <p className="cont">
-                    {profile ? (profile.line_manager) : "-"}
+                    {profile ? (
+                        profile.line_manager ? (profile.line_manager) : ("-")
+                        ) : "-"}
                 </p>
                 <p className="title">Total Accepted Claims</p>
                 <p className="cont">
