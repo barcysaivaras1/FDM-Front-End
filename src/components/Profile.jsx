@@ -36,7 +36,7 @@ export function Profile() {
             <div>{JSON.stringify(profile)}</div>
 
             {profile ? (
-                <img src={'http://localhost:5000' + profile.profile_picture} width={100} />
+                <img src={'http://127.0.0.1:5000/' + profile.profile_picture} width={100} />
             ): null}
             </div>
         </div>
