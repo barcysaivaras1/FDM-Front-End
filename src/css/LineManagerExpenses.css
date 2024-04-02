@@ -1,23 +1,23 @@
 .LMEContainer{
     font-family: "Kaiti SC";
-    
     display: flex;
     width: 100vw;
-    box-sizing: border-box;
     height: 100vh;
-    border: 1px solid black;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .LMEBody{
     margin-left: 10vw;
-    
+    width: 90vw;
+    height: 100%;
+}
+
+.title{
+    display: flex;
+    height: 5%;
 }
 
 .optionsList{
-    display: flex;
-    box-sizing: border-box;
+    height: 5%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -30,56 +30,36 @@
     padding-left: 10px;
     padding-right: 10px;
     margin-right: 2vw;
+    color : #00008B;
+    border-radius: 20px;
 }
 
 .columnTitles{
-    display: flex;
-    box-sizing: border-box;
+    height: 5%;
     display: flex;
     flex-direction: row;
     border-bottom: 3px solid grey;
 }
 
 .columnTitles p{
-    margin-right: 0.5vw;
-    color: blue;
+    margin-right: 2vw;
+    color: #00008B;
 }
 
 .scrollboxExpenses{
-    border: none;
-    padding: 5px;
-    width: auto;
-    height: 50vh;
+    width: 100%;
+    height: 75%;
     overflow-y: scroll;
-}
-
-.expensesList{
-    display: flex;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-}
-
-.expense{
-    margin-bottom: 0.5vh;
 }
 
 .claimInfo{
     display: flex;
-    box-sizing: border-box;
-    display: flex;
     flex-direction: row;
-    margin-right: 0.5vw;
+    text-align: justify;
 }
 
-.claimDate{
-    margin-right: 0.5vw;
-}
-
-.moneyInfo{
-    margin-right: 0.5vw;
-}
-
-.description{
-    margin-right: 0.5vw;
+.claimInfo li{
+    display: block;
+    list-style-type: none;
+    padding-right: 2vw;
 }
