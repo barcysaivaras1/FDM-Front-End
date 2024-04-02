@@ -1,13 +1,38 @@
 import '../css/Profile.css'
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import pfp from '../assets/johnpork.png';
+import NavBar from "./NavBar";
+import { getApiURL } from './api';
 
 
-export const Profile = () => {
+export function Profile() {
+    const [profile, setProfile] = useState()
+    function fetchProfile() {
+        axios.get(
+            // getApiURL('/users/profile'), 
+            '/api/users/profile',
+            { 
+                withCredentials: true 
+            }
+        )
+        .then(function(response) {
+            console.log(response.data)
+            setProfile(response.data)
+        })
+        .catch(function(error) {
+            console.log(error)
+        })
+    }
 
+    useEffect(() => {
+        fetchProfile();
+    }, [])
+  
     return(
         
         <div className="container">
+            <NavBar/>
             <div className='header'>
                 <p className="head">View Profile</p>
             </div>
@@ -31,7 +56,3 @@ export const Profile = () => {
 
     )
 }
-
-
-
-

@@ -1,0 +1,85 @@
+.LMEContainer{
+    font-family: "Kaiti SC";
+    
+    display: flex;
+    width: 100vw;
+    box-sizing: border-box;
+    height: 100vh;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.LMEBody{
+    margin-left: 10vw;
+    
+}
+
+.optionsList{
+    display: flex;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.option {
+    width: auto;
+    height: auto;
+    border: 1px solid black;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 2vw;
+}
+
+.columnTitles{
+    display: flex;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 3px solid grey;
+}
+
+.columnTitles p{
+    margin-right: 0.5vw;
+    color: blue;
+}
+
+.scrollboxExpenses{
+    border: none;
+    padding: 5px;
+    width: auto;
+    height: 50vh;
+    overflow-y: scroll;
+}
+
+.expensesList{
+    display: flex;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.expense{
+    margin-bottom: 0.5vh;
+}
+
+.claimInfo{
+    display: flex;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    margin-right: 0.5vw;
+}
+
+.claimDate{
+    margin-right: 0.5vw;
+}
+
+.moneyInfo{
+    margin-right: 0.5vw;
+}
+
+.description{
+    margin-right: 0.5vw;
+}

@@ -1,0 +1,196 @@
+body {
+    overflow: hidden;
+}
+.ViewExpensesPage{
+    font-family: "Kaiti SC";
+    overflow-y: scroll;
+}
+
+@media screen and (max-width: 1024px) {
+    .ViewExpensesPage {
+        height: 88vh;
+    }
+}
+
+#PhoneBox{
+    width: 81.67vw;
+    height: 91vh;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    margin-block: 3.025vh;
+}
+
+#TitleBox {
+    margin-top: 3.35vh;
+    display: flex;
+}
+
+#Title{
+    max-width: fit-content;
+    margin: 0;
+}
+
+
+
+.h2-collapse{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1em;
+    gap: 1em;
+    height: 2em;
+    box-shadow: 0 3px 0px #204382;
+}
+
+.ExpenseType{
+    font-family: "Kaiti SC";
+    font-size: 1.875em;
+}
+
+.h2-collapse .collapse-text{
+    font-size: 1em;
+    font-weight: bold;
+    color: rgba(128, 128, 128, 0.527);
+    margin-right: 5px;
+}
+
+.h2-collapse button{
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.claim-box{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: hsla(206, 22%, 81%, 0.418);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-top: 1em;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+ 
+.claim-info{
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8em;
+}
+
+/*I HAVE NO IDEA WHY THIS CENTERS THE IMAGE BUT LEAVE IT*/
+.claim-box svg{
+    display: flex;
+}
+
+.claim-arrow{
+    margin-left: auto;
+}
+
+.Status-Img{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 4em;
+}
+
+
+@media screen and (min-width: 1024px) {
+    .ViewExpensesPage{
+        margin-left: 9.375vw;
+    }
+}
+
+
+
+
+/*This is all to do with the Filtering component of the page*/
+.Filter-Icon{ 
+    margin-left: auto;
+    background-color: white;
+    border: 0px;
+    cursor: pointer;
+}
+.Filter-Icon svg{
+   font-size: 2rem;
+   text-align: center;
+}
+.filter-box{
+    position: absolute;
+    background-color: rgb(18, 62, 104);
+    z-index: 100;
+    width: 100%;
+    height: 500vh;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.Filter-Title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-weight: 600;
+    color: rgb(255, 245, 245);
+    background: linear-gradient(1deg, #0F1F3C 29.91%, #204382 98.99%);
+    border-radius: 20px 20px 0px 0px;
+}
+.Filter-Cross{
+    display: flex;
+    background-color: transparent;
+    border: 0px;
+    color: white;
+    font-size: 1.5em;
+}
+#Time-Frame, #Amount, #Currency{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+#Time-Frame h3, #Amount h3, #Currency h3{
+    border-bottom: #596783 2px solid;
+}
+#Currency-Buttons , #Amount-Buttons , #Time-Buttons{
+    display: flex;
+    gap: 2vw;
+}
+#Currency-Buttons button, #Amount-Buttons button, #Time-Buttons button, #Apply-button{
+    background-color: hsla(0, 0%, 100%, 0.096);
+    color: white;
+    border-radius: 20px;
+    border: 0px;
+    min-width: 20vw;
+    font-size: 2vh;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+}
+
+#Apply-Filters{
+    display: flex;
+    justify-content: center;
+    margin-top: 8vh;   
+}
+#Apply-button{
+    background-color: white;
+    font-weight: 400;
+    color: black;
+    min-width: 40vw;
+    min-height: 5vh;
+    border: #000000 2px solid;
+}
+
+.Filters-Applied-Text{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(1deg, #0F1F3C 29.91%, #204382 98.99%);
+    border: none;
+    color: #ffffff;
+    font-size: 5vw;
+    border: #000000 solid 1px;
+    border-radius: 20px;
+    padding-left: 1em;
+    padding-right: 1em;
+}

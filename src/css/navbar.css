@@ -1,0 +1,144 @@
+nav {
+    background: linear-gradient(1deg, #0F1F3C 29.91%, #204382 98.99%);
+    /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
+}
+
+a:link {
+    text-decoration: none;
+}
+
+/* mobile view of the navbar */
+@media screen and (max-width: 1024px) {
+    nav {
+        position: absolute;
+        bottom: 0;
+        width: 100vw;
+        height: 9.824vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    nav div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav svg {
+        margin-bottom: .7vh;
+    }
+
+    nav div p{
+        margin-top: 0;
+        margin-bottom: 0;
+        color: white;
+        font-family: "Kaiti SC";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    #createExpenses {
+        margin-bottom: 0
+    }
+
+    #FDMLogo, .DesktopIdentifiers {
+        display: none;
+    }
+
+    nav div:hover, svg:hover, .active{
+        cursor: pointer;
+
+        .activated{
+            display: unset;
+        }
+        .inactive {
+            display: none;
+        }
+    }
+
+    #LogoutBtn {
+        display: none;
+    }
+}
+
+/* laptop view of the navbar */
+@media screen and (min-width: 1024px) {
+    nav {
+        position: absolute;
+        top: 0;
+        width: 9.375vw;
+        height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        align-items: center;
+    }
+
+    nav div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 36px;
+        width: 9.375vw;
+    }
+
+    nav svg {
+        display: none;
+    }
+
+    nav div p{
+        margin-top: 0;
+        margin-bottom: 0;
+        color: white;
+        font-family: Inter;
+        font-size: 0.6875rem;
+        font-size: clamp(0.6875rem, 0.3227990970654628rem + 0.564334085778781vw, 1rem);
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    
+    #FDMLogo {
+        margin-top: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .MobileIdentifiers {
+        display: none;
+    }
+    
+    nav div:hover, .active {
+        cursor: pointer;
+        background-color: #0F1F3C;
+        box-shadow: 0 4px 4px rgba(255, 255, 255, 0.25);
+    }
+    
+    #LogoutBtn {
+        display: unset;
+        font-family: Inter;
+        position: absolute;
+        bottom: 3.237vh;
+        color: white;
+    }
+
+    #LogoutBtn p {
+        margin: 0;
+    }
+
+}
+
+/* Icons Stuff */
+
+.activated{
+    display: none;
+}
+
+
