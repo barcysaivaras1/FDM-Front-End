@@ -14,6 +14,12 @@ import { NavLink } from 'react-router-dom';
 var AcceptedArr = []
 var PendingArr = []
 var RejectedArr = []
+
+var TempAcceptedArr = []
+var TempPendingArr = []
+var TempRejectedArr = []
+
+
 var counter = 14;
 
 
@@ -21,8 +27,11 @@ export function ClaimantExpenses(){
     document.title = "My Expenses"
 
     //Example expense object, This is used to display
-    const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:"19",desc:"Fortnite Card",state:"Accepted"})
+    const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:151,desc:"Fortnite Card",state:"Accepted"})
     const [apply_filters, setApplyFilters] = useState(false)
+
+    //To check the state of each type of expense
+    const [isCollapsed, setIsCollapsed] = useState({pending:true, rejected:true, accepted:true, filter:false})
 
     //epic, DELETE THIS ONCE BACKEND WORKS AND POPULATES THE 3 ARRAYS ABOVE
     for(var i=0;i<counter;i++){
@@ -31,7 +40,7 @@ export function ClaimantExpenses(){
     var rdmState = diffStates[(Math.floor(Math.random() * diffStates.length))]
     console.log(rdmState)
     const newExpense = {...expense, state: rdmState};
-    console.log(newExpense.state)
+    console.log(newExpense.state) 
     
     if (newExpense.state === "Accepted"){
         AcceptedArr.push(newExpense)
@@ -45,11 +54,6 @@ export function ClaimantExpenses(){
     }
     counter=0
     //end of EPIC
-
-    
-
-    //To check the state of each type of expense
-    const [isCollapsed, setIsCollapsed] = useState({pending:true, rejected:true, accepted:true, filter:true})
 
     //Animations
     const transition_pending = useTransition(isCollapsed.pending ,{
@@ -98,14 +102,76 @@ export function ClaimantExpenses(){
         }
     }
 
-    //This will remove the filters that were applied
+    //This will remove the filters that were applied, does this by storing
+    //the arrays pre-filter and then bringing them back when the filter is removed
     const handleRemoveFilters = () =>{
         setApplyFilters(false)
+        AcceptedArr = TempAcceptedArr
+        RejectedArr = TempRejectedArr
+        PendingArr = TempPendingArr
     }
     //This will apply filters to the expenses
-    const handleApplyFilters = () => {
+    const handleApplyFilters = (month,amountF,currency) => {
         setApplyFilters(true)
         handleCollapse("filter")
+
+        //Saving what the arrays were pre-filter
+        TempAcceptedArr = AcceptedArr
+        TempRejectedArr = RejectedArr
+        TempPendingArr = PendingArr
+
+        //Filtering based on amount
+        if(amountF.Ten){
+            AcceptedArr = filterAmountArray(AcceptedArr,10)
+            RejectedArr = filterAmountArray(RejectedArr,10)
+            PendingArr = filterAmountArray(PendingArr,10)
+        }
+        else if(amountF.Fifty){
+            AcceptedArr = filterAmountArray(AcceptedArr,50)
+            RejectedArr = filterAmountArray(RejectedArr,50)
+            PendingArr = filterAmountArray(PendingArr,50)
+        }
+        else if(amountF.Hundred){
+            AcceptedArr = filterAmountArray(AcceptedArr,100)
+            RejectedArr = filterAmountArray(RejectedArr,100)
+            PendingArr = filterAmountArray(PendingArr,100)
+        }
+
+        //Filtering based on currency
+        if(currency.Pound){
+            AcceptedArr = filterCurrencyArray(AcceptedArr,"£")
+            RejectedArr = filterCurrencyArray(RejectedArr,"£")
+            PendingArr = filterCurrencyArray(PendingArr,"£")
+        }
+        else if(currency.Dollar){
+            AcceptedArr = filterCurrencyArray(AcceptedArr,"$")
+            RejectedArr = filterCurrencyArray(RejectedArr,"$")
+            PendingArr = filterCurrencyArray(PendingArr,"$")
+        }
+        else if(currency.Euro){
+            AcceptedArr = filterCurrencyArray(AcceptedArr,"€")
+            RejectedArr = filterCurrencyArray(RejectedArr,"€")
+            PendingArr = filterCurrencyArray(PendingArr,"€")
+        }
+    }
+
+    function filterAmountArray(arr,amount_to_filter_by){
+        const newArr = []
+            for(var i=0;i<arr.length;i++){
+                if(arr[i].amount < amount_to_filter_by){
+                    newArr.push(arr[i])
+                }
+            }
+            return newArr;
+    }
+    function filterCurrencyArray(arr,currency_to_filter_by){
+        const newArr = []
+            for(var i=0;i<arr.length;i++){
+                if(arr[i].currency_type === currency_to_filter_by){
+                    newArr.push(arr[i])
+                }
+            }
+            return newArr;
     }
 
     return(
@@ -114,14 +180,14 @@ export function ClaimantExpenses(){
             <div id='PhoneBox'>
                 <div id='TitleBox'>
                 <h1 id='Title'>View Expenses</h1>
-                {apply_filters?
-                <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button>
-                : ""
-                }
                 <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
                     <FilterIcon />
                 </button>
                 </div>
+                {apply_filters?
+                <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button>
+                : ""
+                }
                     <div className='expense-column'>
                         <div className='h2-collapse'>
                             <h2 className='ExpenseType'>Pending</h2>
@@ -410,7 +476,7 @@ const FilterBox = (props) =>{
                 </div>
             </div>
             <div id='Apply-Filters'>
-                <button id='Apply-button' onClick={() => props.handleApplyFilters()}>Apply Filters</button>
+                <button id='Apply-button' onClick={() => props.handleApplyFilters(month,amount,currency)}>Apply Filters</button>
             </div>
         </div>
     )

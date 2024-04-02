@@ -14,7 +14,7 @@ body{
                          ". logout logout .";
     margin: auto;
     width: 100%;
-    height: 100%
+    height: 100%;
 }
 
 .header{
@@ -63,7 +63,8 @@ body{
 .title{
     color:#204382;
     font-size: 18px;
-    font-weight:600
+    font-weight:600;
+    margin-top: 20px;
 }
 
 .cont{
