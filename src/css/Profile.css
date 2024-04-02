@@ -7,7 +7,7 @@ body{
     display: grid;
     grid-template-rows:0.75fr 1.5fr 0.25fr 1.5fr; 
     grid-template-columns: 2fr 2fr 2fr 2fr;
-    grid-template-areas: "header header . ."
+    grid-template-areas: ". header header ."
                          ". personal personal."
                          ". role role ."
                          ". data data ."
@@ -19,16 +19,17 @@ body{
 
 .header{
     grid-area: header;   
-    font-family: 'Kaiti SC';
-    font-style: normal;
-    font-size: 34px; 
     justify-self: flex-start;
-    font-weight: 800;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .head{
     padding-left: 30px;
-    
+    font-weight: 800;
+    font-family: 'Kaiti SC';
+    font-style: normal;
+    font-size: 34px; 
 }
 
 .personal{
