@@ -7,12 +7,12 @@ body{
 
     display: flex;
     flex-direction: column;
-    gap: 1vh;
+    gap: 1svh;
     align-items: center;
     margin: auto;
-    /* margin-top: 20vh; */
+    /* margin-top: 20svh; */
 
-    height: 100vh;
+    height: 100svh;
     justify-content: center;
 
     width: 100%;
@@ -25,7 +25,7 @@ body{
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-bottom: 1.08vh;
+    margin-bottom: 1.08svh;
     text-align: center;
 }
 
@@ -33,7 +33,7 @@ body{
     width: 65.975%;
     display: flex;
     flex-direction: column;
-    gap: 1vh;
+    gap: 1svh;
 }
 
 .infield {
@@ -63,26 +63,26 @@ body{
 
 .descriptionInput {
     resize: none;
-    height: 20vh;
+    height: 20svh;
 }
 
 .proofArea {
-    height: 30vh;
-    max-height: 20vh;
+    height: 30svh;
+    max-height: 20svh;
     border: 3px dashed #0F1F3C;
     border-radius: 20px;
 
     display: flex;
     flex-direction: column;
-    gap: 0vh;
+    gap: 0svh;
     align-items: center;
     justify-content: center;
 }
 
 .proofPreview {
-    height: 15vh;
+    height: 15svh;
     max-width: 100%;
-    margin-bottom: 1vh;
+    margin-bottom: 1svh;
 }
 
 .proofArea svg {

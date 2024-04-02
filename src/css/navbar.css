@@ -13,7 +13,7 @@ a:link {
         position: absolute;
         bottom: 0;
         width: 100vw;
-        height: 9.824vh;
+        height: 9.824svh;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -28,7 +28,7 @@ a:link {
     }
 
     nav svg {
-        margin-bottom: .7vh;
+        margin-bottom: .7svh;
     }
 
     nav div p{
@@ -72,7 +72,7 @@ a:link {
         position: absolute;
         top: 0;
         width: 9.375vw;
-        height: 100vh;
+        height: 100svh;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
@@ -125,7 +125,7 @@ a:link {
         display: unset;
         font-family: Inter;
         position: absolute;
-        bottom: 3.237vh;
+        bottom: 3.237svh;
         color: white;
     }
 

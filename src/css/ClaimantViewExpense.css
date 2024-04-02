@@ -1,6 +1,6 @@
     #ExpenseBody {
         overflow: scroll;
-        height: 90.176vh;
+        height: 90.176svh;
     }
 
     #TitleBar, hr, #AppealClaim {
@@ -10,7 +10,7 @@
     
     #TitleBar {
         display: flex;
-        margin-top: 3.025vh;
+        margin-top: 3.025svh;
     }
     
     #TitleBar h1 {
@@ -19,17 +19,17 @@
     
     #Status, #ExpenseDetails {
         margin-inline: auto;
-        margin-top: 2vh;
+        margin-top: 2svh;
         width: 82vw;
-        padding-top: 1vh;
+        padding-top: 1svh;
         padding-inline: 4vw;
-        padding-bottom: 2vh;
+        padding-bottom: 2svh;
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
     }
 
     #Status {
-        height: 12.4vh;
+        height: 12.4svh;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -37,11 +37,11 @@
     }
     
     #ExpenseDetails {
-        margin-bottom: 2vh;
+        margin-bottom: 2svh;
     }
     
     #ExpenseDetails h2 {
-        margin-top: 2vh;
+        margin-top: 2svh;
     }
     
     h2, p, a {
@@ -64,9 +64,9 @@
         align-items: center;
         justify-content: center;
         width: 90vw;
-        height: 7vh;
+        height: 7svh;
         background-color: #0F1F3C;
-        margin-bottom: 2vh;
+        margin-bottom: 2svh;
         border-radius: 5px;
     }
 
@@ -79,7 +79,7 @@
     #ExpenseBody {
         width: 90vw;
         margin-left: 10vw;
-        height: 100vh;
+        height: 100svh;
     }
 
     #Status, #ExpenseDetails {
