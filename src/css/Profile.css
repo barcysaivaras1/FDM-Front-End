@@ -1,3 +1,72 @@
-#ProfileBody {
-    margin-left: 10vw;
+body{
+    margin: 0;
+}
+
+.container{
+    font-family: "Kaiti SC";
+    display: grid;
+    grid-template-rows:0.75fr 1.5fr 0.25fr 1.5fr; 
+    grid-template-columns: 2fr 2fr 2fr 2fr;
+    grid-template-areas: "header header . ."
+                         ". personal personal."
+                         ". role role ."
+                         ". data data ."
+                         ". logout logout .";
+    margin: auto;
+    width: 100%;
+    height: 100%
+}
+
+.header{
+    grid-area: header;   
+    font-family: 'Kaiti SC';
+    font-style: normal;
+    font-size: 34px; 
+    justify-self: flex-start;
+    font-weight: 800;
+}
+
+.head{
+    padding-left: 30px;
+    
+}
+
+.personal{
+    grid-area: personal;
+}
+
+.pfp{
+    width: 220px;
+    height: 220px;
+    border-radius: 150px;
+    align-self: center;
+}
+
+.name{
+    font-size: 30px;
+    font-family: 'Kaiti SC';
+    font-weight: 800;
+}
+
+.role{
+    grid-area: role;
+    font-size: 18px;
+    color: #5F646D;
+    font-weight: 700;
+}
+
+.data{
+    grid-area: data;
+}
+
+.title{
+    color:#204382;
+    font-size: 18px;
+    font-weight:600
+}
+
+.cont{
+
+    font-size: 22px;
+    font-weight: 600;
 }
