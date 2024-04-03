@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/LineManagerExpenses.css"
 import NavBar from "./NavBar";
+import axios from "axios";
 
 export function LineManagerExpenses() {
+    const [expenses, setExpenses] = useState([]);
+
+    axios.get('/api/claims/managed-by', { withCredentials: true })
+        .then(function (response) {
+            console.log(response);
+            setExpenses(response.data.claims);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 
     // test datas
     const exampleExpense = { date_time: "2024/2/21 - 1:10PM", currency_type: "£", amount: "19", desc: "Fortnite Card", state: "Accepted" }
@@ -18,6 +29,7 @@ export function LineManagerExpenses() {
     return (
         <div className='LMEContainer'>
             <NavBar />
+
             <div className='LMEBody'>
                 <h1 id='Title'>Expenses</h1>
 
