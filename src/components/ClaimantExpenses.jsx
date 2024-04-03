@@ -1,58 +1,106 @@
 import '../css/ClaimantExpenses.css'
-import { FcCollapse } from "react-icons/fc";
-import { AiOutlineClockCircle } from "react-icons/ai";
 import { RxCrossCircled } from "react-icons/rx";
-import { GrStatusGood } from "react-icons/gr";
 import {React, useEffect, useState} from 'react';
 import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
-import { BiSliderAlt } from "react-icons/bi";
 import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon } from '../assets/Icons';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 //Maybe we would retrieve each expense on the server and store them in specific arrays?
 var AcceptedArr = []
 var PendingArr = []
 var RejectedArr = []
+var DraftArr = []
+
+async function fetchClaims (setIsLoading) {
+    await axios.get(
+        '/api/claims/',
+        { 
+            withCredentials: true 
+        }
+    )
+    .then(function(response) {
+        setIsLoading(true);
+        console.log(response.data);
+        let maxNum = response.data.claims.length;
+        if (maxNum !== 0){
+            response.data.claims.map((claim) => {
+                let currentNum = AcceptedArr.length + PendingArr.length + RejectedArr.length + DraftArr.length
+                if (maxNum <= currentNum) {
+                    return
+                }
+                else if (claim.status === "Approved"){
+                    AcceptedArr.push(claim)
+                }
+                else if (claim.status === "Pending"){
+                    PendingArr.push(claim)
+                    console.log("pending msg")
+                }
+                else if (claim.status === "Denied"){
+                    RejectedArr.push(claim)
+                }
+                else if (claim.status === "Draft"){
+                    DraftArr.push(claim)
+                }
+            })
+        }
+    })
+    .catch(function(error) {
+        console.log(error);
+    })
+    .finally(() => setIsLoading(false))
+}
 
 var TempAcceptedArr = []
 var TempPendingArr = []
 var TempRejectedArr = []
 
 
-var counter = 14;
+// var counter = 0;
 
 
 export function ClaimantExpenses(){
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (AcceptedArr.length !== 0 || PendingArr.length !== 0 || RejectedArr.length !== 0) {
+            return
+        }
+        else {
+            fetchClaims(setIsLoading);
+        }
+    }, [])
+
     document.title = "My Expenses"
 
     //Example expense object, This is used to display
-    const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:151,desc:"Fortnite Card",state:"Accepted"})
+    // const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:151,desc:"Fortnite Card",state:"Accepted"})
     const [apply_filters, setApplyFilters] = useState(false)
 
     //To check the state of each type of expense
     const [isCollapsed, setIsCollapsed] = useState({pending:true, rejected:true, accepted:true, filter:false})
 
     //epic, DELETE THIS ONCE BACKEND WORKS AND POPULATES THE 3 ARRAYS ABOVE
-    for(var i=0;i<counter;i++){
-    const diffStates = ["Pending","Accepted","Rejected"]
-    console.log("Happy")
-    var rdmState = diffStates[(Math.floor(Math.random() * diffStates.length))]
-    console.log(rdmState)
-    const newExpense = {...expense, state: rdmState};
-    console.log(newExpense.state) 
+    // for(var i=0;i<counter;i++){
+    // const diffStates = ["Pending","Accepted","Rejected"]
+    // console.log("Happy")
+    // var rdmState = diffStates[(Math.floor(Math.random() * diffStates.length))]
+    // console.log(rdmState)
+    // const newExpense = {...expense, state: rdmState};
+    // console.log(newExpense.state) 
     
-    if (newExpense.state === "Accepted"){
-        AcceptedArr.push(newExpense)
-    }
-    else if (newExpense.state === "Pending"){
-        PendingArr.push(newExpense)
-    }
-    else if (newExpense.state === "Rejected"){
-        RejectedArr.push(newExpense)
-    }
-    }
-    counter=0
+    // if (newExpense.state === "Accepted"){
+    //     AcceptedArr.push(newExpense)
+    // }
+    // else if (newExpense.state === "Pending"){
+    //     PendingArr.push(newExpense)
+    // }
+    // else if (newExpense.state === "Rejected"){
+    //     RejectedArr.push(newExpense)
+    // }
+    // }
+    // counter=0
     //end of EPIC
 
     //Animations
@@ -196,13 +244,13 @@ export function ClaimantExpenses(){
                                 <CollapseIcon/>
                             </button>
                         </div>
-                        {     
+                        {
                         PendingArr.map((expense, index) => 
                         (transition_pending((style, item) =>
                         item ? <animated.div style={style}>
-                            <NavLink to="/view-expense">
+                            <Link to="/view-expense" state={{ id: expense.claim_id }}>
                                 <ExpenseBox key={index} expense={expense}/>
-                            </NavLink>
+                            </Link>
                         </animated.div>
                         : '')
                         ))
@@ -219,9 +267,9 @@ export function ClaimantExpenses(){
                         RejectedArr.map((expense, index) => 
                         (transition_rejected((style, item) =>
                         item ? <animated.div style={style}>
-                            <NavLink to="/view-expense">
+                            <Link to="/view-expense" state={{ id: expense.claim_id }}>
                                 <ExpenseBox key={index} expense={expense}/>
-                            </NavLink>
+                            </Link>
                         </animated.div>
                         : '')
                         ))
@@ -236,9 +284,9 @@ export function ClaimantExpenses(){
                     { AcceptedArr.map((expense, index) => 
                         (transition_accepted((style, item) =>
                         item ? <animated.div style={style}>
-                                <NavLink to="/view-expense">
+                                <Link to="/view-expense" state={{ id: expense.claim_id }}>
                                     <ExpenseBox key={index} expense={expense}/>
-                                </NavLink>
+                                </Link>
                             </animated.div>
                         : '')
                         ))}
@@ -259,13 +307,13 @@ const ExpenseBox = (props) =>{
 
     var img
 
-    if(props.expense.state === "Pending"){
+    if(props.expense.status === "Pending"){
         img = <PendingIcon />
     }
-    else if(props.expense.state === "Rejected"){
+    else if(props.expense.status === "Denied"){
         img = <RejectedIcon />
     }
-    else if(props.expense.state === "Accepted"){
+    else if(props.expense.status === "Approved"){
         img = <AcceptedIcon />
     }
 
@@ -273,9 +321,9 @@ const ExpenseBox = (props) =>{
         <div className='claim-box'>
             <div className='Status-Img'>{img}</div>
             <div className='claim-info'>
-                <div className='claim-date'>{props.expense.date_time}</div>
-                <div>{props.expense.currency_type+props.expense.amount}</div>
-                <div>{props.expense.desc}</div>
+                <div className='claim-date'>{props.expense.date.replace(" 00:00:00 GMT", "")}</div>
+                <div>{props.expense.currency+props.expense.amount}</div>
+                <div>{props.expense.description}</div>
             </div>
             <div className='claim-arrow'>
                 <ArrowRightIcon/>
@@ -483,3 +531,61 @@ const FilterBox = (props) =>{
 
 }
 
+
+/*
+    MODEL REPLY FOR API CALL
+
+    {
+    "claims": [
+        {
+            "amount": "420.69",
+            "claim_id": 22,
+            "currency": "£",
+            "date": "Mon, 01 Apr 2024 00:00:00 GMT",
+            "description": "Please reinburse me this has made me broke",
+            "expenseType": "Catering",
+            "receipts": [],
+            "status": "Pending",
+            "title": "Gucci flip-flops",
+            "user_id": 35
+        },
+        {
+            "amount": "21.59",
+            "claim_id": 20,
+            "currency": "£",
+            "date": "Tue, 12 Mar 2024 00:00:00 GMT",
+            "description": "example description",
+            "expenseType": "Catering",
+            "receipts": [],
+            "status": "Approved",
+            "title": "example title",
+            "user_id": 35
+        },
+        {
+            "amount": "19.99",
+            "claim_id": 21,
+            "currency": "£",
+            "date": "Sat, 30 Mar 2024 00:00:00 GMT",
+            "description": "I need this for my mental health.",
+            "expenseType": "Travel",
+            "receipts": [],
+            "status": "Approved",
+            "title": "Fortnite card",
+            "user_id": 35
+        },
+        {
+            "amount": "-1.00",
+            "claim_id": 24,
+            "currency": "ABCD",
+            "date": "Tue, 02 Apr 2024 00:00:00 GMT",
+            "description": "Unknown",
+            "expenseType": "Unknown",
+            "receipts": [],
+            "status": "Draft",
+            "title": "Hello World! AWOOOGA!",
+            "user_id": 35
+        }
+    ],
+    "user_id": 35
+}
+*/

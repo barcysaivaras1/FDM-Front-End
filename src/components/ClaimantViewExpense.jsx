@@ -1,10 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../css/ClaimantViewExpense.css"
 import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import axios from "axios";
 
 export function ClaimantViewExpense() {
+    let { state } = useLocation();
+    console.log(state);
+    const [claim, setClaim] = useState();
+
+    async function fetchClaim() {
+        await axios.get(
+            `/api/claims/${state.id}`,
+            { 
+                withCredentials: true 
+            }
+        )
+        .then(function(response) {
+            setClaim(response.data);
+        })
+        .catch(function(error) {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        if (claim === undefined) {
+            fetchClaim();
+        }
+        else{
+            return;
+        }
+    }, [])
+
+    async function appealClaim() {
+        await axios.post(
+            `/api/claims/${state.id}/appeal`,
+            {
+                description: claim.description
+            },
+            { 
+                withCredentials: true 
+            }
+        )
+        .then(function(response) {
+            alert(response.data.message);
+        })
+        .catch(function(error) {
+            console.log(error);
+            alert(error.response.data.error);
+        })
+    }
+
     document.title = "View Expense"
     return (
         <div>
@@ -16,35 +64,123 @@ export function ClaimantViewExpense() {
                 </div>
                 <hr/>
                 <div id="Status">
-                    <PendingIcon/>
+                    {
+                        claim && (
+                            claim.status === "Pending" ? <PendingIcon/> : (
+                                claim.status === "Approved" ? <AcceptedIcon/> : (
+                                    claim.status === "Denied" && <RejectedIcon/>
+                                )
+                            )
+                        )
+                    }
                     <h2>Status</h2>
-                    <p>Pending</p>
+                    <p>{claim?.status}</p>
                 </div>
                 <div id="ExpenseDetails">
                     <h2>Expense</h2>
-                    <p>Fortnite Card</p>
+                    <p>{claim?.title}</p>
 
                     <h2>Date</h2>
-                    <p>12/03/2024 - 01:48PM</p>
+                    <p>{claim?.date.replace(" 00:00:00 GMT", "")}</p>
 
                     <h2>Amount</h2>
-                    <p>$19 <i className="AI">AI detected amount to be $18.</i></p>
+                    <p>{claim?.currency+claim?.amount} <i className="AI">AI detected amount to be {claim?.currency+claim?.amount}.</i></p>
 
                     <h2>Type</h2>
-                    <p>Mental Wellbeing</p>
+                    <p>{claim?.expenseType}</p>
 
                     <h2>Description</h2>
-                    <p>I have been working very hard for this company, and have even took several overtime shifts to make money for our stakeholders, but all these hours have been taking a toll in my mental health. As I have a minor fortnite addiction, I believe that treating myself to a fortnite card will help bring my spirits back up so that I can get back to getting our company ‘that victory royale’</p>
+                    <p>{claim?.description}</p>
 
                     <h2>Evidence</h2>
-                    <a href="https://i.postimg.cc/3x97Gfsf/120320240148.jpg">120320240148.jpeg</a>
+                    { /* UNTESTED!!!!!! */
+                        claim && (
+                            claim.receipts.length > 0 ? (
+                                claim.receipts.map((evidence) => {
+                                    <a href={evidence}>Attached Evidence</a>
+                                })
+                            ) : (
+                                <p>No evidence attached to this claim.</p>
+                            )
+                        )
+                    }
                 </div>
 
-                {/* Should only appear if claim is rejected */}
-                <div id="AppealClaim">
-                    <p>Appeal this claim</p>
-                </div>
+                { /* Tested, fully functional. */
+                    claim?.status === "Denied" && (
+                        <NavLink to={"/my-expenses"} onClick={() => {appealClaim()}}>
+                            <div id="AppealClaim">
+                                <p>Appeal this claim</p>
+                            </div>
+                        </NavLink>
+                    )
+                }
             </div>
         </div>
     )
 }
+
+/* 
+    Model output from { state }:
+    {
+        "id": 22
+    }
+
+    Model reply from the server:
+    {
+        "data": {
+            "amount": "420.69",
+            "claim_id": 22,
+            "currency": "£",
+            "date": "Mon, 01 Apr 2024 00:00:00 GMT",
+            "description": "Please reinburse me this has made me broke",
+            "expenseType": "Catering",
+            "receipts": [],
+            "status": "Pending",
+            "title": "Gucci flip-flops",
+            "user_id": 35
+        },
+        "status": 200,
+        "statusText": "OK",
+        "headers": {
+            "access-control-allow-credentials": "true",
+            "access-control-allow-origin": "http://127.0.0.1:5173",
+            "connection": "close",
+            "content-length": "291",
+            "content-type": "application/json",
+            "date": "Wed, 03 Apr 2024 14:17:00 GMT",
+            "server": "Werkzeug/3.0.1 Python/3.12.2",
+            "vary": "Origin, Cookie"
+        },
+        "config": {
+            "transitional": {
+                "silentJSONParsing": true,
+                "forcedJSONParsing": true,
+                "clarifyTimeoutError": false
+            },
+            "adapter": [
+                "xhr",
+                "http"
+            ],
+            "transformRequest": [
+                null
+            ],
+            "transformResponse": [
+                null
+            ],
+            "timeout": 0,
+            "xsrfCookieName": "XSRF-TOKEN",
+            "xsrfHeaderName": "X-XSRF-TOKEN",
+            "maxContentLength": -1,
+            "maxBodyLength": -1,
+            "env": {},
+            "headers": {
+                "Accept": "application/json, text/plain, *"
+            },
+            "withCredentials": true,
+            "method": "get",
+            "url": "/api/claims/22"
+        },
+        "request": {}
+    }
+*/
