@@ -4,31 +4,27 @@ import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icon
 import FDMLogo from "../assets/FDMLogo.png";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { getApiURL } from "./api";
 
-async function logoutBackend () {
-    await axios.post(
-        // getApiURL("/auth/logout")
-        "/api/auth/logout"
-    ) 
-    .then(function(response){
-        console.log("Response:  ", response);
-    })
-    .catch(function(error){
-        console.log("Error: ", error);
-    })
+async function logoutBackend() {
+    await axios.post("/api/auth/logout")
+        .then(function (response) {
+            console.log("Response:  ", response);
+        })
+        .catch(function (error) {
+            console.log("Error: ", error);
+        })
 }
 
-function NavBar () {
-    return(
+function NavBar() {
+    return (
         <nav>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
-        </style>
-            <img src={FDMLogo} id="FDMLogo"/>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
+            </style>
+            <img src={FDMLogo} id="FDMLogo" />
 
-        {/* All this needs now is an if statement to check whether user is a line manager */}
-            <NavLink to="/LineManagerExpenses"  className="DesktopIdentifiers">
+            {/* All this needs now is an if statement to check whether user is a line manager */}
+            <NavLink to="/LineManagerExpenses" className="DesktopIdentifiers">
                 <div>
                     <p>Review Expenses</p>
                 </div>
@@ -36,7 +32,7 @@ function NavBar () {
 
             <NavLink to="/ClaimantExpenses">
                 <div>
-                    <ViewExpensesIcon/>
+                    <ViewExpensesIcon />
                     <p className="MobileIdentifiers">View</p>
                     <p className="DesktopIdentifiers">My Expenses</p>
                 </div>

@@ -13,17 +13,17 @@ export function Profile() {
         axios.get(
             // getApiURL('/users/profile'), 
             '/api/users/profile',
-            { 
-                withCredentials: true 
+            {
+                withCredentials: true
             }
         )
-        .then(function(response) {
-            // console.log(response.data)
-            setProfile(response.data)
-        })
-        .catch(function(error) {
-            console.log(error)
-        })
+            .then(function (response) {
+                // console.log(response.data)
+                setProfile(response.data)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
     }
 
     function calcVals() {
@@ -32,7 +32,7 @@ export function Profile() {
             profile.claims.map((claim) => {
                 if (claim.status == "Approved") {
                     setTotalAccepted(totalAccepted + 1);
-                    setTotalSpent((totalSpent) => {return totalSpent + parseFloat(claim.amount)});
+                    setTotalSpent((totalSpent) => { return totalSpent + parseFloat(claim.amount) });
                     // console.log(claim.amount);
                 }
             })
@@ -44,16 +44,16 @@ export function Profile() {
     }, [])
 
     useEffect(() => {
-        if (!profile){
+        if (!profile) {
             return;
         }
         calcVals();
     }, [profile])
-  
-    return(
-        
+
+    return (
+
         <div className="container">
-            <NavBar/>
+            <NavBar />
             <div className='header'>
                 <p className="head">View Profile</p>
             </div>
@@ -63,12 +63,12 @@ export function Profile() {
                         <img className='pfp' src={'http://127.0.0.1:5000/' + profile.profile_picture} alt="pfp" />
                     ) : (
                         // ensure that even with an unset profile picture, the default picture gets displayed
-                        <img className='pfp' src={'http://127.0.0.1:5000//static/profile-pictures/default.png'} alt="pfp" />  
+                        <img className='pfp' src={'http://127.0.0.1:5000//static/profile-pictures/default.png'} alt="pfp" />
                     )
                 ) : null}
                 <p className="name">
                     {profile ? (profile.first_name + " " + profile.last_name) : "-"}
-                </p>     
+                </p>
             </div>
             <div className="role">
                 {profile ? (profile.role) : "-"}
@@ -78,7 +78,7 @@ export function Profile() {
                 <p className="cont">
                     {profile ? (
                         profile.line_manager ? (profile.line_manager) : ("-")
-                        ) : "-"}
+                    ) : "-"}
                 </p>
                 <p className="title">Total Accepted Claims</p>
                 <p className="cont">
@@ -88,11 +88,11 @@ export function Profile() {
                 <p className="title">Total Budget Spent</p>
                 <p className="cont">
                     {/* £49.99 */}
-                    {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2) ) : "£0"}
+                    {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2)) : "£0"}
                 </p>
             </div>
         </div>
-        
+
 
     )
 }

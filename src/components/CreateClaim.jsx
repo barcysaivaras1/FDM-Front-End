@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import NavBar from "./NavBar";
 import '../css/CreateClaim.css';
 import { CiImageOn } from "react-icons/ci";
-import { getApiURL } from './api';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
@@ -66,7 +65,7 @@ export function CreateClaim () {
         const output_to_server = {
             title, type, currency, amount, date, description, image: image_contents_base64
         };
-        const reqClaims = new Request(getApiURL("/claims"), {
+        const reqClaims = new Request("/api/claims", {
             method: "POST",
             credentials: "include",
             headers: {
