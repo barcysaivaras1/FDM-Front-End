@@ -10,20 +10,14 @@ export function Profile() {
     const [totalSpent, setTotalSpent] = useState(0.0);
 
     function fetchProfile() {
-        axios.get(
-            // getApiURL('/users/profile'), 
-            '/api/users/profile',
-            {
-                withCredentials: true
-            }
-        )
-            .then(function (response) {
-                // console.log(response.data)
-                setProfile(response.data)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
+        axios.get('/api/users/profile', { withCredentials: true })
+        .then(function (response) {
+            console.log(response)
+            setProfile(response.data)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
     }
 
     function calcVals() {

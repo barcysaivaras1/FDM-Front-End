@@ -20,14 +20,14 @@ function login() {
             },
             { withCredentials: true }
         )
-            .then(function (response) {
-                console.log("Response:  ", response);
-                navigate("/profile");
-            })
-            .catch(function (error) {
-                console.log("Error: ", error);
-                alert("Incorrect username or password");
-            })
+        .then(function (response) {
+            console.log("Response:  ", response);
+            navigate("/profile");
+        })
+        .catch(function (error) {
+            console.log("Error: ", error);
+            alert("Incorrect username or password");
+        })
     }
 
     return (

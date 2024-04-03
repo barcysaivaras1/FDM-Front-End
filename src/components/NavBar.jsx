@@ -7,12 +7,12 @@ import axios from "axios";
 
 async function logoutBackend() {
     await axios.post("/api/auth/logout")
-        .then(function (response) {
-            console.log("Response:  ", response);
-        })
-        .catch(function (error) {
-            console.log("Error: ", error);
-        })
+    .then(function (response) {
+        console.log("Response:  ", response);
+    })
+    .catch(function (error) {
+        console.log("Error: ", error);
+    })
 }
 
 function NavBar() {
