@@ -17,11 +17,11 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' exact element={<Login />} />
-        <Route path="/ClaimantExpenses" exact element={<ClaimantExpenses />} />
-        <Route path="/ClaimantViewExpense" exact element={<ClaimantViewExpense />} />
-        <Route path="/CreateClaim" exact element={<CreateClaim />} />
-        <Route path="/Profile" exact element={<Profile />} />
-        <Route path="/LineManagerExpenses" exact element={<LineManagerExpenses />} />
+        <Route path="/my-expenses" exact element={<ClaimantExpenses />} />
+        <Route path="/view-expense" exact element={<ClaimantViewExpense />} />
+        <Route path="/create-claim" exact element={<CreateClaim />} />
+        <Route path="/profile" exact element={<Profile />} />
+        <Route path="/line-manager-expenses" exact element={<LineManagerExpenses />} />
       </Routes>
     </Router>
   )

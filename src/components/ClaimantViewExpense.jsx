@@ -11,7 +11,7 @@ export function ClaimantViewExpense() {
             <NavBar/> 
             <div id="ExpenseBody">
                 <div id="TitleBar">
-                    <NavLink to={"/ClaimantExpenses"}><BackButtonIcon/></NavLink>
+                    <NavLink to={"/my-expenses"}><BackButtonIcon/></NavLink>
                     <h1>View Expense</h1>
                 </div>
                 <hr/>

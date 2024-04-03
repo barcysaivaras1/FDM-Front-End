@@ -200,7 +200,7 @@ export function ClaimantExpenses(){
                         PendingArr.map((expense, index) => 
                         (transition_pending((style, item) =>
                         item ? <animated.div style={style}>
-                            <NavLink to="/ClaimantViewExpense">
+                            <NavLink to="/view-expense">
                                 <ExpenseBox key={index} expense={expense}/>
                             </NavLink>
                         </animated.div>
@@ -219,7 +219,7 @@ export function ClaimantExpenses(){
                         RejectedArr.map((expense, index) => 
                         (transition_rejected((style, item) =>
                         item ? <animated.div style={style}>
-                            <NavLink to="/ClaimantViewExpense">
+                            <NavLink to="/view-expense">
                                 <ExpenseBox key={index} expense={expense}/>
                             </NavLink>
                         </animated.div>
@@ -236,7 +236,7 @@ export function ClaimantExpenses(){
                     { AcceptedArr.map((expense, index) => 
                         (transition_accepted((style, item) =>
                         item ? <animated.div style={style}>
-                                <NavLink to="/ClaimantViewExpense">
+                                <NavLink to="/view-expense">
                                     <ExpenseBox key={index} expense={expense}/>
                                 </NavLink>
                             </animated.div>

@@ -24,13 +24,13 @@ function NavBar() {
             <img src={FDMLogo} id="FDMLogo" />
 
             {/* All this needs now is an if statement to check whether user is a line manager */}
-            <NavLink to="/LineManagerExpenses" className="DesktopIdentifiers">
+            <NavLink to="/line-manager-expenses" className="DesktopIdentifiers">
                 <div>
                     <p>Review Expenses</p>
                 </div>
             </NavLink>
 
-            <NavLink to="/ClaimantExpenses">
+            <NavLink to="/my-expenses">
                 <div>
                     <ViewExpensesIcon />
                     <p className="MobileIdentifiers">View</p>
@@ -38,14 +38,14 @@ function NavBar() {
                 </div>
             </NavLink>
 
-            <NavLink to="/CreateClaim">
+            <NavLink to="/create-claim">
                 <div>
                     <CreateExpenseIcon />
                     <p className="DesktopIdentifiers">Create Claim</p>
                 </div>
             </NavLink>
 
-            <NavLink to="/Profile">
+            <NavLink to="/profile">
                 <div>
                     <ProfileIcon />
                     <p>Profile</p>
