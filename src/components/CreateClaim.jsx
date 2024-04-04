@@ -3,7 +3,7 @@ import NavBar from "./NavBar";
 import '../css/CreateClaim.css';
 import { CiImageOn } from "react-icons/ci";
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
@@ -16,9 +16,11 @@ export function CreateClaim () {
     const [description, setDescription] = useState(null);
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
-
+    const navigate = useNavigate();
     
     async function handeSubmit(e) {
+       
+
         e.preventDefault();
         // stuff that will handle the inputs
 
@@ -112,6 +114,7 @@ export function CreateClaim () {
         )
         .then(function(response) {
             console.log("Success" + response);
+            navigate("/my-expenses");
         })
         .catch(function(error) {
             console.error("Failed to do/view claim. Status: " + error.response.status);
@@ -233,7 +236,7 @@ export function CreateClaim () {
                     <input type="text" 
                         className='infield titleInput' 
                         name='title'
-                        placeholder='Title' 
+                        placeholder='Title...' 
                         value={title} 
                         onChange={(e) => {setTitle(e.target.value)}}
                         required
@@ -332,10 +335,7 @@ export function CreateClaim () {
                     >
                         Clear form
                     </button>
-                    <NavLink to="/my-expenses">
-                        <button className='infield createSubmit'>Submit Claim</button>
-                    </NavLink>
-                    
+                    <button className='infield createSubmit'>Submit Claim</button>
                 </form>
             </div>
         </div>
