@@ -2,73 +2,68 @@ body{
     margin: 0;
 }
 
-.container{
-    font-family: "Kaiti SC";
-    display: grid;
-    grid-template-rows:0.75fr 1.5fr 0.25fr 1.5fr; 
-    grid-template-columns: 2fr 2fr 2fr 2fr;
-    grid-template-areas: ". header header ."
-                         ". personal personal."
-                         ". role role ."
-                         ". data data ."
-                         ". logout logout .";
-    margin: auto;
-    width: 100%;
-    height: 100%;
+.ProfileBody{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 90.176svh;
+    overflow-y: scroll;
 }
 
-.header{
-    grid-area: header;   
-    justify-self: flex-start;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.head{
-    padding-left: 30px;
-    font-weight: 800;
-    font-family: 'Kaiti SC';
-    font-style: normal;
-    font-size: 34px; 
-}
-
-.personal{
-    grid-area: personal;
+#EmployeeRole {
+    font-weight: 200;
+    color: rgba(0,0,0,0.6);
+    text-align: center;
 }
 
 .pfp{
-    width: 220px;
     height: 220px;
     border-radius: 150px;
     align-self: center;
 }
 
-.name{
+#EmployeeName{
     font-size: 30px;
     font-family: 'Kaiti SC';
-    font-weight: 800;
+    text-align: center;
 }
 
-.role{
-    grid-area: role;
-    font-size: 18px;
-    color: #5F646D;
-    font-weight: 700;
+#Stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block: auto;
+    justify-content: center;
 }
 
-.data{
-    grid-area: data;
-}
-
-.title{
+.StatsTitle{
     color:#204382;
-    font-size: 18px;
-    font-weight:600;
+    font-size: 20px;
+    font-weight:400;
     margin-top: 20px;
 }
 
-.cont{
+#LMETitle {
+    margin-top: 0;
+}
 
+.cont{
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 300;
+}
+
+
+#LogoutBtnProfile {
+    text-align: center;
+    color: white;
+    background-color: #0F1F3C;
+    padding: 2% 5%;
+    margin-bottom: 1svh;
+    border-radius: 10px;
+}
+
+@media screen and (min-width: 1024px) {
+    #LogoutBtnProfile {
+        display: none;
+    }
 }

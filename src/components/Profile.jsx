@@ -1,6 +1,7 @@
 import '../css/Profile.css'
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { NavLink } from "react-router-dom";
 import NavBar from "./NavBar";
 
 
@@ -8,6 +9,16 @@ export function Profile() {
     const [profile, setProfile] = useState()
     const [totalAccepted, setTotalAccepted] = useState(0);
     const [totalSpent, setTotalSpent] = useState(0.0);
+
+    async function logoutBackend() {
+        await axios.post("/api/auth/logout")
+        .then(function (response) {
+            console.log("Response:  ", response);
+        })
+        .catch(function (error) {
+            console.log("Error: ", error);
+        })
+    }
 
     function fetchProfile() {
         axios.get('/api/users/profile', { withCredentials: true })
@@ -47,45 +58,45 @@ export function Profile() {
     document.title = "View Profile";
 
     return (
-
-        <div className="container">
+        <div>
             <NavBar />
-            <div className='header'>
-                <p className="head">View Profile</p>
-            </div>
-            <div className="personal">
-                {profile ? (
-                    profile.profile_picture ? (
-                        <img className='pfp' src={'http://127.0.0.1:5000/' + profile.profile_picture} alt="pfp" />
-                    ) : (
-                        // ensure that even with an unset profile picture, the default picture gets displayed
-                        <img className='pfp' src={'http://127.0.0.1:5000//static/profile-pictures/default.png'} alt="pfp" />
-                    )
-                ) : null}
-                <p className="name">
-                    {profile ? (profile.first_name + " " + profile.last_name) : "-"}
-                </p>
-            </div>
-            <div className="role">
-                {profile ? (profile.role) : "-"}
-            </div>
-            <div className="data">
-                <p className="title">Line Manager</p>
-                <p className="cont">
+            <div className="ProfileBody">
+                <h1>View Profile</h1>
+                <div>
                     {profile ? (
-                        profile.line_manager ? (profile.line_manager) : ("-")
-                    ) : "-"}
-                </p>
-                <p className="title">Total Accepted Claims</p>
-                <p className="cont">
-                    {/* 1  */}
-                    {(totalAccepted !== 0) ? (totalAccepted) : "0"}
-                </p>
-                <p className="title">Total Budget Spent</p>
-                <p className="cont">
-                    {/* £49.99 */}
-                    {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2)) : "£0"}
-                </p>
+                        profile.profile_picture ? (
+                            <img className='pfp' src={'http://127.0.0.1:5000/' + profile.profile_picture} alt="pfp" />
+                        ) : (
+                            // ensure that even with an unset profile picture, the default picture gets displayed
+                            <img className='pfp' src={'http://127.0.0.1:5000//static/profile-pictures/default.png'} alt="pfp" />
+                        )
+                    ) : null}
+                    <p id="EmployeeName">
+                        {profile ? (profile.first_name + " " + profile.last_name) : "-"}
+                    </p>
+                    <p id='EmployeeRole'>{profile ? (profile.role) : "-"}</p>
+                </div>
+                <div id='Stats'>
+                    <p className="StatsTitle" id='LMETitle'>Line Manager</p>
+                    <p className="cont">
+                        {profile ? (
+                            profile.line_manager ? (profile.line_manager) : ("-")
+                        ) : "-"}
+                    </p>
+                    <p className="StatsTitle">Total Accepted Claims</p>
+                    <p className="cont">
+                        {/* 1  */}
+                        {(totalAccepted !== 0) ? (totalAccepted) : "0"}
+                    </p>
+                    <p className="StatsTitle">Total Budget Spent</p>
+                    <p className="cont">
+                        {/* £49.99 */}
+                        {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2)) : "£0"}
+                    </p>
+                </div>
+                <NavLink to="/" id="LogoutBtnProfile" onClick={() => { logoutBackend() }}>
+                    <p>Logout</p>
+                </NavLink>
             </div>
         </div>
 

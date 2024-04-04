@@ -2,6 +2,7 @@ body{
     margin: 0;
 }
 
+/* Overflow needed */
 .createContainer{
     font-family: "Inter";
     display: flex;
@@ -9,8 +10,9 @@ body{
     gap: 1svh;
     align-items: center;
     margin: auto;
+    overflow-y: scroll;
 
-    height: 90svh;
+    height: 90.176svh;
     justify-content: center;
     
     width: 100%;
