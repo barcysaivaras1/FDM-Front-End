@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import '../css/CreateClaim.css';
 import { CiImageOn } from "react-icons/ci";
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
@@ -24,7 +25,7 @@ export function CreateClaim () {
 
         // for now it will just alarm the user with the
         // inputted data for debugging puproses
-        alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
+        // alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
         console.log(image);
         const data = localStorage.getItem(ls_key);
         console.log(`localstorage data: `, {data});
@@ -331,7 +332,10 @@ export function CreateClaim () {
                     >
                         Clear form
                     </button>
-                    <button className='infield createSubmit'>Submit Claim</button>
+                    <NavLink to="/my-expenses">
+                        <button className='infield createSubmit'>Submit Claim</button>
+                    </NavLink>
+                    
                 </form>
             </div>
         </div>
