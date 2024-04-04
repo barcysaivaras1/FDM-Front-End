@@ -26,7 +26,16 @@
 .option {
     width: auto;
     height: auto;
-    border: 1px solid black;
+    border: none;
+    background-color: transparent;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 2vw;
+    color : black;
+}
+
+.optionActive {
+    box-shadow: 0 4px 4px rgba(255, 255, 255, 0.25);
     padding-left: 10px;
     padding-right: 10px;
     margin-right: 2vw;
@@ -39,11 +48,12 @@
     display: flex;
     flex-direction: row;
     border-bottom: 3px solid grey;
+    margin-right: 20px;
 }
 
 .columnTitles p{
-    margin-right: 2vw;
     color: #00008B;
+    flex-basis:100%;
 }
 
 .scrollboxExpenses{
@@ -55,11 +65,11 @@
 .claimInfo{
     display: flex;
     flex-direction: row;
-    text-align: justify;
+    padding-left: 0;
 }
 
 .claimInfo li{
     display: block;
+    flex-basis: 100%;
     list-style-type: none;
-    padding-right: 2vw;
 }

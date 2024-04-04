@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import "../css/LineManagerExpenses.css"
 import NavBar from "./NavBar";
+import { Link } from "react-router-dom";
 
 export function LineManagerExpenses() {
+    const updateDisplayType = (value) => {
+        setDisplayType({ ...displayType, state:value});
+    };
+
     const [displayType, setDisplayType] = useState({state:"All Expenses"});
-
-    const updateDisplayTypeAllExpenses = () => {
-        setDisplayType({ ...displayType, state:"All Expenses"});
-    };
-
-    const updateDisplayTypeToReview = () => {
-        setDisplayType({...displayType, state:"To Review"})
-    };
-
-    const updateDisplayTypeDenied = () => {
-        setDisplayType({...displayType, state:"Denied"})
-    };
 
     // test datas
     const exampleExpense = {type:"Mental Wellbeing", date_time:"2024/2/21 - 1:10PM",currency_type:"£",amount:"19",title:"Fortnite Card",state:"Accepted"}
@@ -32,11 +25,7 @@ export function LineManagerExpenses() {
             <div className='LMEBody'>
                 <h1 className = 'title'>Expenses</h1>
 
-                <div className = 'optionsList'>
-                    <button onClick = {updateDisplayTypeToReview} className="option">To Review</button>
-                    <button onClick = {updateDisplayTypeAllExpenses} className="option">All Expenses</button>
-                    <button onClick = {updateDisplayTypeDenied} className="option">Denied Claims</button>  
-                </div>
+                <ToggleButton displayType = {displayType} setDisplayType = {setDisplayType} updateDisplayType = {updateDisplayType}/>
 
                 <div className = "columnTitles">
                     <p>Date</p> <p>Expense</p> <p>Amount</p> <p>Type</p> <p>State</p>
@@ -46,6 +35,50 @@ export function LineManagerExpenses() {
             </div>
         </div>
     )
+}
+
+const ToggleButton = (props) =>{
+    console.log(props.displayType.state)
+    if (props.displayType.state == "All Expenses"){
+        return(
+            <div className = 'optionsList'>
+                <button onClick = {() => props.updateDisplayType("To Review")} className="option">To Review</button>
+                <button onClick = {() => props.updateDisplayType("All Expenses")} className="optionActive">All Expenses</button>
+                <button onClick = {() => props.updateDisplayType("Denied")} className="option">Denied Claims</button>  
+                <button onClick = {() => props.updateDisplayType("Accepted")} className="option">Accepted</button>
+            </div>
+        )
+    }
+    if (props.displayType.state == "To Review"){
+        return(
+            <div className = 'optionsList'>
+                <button onClick = {() => props.updateDisplayType("To Review")} className="optionActive">To Review</button>
+                <button onClick = {() => props.updateDisplayType("All Expenses")} className="option">All Expenses</button>
+                <button onClick = {() => props.updateDisplayType("Denied")} className="option">Denied Claims</button>
+                <button onClick = {() => props.updateDisplayType("Accepted")} className="option">Accepted</button>
+            </div>
+        )
+    }
+    if (props.displayType.state == "Denied"){
+        return(
+            <div className = 'optionsList'>
+                <button onClick = {() => props.updateDisplayType("To Review")} className="option">To Review</button>
+                <button onClick = {() => props.updateDisplayType("All Expenses")} className="option">All Expenses</button>
+                <button onClick = {() => props.updateDisplayType("Denied")} className="optionActive">Denied Claims</button>  
+                <button onClick = {() => props.updateDisplayType("Accepted")} className="option">Accepted</button>
+            </div>
+        )
+    }
+    if (props.displayType.state == "Accepted"){
+        return(
+            <div className = 'optionsList'>
+                <button onClick = {() => props.updateDisplayType("To Review")} className="option">To Review</button>
+                <button onClick = {() => props.updateDisplayType("All Expenses")} className="option">All Expenses</button>
+                <button onClick = {() => props.updateDisplayType("Denied")} className="option">Denied Claims</button>  
+                <button onClick = {() => props.updateDisplayType("Accepted")} className="optionActive">Accepted</button>
+            </div>
+        )
+    }
 }
 
 const Expense = (props) =>{
@@ -65,7 +98,9 @@ const ExpenseList = (props) =>{
         return Array.from(
             { length: props.listOfClaims.length },
             (_, i) => (
-                <Expense expense = {props.listOfClaims[i]} />
+                <Link to = "/">
+                    <Expense expense = {props.listOfClaims[i]} />
+                </Link>
             )
         );
     }
@@ -81,7 +116,9 @@ const ExpenseList = (props) =>{
         return Array.from(
             { length: filteredList.length },
             (_, i) => (
-                <Expense expense = {filteredList[i]} />
+                <Link>
+                    <Expense expense = {filteredList[i]} />
+                </Link>
             )
         );
     }
@@ -97,7 +134,27 @@ const ExpenseList = (props) =>{
         return Array.from(
             { length: filteredList.length },
             (_, i) => (
-                <Expense expense = {filteredList[i]} />
+                <Link to ="/">
+                    <Expense expense = {filteredList[i]} />
+                </Link>
+            )
+        );
+    }
+
+    if (props.displayType.state == "Accepted"){
+        let filteredList = [];
+        props.listOfClaims.map(element=>{
+            if(element.state == "Accepted" ){
+              filteredList.push(element);
+            }
+        })
+
+        return Array.from(
+            { length: filteredList.length },
+            (_, i) => (
+                <Link to ="/">
+                    <Expense expense = {filteredList[i]} />
+                </Link>
             )
         );
     }
