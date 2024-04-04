@@ -256,9 +256,9 @@ export function CreateClaim () {
                             required
                         >
                             <option value="" disabled selected hidden>Currency</option>
-                            <option value="GBP">£</option>
-                            <option value="USD">$</option>
-                            <option value="EUR">€</option>
+                            <option value="£">£</option>
+                            <option value="$">$</option>
+                            <option value="€">€</option>
                         </select>
                         <input type="number" 
                             className='infield amountInput' 
