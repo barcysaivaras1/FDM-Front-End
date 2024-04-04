@@ -201,6 +201,22 @@ export function ClaimantExpenses(){
             RejectedArr = filterCurrencyArray(RejectedArr,"€")
             PendingArr = filterCurrencyArray(PendingArr,"€")
         }
+
+        if(month.Month){
+            AcceptedArr = filterMonthArray(AcceptedArr,1)
+            RejectedArr = filterMonthArray(RejectedArr,1)
+            PendingArr = filterMonthArray(PendingArr,1)
+        }
+        else if(month.ThreeMonth){
+            AcceptedArr = filterMonthArray(AcceptedArr,3)
+            RejectedArr = filterMonthArray(RejectedArr,3)
+            PendingArr = filterMonthArray(PendingArr,3)
+        }
+        else if(month.SixMonth){
+            AcceptedArr = filterMonthArray(AcceptedArr,6)
+            RejectedArr = filterMonthArray(RejectedArr,6)
+            PendingArr = filterMonthArray(PendingArr,6)
+        }
     }
 
     function filterAmountArray(arr,amount_to_filter_by){
@@ -222,6 +238,22 @@ export function ClaimantExpenses(){
             return newArr;
     }
 
+    function filterMonthArray(arr,month_to_filter_by){
+        const newArr = []
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        const d = new Date();
+        let month = d.getMonth();
+
+        let month_num = months.indexOf(month.substr(0,3))
+        let expense_month_num = months.indexOf(arr[i].date.substr(8,3))
+
+        for(var i=0;i<arr.length;i++){
+            if(Math.abs(expense_month_num-month_num) <= month_to_filter_by){
+                newArr.push(arr[i])
+            }
+        }
+        return newArr;
+    }
     return(
         <div>
         <div className='ViewExpensesPage'>
