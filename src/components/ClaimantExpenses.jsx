@@ -157,6 +157,10 @@ export function ClaimantExpenses(){
         AcceptedArr = TempAcceptedArr
         RejectedArr = TempRejectedArr
         PendingArr = TempPendingArr
+        TempPendingArr = []
+        TempAcceptedArr = []
+        TempRejectedArr = []
+        console.log(AcceptedArr)
     }
     //This will apply filters to the expenses
     const handleApplyFilters = (month,amountF,currency) => {
@@ -164,10 +168,11 @@ export function ClaimantExpenses(){
         handleCollapse("filter")
 
         //Saving what the arrays were pre-filter
-        TempAcceptedArr = AcceptedArr
-        TempRejectedArr = RejectedArr
-        TempPendingArr = PendingArr
-
+        if(TempAcceptedArr.length === 0 && TempAcceptedArr.length === 0 && TempRejectedArr.length === 0){
+            TempAcceptedArr = AcceptedArr
+            TempRejectedArr = RejectedArr
+            TempPendingArr = PendingArr
+        }
         //Filtering based on amount
         if(amountF.Ten){
             AcceptedArr = filterAmountArray(AcceptedArr,10)
@@ -231,7 +236,7 @@ export function ClaimantExpenses(){
     function filterCurrencyArray(arr,currency_to_filter_by){
         const newArr = []
             for(var i=0;i<arr.length;i++){
-                if(arr[i].currency_type === currency_to_filter_by){
+                if(arr[i].currency === currency_to_filter_by){
                     newArr.push(arr[i])
                 }
             }
@@ -243,12 +248,17 @@ export function ClaimantExpenses(){
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         const d = new Date();
         let month = d.getMonth();
+        let year = d.getFullYear();
+       
 
-        let month_num = months.indexOf(month.substr(0,3))
-        let expense_month_num = months.indexOf(arr[i].date.substr(8,3))
 
         for(var i=0;i<arr.length;i++){
-            if(Math.abs(expense_month_num-month_num) <= month_to_filter_by){
+            let expense_year = parseInt(arr[i].date.substr(12,4))
+            let expense_month_num = months.indexOf(arr[i].date.substr(8,3))
+            for(var j=0;j<(year-expense_year);j++){
+                expense_month_num = expense_month_num-12
+            }
+            if(Math.abs(expense_month_num-month) <= month_to_filter_by){
                 newArr.push(arr[i])
             }
         }
