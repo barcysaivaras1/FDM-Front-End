@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/LineManagerExpenses.css"
 import NavBar from "./NavBar";
 import axios from "axios";
@@ -6,18 +6,24 @@ import { Link } from "react-router-dom";
 
 export function LineManagerExpenses() {
     const [expenses, setExpenses] = useState([]);
-    let bigList = undefined;
-
-    axios.get('/api/claims/managed-by', { withCredentials: true })
+    let [bigList, setBigList] = useState([]);
+    
+    async function fetchClaims() {
+        await axios.get('/api/claims/managed-by', { withCredentials: true })
         .then(function (response) {
             console.log(response);
             setExpenses(response.data.claims);
-            bigList = response.json();
+            setBigList(response.data.claims);
             console.log({bigList})
         })
         .catch(function (error) {
             console.log(error);
         })
+    }
+    
+    useEffect(() => {
+        fetchClaims();
+    }, [])
 
     const updateDisplayType = (value) => {
         setDisplayType({ ...displayType, state:value});
@@ -44,7 +50,6 @@ export function LineManagerExpenses() {
 }
 
 const ToggleButton = (props) =>{
-    console.log(props.displayType.state)
     if (props.displayType.state == "All Expenses"){
         return(
             <div className = 'optionsList'>
@@ -114,7 +119,7 @@ const ExpenseList = (props) =>{
     if (props.displayType.state == "To Review"){
         let filteredList = [];
         props.listOfClaims.map(element=>{
-            if(element.state == "Pending" ){
+            if(element.status == "Pending" ){
               filteredList.push(element);
             }
         })
@@ -132,7 +137,7 @@ const ExpenseList = (props) =>{
     if (props.displayType.state == "Denied"){
         let filteredList = [];
         props.listOfClaims.map(element=>{
-            if(element.state == "Denied" ){
+            if(element.status == "Denied" ){
               filteredList.push(element);
             }
         })
@@ -150,7 +155,7 @@ const ExpenseList = (props) =>{
     if (props.displayType.state == "Accepted"){
         let filteredList = [];
         props.listOfClaims.map(element=>{
-            if(element.state == "Accepted" ){
+            if(element.status == "Approved" ){
               filteredList.push(element);
             }
         })
