@@ -44,6 +44,8 @@ export function Profile() {
         calcVals();
     }, [profile])
 
+    document.title = "View Profile";
+
     return (
 
         <div className="container">

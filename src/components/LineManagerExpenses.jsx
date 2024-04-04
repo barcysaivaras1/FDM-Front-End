@@ -26,6 +26,8 @@ export function LineManagerExpenses() {
         bigList.push(exampleExpense);
     }
 
+    document.title = "Review expenses";
+
     return (
         <div className='LMEContainer'>
             <NavBar />
