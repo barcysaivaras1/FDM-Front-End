@@ -6,11 +6,14 @@ import { Link } from "react-router-dom";
 
 export function LineManagerExpenses() {
     const [expenses, setExpenses] = useState([]);
+    let bigList = undefined;
 
     axios.get('/api/claims/managed-by', { withCredentials: true })
         .then(function (response) {
             console.log(response);
             setExpenses(response.data.claims);
+            bigList = response.json();
+            console.log({bigList})
         })
         .catch(function (error) {
             console.log(error);
@@ -21,15 +24,6 @@ export function LineManagerExpenses() {
     };
 
     const [displayType, setDisplayType] = useState({state:"All Expenses"});
-
-    // test datas
-    const exampleExpense = {type:"Mental Wellbeing", date_time:"2024/2/21 - 1:10PM",currency_type:"£",amount:"19",title:"Fortnite Card",state:"Accepted"}
-    const exampleExpense2 = {type:"Productivity",date_time:"2024/2/21 - 2:20PM",currency_type:"$",amount:"3499.99",title:"Apple Vision Pro",state:"Denied"}
-    const exampleExpense3 = {type:"Gamer",date_time:"2024/2/21 - 3:30PM",currency_type:"Robux",amount:"399",title:"Cool Sunglasses",state:"Pending"}
-    const bigList = [];
-    for (let i = 0; i < 100; i++) {
-        bigList.push(exampleExpense, exampleExpense2, exampleExpense3);
-    }
 
     return (
         <div className = 'LMEContainer'>
@@ -96,11 +90,11 @@ const ToggleButton = (props) =>{
 const Expense = (props) =>{
     return(
         <ul className = 'claimInfo'>
-            <li>{props.expense.date_time}</li>
+            <li>{props.expense.date}</li>
             <li>{props.expense.title}</li>
-            <li>{props.expense.currency_type+props.expense.amount}</li>
-            <li>{props.expense.type}</li>
-            <li>{props.expense.state}</li>
+            <li>{props.expense.currency+props.expense.amount}</li>
+            <li>{props.expense.expensetype}</li>
+            <li>{props.expense.status}</li>
         </ul>
     )
 }
