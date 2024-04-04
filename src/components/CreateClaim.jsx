@@ -222,7 +222,7 @@ export function CreateClaim () {
     }, [title, type, currency, amount, date, description, image]);
 
 
-    document.title = "Create new claim"
+    document.title = "Create New Claim"
     return(
         <div>
             <NavBar />
@@ -232,7 +232,7 @@ export function CreateClaim () {
                     <input type="text" 
                         className='infield titleInput' 
                         name='title'
-                        placeholder='Title...' 
+                        placeholder='Title' 
                         value={title} 
                         onChange={(e) => {setTitle(e.target.value)}}
                         required
@@ -316,7 +316,7 @@ export function CreateClaim () {
                             </>
                         )}
                     </div>
-                    <b 
+                    <button 
                         className='infield clearSubmit'
                         onClick={() => {
                             setTitle("");
@@ -330,7 +330,7 @@ export function CreateClaim () {
                         }}
                     >
                         Clear form
-                    </b>
+                    </button>
                     <button className='infield createSubmit'>Submit Claim</button>
                 </form>
             </div>

@@ -3,53 +3,51 @@ body{
 }
 
 .createContainer{
-    font-family: "Kaiti SC";
-
+    font-family: "Inter";
     display: flex;
     flex-direction: column;
     gap: 1svh;
     align-items: center;
     margin: auto;
-    /* margin-top: 20svh; */
 
-    height: 100svh;
+    height: 90svh;
     justify-content: center;
-
+    
     width: 100%;
-    max-width: 1024px; /* ensures that the form stays in a "mobile" config*/
 }
 
 .createLegend {
-    color: #0F1F3C;
-    font-size: 34px;
+    font-family: "Kaiti SC";
+    font-size: 2em;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-bottom: 1.08svh;
     text-align: center;
+    margin-right: auto;
+    margin-left: 5vw;
+    margin-top: 3.025svh;
 }
 
 .createForm {
-    width: 65.975%;
+    width: 89%;
     display: flex;
     flex-direction: column;
-    gap: 1svh;
+    gap: .8svh;
 }
 
 .infield {
-    font-family: "Kaiti SC";
     width: 100%;
     box-sizing: border-box;
     border: 1px solid rgba(0, 0, 0, 0.20);
     border-radius: 2px;
     font-size: 14px;
+    height: 44px;
 
     background-color: #E4E5E8;
     padding-left: 2vw;
 }
 
 .infield::placeholder, option[value="placeholder"]{
-    color: #000;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -62,15 +60,17 @@ body{
 }
 
 .descriptionInput {
+    font-family: "Inter";
     resize: none;
     height: 20svh;
+    padding-top: 1vh;
 }
 
 .proofArea {
     height: 30svh;
     max-height: 20svh;
-    border: 3px dashed #0F1F3C;
-    border-radius: 20px;
+    border: 3px dashed rgba(15, 31, 60, 0.4);
+    border-radius: 10px;
 
     display: flex;
     flex-direction: column;
@@ -107,51 +107,60 @@ body{
     padding-left: 10px;
     padding-right: 10px;
     border: 1px solid rgba(0, 0, 0, 0.20);
-    background: var(--Background-Dark, #E4E5E8);
-    font-weight: bolder;
+    background: #E4E5E8;
 }
 
 .clearSubmit {
     border-radius: 2px;
     border: 1px solid rgba(255, 255, 255, 0.20);
+    background: linear-gradient(0deg, hsl(225, 8%, 80%), 80%, #E4E5E8);
+    background-size: 400% 400%;
+
 
     color: black;
+}
+
+
+.createSubmit, .clearSubmit {
     text-align: center;
-    font-family: "Kaiti SC";
     font-size: 15px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
 
     width: 100%;
-    height: 25px;
+    height: 64px;
     cursor: pointer;
-}
 
+    transition: .3s;
+}
 
 .createSubmit {
-    border-radius: 2px;
-    border: 1px solid rgba(255, 255, 255, 0.20);
-    background: #0F1F3C;
-
     color: #FFF;
-    text-align: center;
-    font-family: "Kaiti SC";
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-
-    width: 100%;
-    height: 25px;
-    cursor: pointer;
-
     background: linear-gradient(0deg, #0f1f3c, 80%, #204382);
     background-size: 400% 400%;
-    transition: .3s;
+
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    
 }
 
-.createSubmit:hover {
-    transition: .3s;
+.createSubmit:hover, .clearSubmit:hover {
     background-position:50% 20%
+}
+
+
+
+
+/* laptop view of the navbar */
+@media screen and (min-width: 1024px) {
+    .createContainer {
+        padding-inline: 10vw;
+        width: 90vw;
+        height: 100svh;
+    }
+
+    .infield {
+        padding-left: 1vw;
+    }
 }
