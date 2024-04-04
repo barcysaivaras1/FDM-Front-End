@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import NavBar from "./NavBar";
 import '../css/CreateClaim.css';
 import { CiImageOn } from "react-icons/ci";
+import axios from 'axios';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
@@ -61,34 +62,59 @@ export function CreateClaim () {
         // }
 
 
-        const image_contents_base64 = "something";
-        const output_to_server = {
-            title, type, currency, amount, date, description, image: image_contents_base64
-        };
-        const reqClaims = new Request("/api/claims", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                'Accept': 'application/json',
-                "Content-Type": "application/json"
+        // const image_contents_base64 = "something";
+        // const output_to_server = {
+        //     title, type, currency, amount, date, description, image: image_contents_base64
+        // };
+        // const reqClaims = new Request("/api/claims", {
+        //     method: "POST",
+        //     // credentials: "include",
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(output_to_server),
+        // });
+        // console.info({reqClaims});
+        // /**
+        //  * @type {Response}
+        //  */
+        // console.log("sending query")
+        // const response = await fetch(reqClaims);
+        // console.log("query sent")
+        // try {
+        //     console.log("response recieved")
+        //     if (response.status === 200) {
+        //         const json = await response.json();
+        //         console.info(json);
+        //     } else {
+        //         console.error(`Failed to do/view claim. Status: ${response.status}`);
+        //     }
+        // } catch (e) {
+        //     console.error(e);
+        // }
+
+        await axios.post(
+            '/api/claims/',
+            {
+                title: title,
+                amount: amount,
+                currency: currency,
+                type: type,
+                date: date,
+                description: description,
+                image: image
             },
-            body: JSON.stringify(output_to_server),
-        });
-        console.info({reqClaims});
-        /**
-         * @type {Response}
-         */
-        const response = await fetch(reqClaims);
-        try {
-            if (response.status === 200) {
-                const json = await response.json();
-                console.info(json);
-            } else {
-                console.error(`Failed to do/view claim. Status: ${response.status}`);
+            { 
+                withCredentials: true 
             }
-        } catch (e) {
-            console.error(e);
-        }
+        )
+        .then(function(response) {
+            console.log("Success" + response);
+        })
+        .catch(function(error) {
+            console.error("Failed to do/view claim. Status: " + error.response.status);
+        })
 
 
         // const logoutResponse = await fetch(getApiURL("/auth/logout"), {
@@ -108,7 +134,7 @@ export function CreateClaim () {
 
 
 
-        return response;
+        // return response;
     }
 
     /**
