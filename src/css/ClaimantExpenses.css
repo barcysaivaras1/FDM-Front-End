@@ -73,6 +73,11 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.2);
     margin-top: 1em;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.claim-box:hover {
+    background-color: hsla(206, 22%, 81%, 0.23);
 }
  
 .claim-info{
