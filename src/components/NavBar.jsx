@@ -1,4 +1,3 @@
-import React from "react";
 import '../css/navbar.css';
 import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icons";
 import FDMLogo from "../assets/FDMLogo.png";

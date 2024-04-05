@@ -1,5 +1,5 @@
 import '../css/Profile.css'
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import { NavLink } from "react-router-dom";
 import NavBar from "./NavBar";
@@ -45,6 +45,7 @@ export function Profile() {
     }
 
     useEffect(() => {
+        document.title = 'Your Profile';
         fetchProfile();
     }, [])
 
@@ -54,8 +55,6 @@ export function Profile() {
         }
         calcVals();
     }, [profile])
-
-    document.title = "View Profile";
 
     return (
         <div>

@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import '../css/Login.css'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function login() {
+function Login() {
     const [un, setUn] = useState("");
     const [pw, setPw] = useState("");
     const navigate = useNavigate();
@@ -30,6 +30,11 @@ function login() {
         })
     }
 
+    useEffect(() => {
+      document.title = 'Login';
+    }, [])
+    
+
     return (
         <div className='loginContainer'>
             <legend className='loginLegend'>Login</legend>
@@ -51,7 +56,7 @@ function login() {
     )
 }
 
-export default login;
+export default Login;
 
 
 

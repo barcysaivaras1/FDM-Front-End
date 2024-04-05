@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../css/LineManagerExpenses.css"
 import NavBar from "./NavBar";
 import axios from "axios";
@@ -22,6 +22,7 @@ export function LineManagerExpenses() {
     }
     
     useEffect(() => {
+        document.title = 'Claims To Review';
         fetchClaims();
     }, [])
 

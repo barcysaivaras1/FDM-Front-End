@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../css/ClaimantViewExpense.css"
 import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
@@ -26,6 +26,8 @@ export function ClaimantViewExpense() {
     }
 
     useEffect(() => {
+        document.title = "View Expense";
+        
         if (claim === undefined) {
             fetchClaim();
         }
@@ -53,7 +55,6 @@ export function ClaimantViewExpense() {
         })
     }
 
-    document.title = "View Expense"
     return (
         <div>
             <NavBar/> 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import NavBar from "./NavBar";
 import '../css/CreateClaim.css';
 import { CiImageOn } from "react-icons/ci";
@@ -225,8 +225,10 @@ export function CreateClaim () {
 
     }, [title, type, currency, amount, date, description, image]);
 
+    useEffect(() => {
+        document.title = "Create New Claim";
+    }, [])
 
-    document.title = "Create New Claim"
     return(
         <div>
             <NavBar />

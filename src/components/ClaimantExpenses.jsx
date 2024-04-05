@@ -1,6 +1,6 @@
 import '../css/ClaimantExpenses.css'
 import { RxCrossCircled } from "react-icons/rx";
-import {React, useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
 import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon } from '../assets/Icons';
@@ -64,6 +64,8 @@ export function ClaimantExpenses(){
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        document.title = "Your Expenses";
+        
         if (AcceptedArr.length !== 0 || PendingArr.length !== 0 || RejectedArr.length !== 0) {
             return
         }
@@ -71,8 +73,6 @@ export function ClaimantExpenses(){
             fetchClaims(setIsLoading);
         }
     }, [])
-
-    document.title = "My Expenses"
 
     //Example expense object, This is used to display
     // const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:151,desc:"Fortnite Card",state:"Accepted"})
