@@ -3,18 +3,22 @@ import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icon
 import FDMLogo from "../assets/FDMLogo.png";
 import { NavLink } from "react-router-dom";
 import httpClient from '../httpClient';
-
-async function logoutBackend() {
-    await httpClient.post("/api/auth/logout")
-    .then(function (response) {
-        console.log("Response:  ", response);
-    })
-    .catch(function (error) {
-        console.log("Error: ", error);
-    })
-}
+import useAuth from '../hooks/useAuth';
 
 function NavBar() {
+    const { setAuth } = useAuth();
+
+    async function logoutBackend() {
+        await httpClient.post("/api/auth/logout")
+        .then(function (response) {
+            setAuth({})
+            console.log("Response:  ", response);
+        })
+        .catch(function (error) {
+            console.log("Error: ", error);
+        })
+    }
+
     return (
         <nav>
             <style>

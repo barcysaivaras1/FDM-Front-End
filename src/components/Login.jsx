@@ -3,11 +3,13 @@ import '../css/Login.css'
 import { useNavigate } from 'react-router-dom';
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
+import useAuth from '../hooks/useAuth';
 
 function Login() {
     const [un, setUn] = useState("");
     const [pw, setPw] = useState("");
     const navigate = useNavigate();
+    const { setAuth } = useAuth();
 
     document.title = "Login"
 
@@ -21,6 +23,7 @@ function Login() {
         )
         .then(function (response) {
             console.log("Response:  ", response);
+            setAuth({ user: 'armin' })
             navigate("/profile");
         })
         .catch(function (error) {
