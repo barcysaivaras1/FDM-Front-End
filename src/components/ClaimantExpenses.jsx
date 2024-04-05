@@ -61,13 +61,15 @@ export function ClaimantExpenses(){
 
     useEffect(() => {
         document.title = "Your Expenses";
+
+        // forces the Arrays to empty on every render, 
+        // so we end up with the correct amount of claims
+        AcceptedArr = []
+        PendingArr = []
+        RejectedArr = []
+        DraftArr = []
         
-        if (AcceptedArr.length !== 0 || PendingArr.length !== 0 || RejectedArr.length !== 0) {
-            return
-        }
-        else {
-            fetchClaims(setIsLoading);
-        }
+        fetchClaims(setIsLoading);
     }, [])
 
     //Example expense object, This is used to display
