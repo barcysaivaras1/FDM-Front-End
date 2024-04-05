@@ -1,8 +1,8 @@
 import '../css/Profile.css'
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import { NavLink } from "react-router-dom";
 import NavBar from "./NavBar";
+import httpClient from '../httpClient';
 
 
 export function Profile() {
@@ -11,7 +11,7 @@ export function Profile() {
     const [totalSpent, setTotalSpent] = useState(0.0);
 
     async function logoutBackend() {
-        await axios.post("/api/auth/logout")
+        await httpClient.post("/api/auth/logout")
         .then(function (response) {
             console.log("Response:  ", response);
         })
@@ -21,7 +21,7 @@ export function Profile() {
     }
 
     function fetchProfile() {
-        axios.get('/api/users/profile', { withCredentials: true })
+        httpClient.get('/api/users/profile')
         .then(function (response) {
             console.log(response)
             setProfile(response.data)

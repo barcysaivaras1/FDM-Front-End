@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import NavBar from "./NavBar";
 import '../css/CreateClaim.css';
 import { CiImageOn } from "react-icons/ci";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import httpClient from '../httpClient';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
@@ -97,9 +97,7 @@ export function CreateClaim () {
         //     console.error(e);
         // }
 
-        await axios.post(
-            '/api/claims/',
-            {
+        await httpClient.post('/api/claims/', {
                 title: title,
                 amount: amount,
                 currency: currency,
@@ -108,9 +106,6 @@ export function CreateClaim () {
                 description: description,
                 image: image
             },
-            { 
-                withCredentials: true 
-            }
         )
         .then(function(response) {
             console.log("Success" + response);

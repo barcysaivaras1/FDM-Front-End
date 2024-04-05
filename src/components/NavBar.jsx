@@ -2,10 +2,10 @@ import '../css/navbar.css';
 import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icons";
 import FDMLogo from "../assets/FDMLogo.png";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
+import httpClient from '../httpClient';
 
 async function logoutBackend() {
-    await axios.post("/api/auth/logout")
+    await httpClient.post("/api/auth/logout")
     .then(function (response) {
         console.log("Response:  ", response);
     })

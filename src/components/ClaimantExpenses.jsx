@@ -5,7 +5,7 @@ import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
 import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon } from '../assets/Icons';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import httpClient from '../httpClient';
 
 //Maybe we would retrieve each expense on the server and store them in specific arrays?
 var AcceptedArr = []
@@ -14,12 +14,7 @@ var RejectedArr = []
 var DraftArr = []
 
 async function fetchClaims (setIsLoading) {
-    await axios.get(
-        '/api/claims/',
-        { 
-            withCredentials: true 
-        }
-    )
+    await httpClient.get('/api/claims/')
     .then(function(response) {
         setIsLoading(true);
         console.log(response.data);

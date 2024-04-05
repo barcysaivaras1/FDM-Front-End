@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import "../css/LineManagerExpenses.css"
 import NavBar from "./NavBar";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import httpClient from "../httpClient";
 
 export function LineManagerExpenses() {
     const [expenses, setExpenses] = useState([]);
     let [bigList, setBigList] = useState([]);
     
     async function fetchClaims() {
-        await axios.get('/api/claims/managed-by', { withCredentials: true })
+        await httpClient.get('/api/claims/managed-by')
         .then(function (response) {
             console.log(response);
             setExpenses(response.data.claims);

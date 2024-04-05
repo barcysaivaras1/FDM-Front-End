@@ -3,7 +3,7 @@ import "../css/ClaimantViewExpense.css"
 import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
 import { NavLink, useLocation } from "react-router-dom";
-import axios from "axios";
+import httpClient from "../httpClient";
 
 export function ClaimantViewExpense() {
     let { state } = useLocation();
@@ -11,12 +11,7 @@ export function ClaimantViewExpense() {
     const [claim, setClaim] = useState();
 
     async function fetchClaim() {
-        await axios.get(
-            `/api/claims/${state.id}`,
-            { 
-                withCredentials: true 
-            }
-        )
+        await httpClient.get(`/api/claims/${state.id}`)
         .then(function(response) {
             setClaim(response.data);
         })
@@ -37,13 +32,9 @@ export function ClaimantViewExpense() {
     }, [])
 
     async function appealClaim() {
-        await axios.post(
-            `/api/claims/${state.id}/appeal`,
+        await httpClient.post(`/api/claims/${state.id}/appeal`,
             {
                 description: claim.description
-            },
-            { 
-                withCredentials: true 
             }
         )
         .then(function(response) {

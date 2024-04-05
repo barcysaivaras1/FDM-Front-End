@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import '../css/Login.css'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import httpClient from '../httpClient';
 
 function Login() {
     const [un, setUn] = useState("");
@@ -13,12 +13,10 @@ function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        await axios.post("/api/auth/login",
-            {
+        await httpClient.post("/api/auth/login", {
                 username: un,
                 password: pw
             },
-            { withCredentials: true }
         )
         .then(function (response) {
             console.log("Response:  ", response);
