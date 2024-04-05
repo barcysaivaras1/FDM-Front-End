@@ -540,7 +540,7 @@ const FilterBox = (props) =>{
         <div className='filter-box'>
             <h2 className='Filter-Title'>Filters <button className='Filter-Cross' onClick={() => props.handleCollapse("filter")}><RxCrossCircled/></button></h2>
             <div id='Time-Frame'>
-                <h3>TimeFrame</h3>  
+                <h3>Time</h3>  
                 <div id='Time-Buttons'>
                     <button className='month-button' id='Month' onClick={() => handleFilterApplication("Month")}>Last Month</button>
                     <button className='month-button' id='3Month' onClick={() => handleFilterApplication("3Month")}>Last 3 Months</button>
