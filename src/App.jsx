@@ -10,6 +10,7 @@ import { ClaimantViewExpense } from "./components/ClaimantViewExpense";
 import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
 import { LineManagerExpenses } from "./components/LineManagerExpenses";
+import { ReviewExpense } from './components/ReviewExpense';
 import NotFound from "./components/NotFound";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/create-claim" exact element={<CreateClaim />} />
         <Route path="/profile" exact element={<Profile />} />
         <Route path="/line-manager-expenses" exact element={<LineManagerExpenses />} />
+        <Route path="/review-claim" exact element={<ReviewExpense />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
