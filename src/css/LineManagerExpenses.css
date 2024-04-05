@@ -23,6 +23,16 @@
     align-items: center;
 }
 
+.optionsList button {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 20px;
+}
+
+.optionsList button:hover {
+    background-color: hsla(206, 22%, 81%, 0.418);
+}
+
 .option {
     width: auto;
     height: auto;
@@ -39,8 +49,7 @@
     padding-left: 10px;
     padding-right: 10px;
     margin-right: 2vw;
-    color : #00008B;
-    border-radius: 20px;
+    color: #00008B;
 }
 
 .columnTitles{
@@ -69,6 +78,7 @@
     margin: 0;
     padding-top: 1em;
     padding-bottom: 1em;
+    transition: background-color 0.3s ease;
 }
 
 .claimInfo li{

@@ -18,6 +18,11 @@
     border-radius: 5px;
     border: 1px solid #0F1F3C;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#DenyClaim:hover {
+    background-color: hsla(206, 22%, 81%, 0.418);
 }
 
 #DenyClaim p {
@@ -34,6 +39,11 @@
     margin-bottom: 2svh;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#ApproveClaim:hover {
+    background-color: #26354F;
 }
 
 #ApproveClaim p {
