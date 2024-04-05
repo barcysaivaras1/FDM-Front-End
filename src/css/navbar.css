@@ -19,6 +19,7 @@ a:link {
         flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
+        z-index: 100;
     }
 
     nav div {
@@ -79,6 +80,7 @@ a:link {
         padding-left: 2vw;
         padding-right: 2vw;
         align-items: center;
+        z-index: 100;
     }
 
     nav div {

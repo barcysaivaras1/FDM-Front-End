@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import '../css/Login.css'
 import { useNavigate } from 'react-router-dom';
 import httpClient from '../httpClient';
+import Animate_page from './Animate-page';
 
 function Login() {
     const [un, setUn] = useState("");
@@ -34,6 +35,7 @@ function Login() {
     
 
     return (
+        <Animate_page>
         <div className='loginContainer'>
             <legend className='loginLegend'>Login</legend>
             <form className='loginForm' onSubmit={handleSubmit}>
@@ -51,6 +53,7 @@ function Login() {
                 Forgot your password?
             </a>
         </div>
+        </Animate_page>
     )
 }
 

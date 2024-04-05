@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import NavBar from "./NavBar";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import httpClient from "../httpClient";
+import Animate_page from './Animate-page';
 
 export function ReviewExpense() {
     let { state } = useLocation();
@@ -48,6 +49,7 @@ export function ReviewExpense() {
     return(
         <div>
             <NavBar />
+            <Animate_page>
             <div id="ExpenseBody">
                 <div id="TitleBar">
                     <NavLink to={"/line-manager-expenses"}><BackButtonIcon/></NavLink>
@@ -106,6 +108,7 @@ export function ReviewExpense() {
                     )
                 }
             </div>
+            </Animate_page>
         </div>
     )
 }

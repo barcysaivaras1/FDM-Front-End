@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import NavBar from "./NavBar";
 import httpClient from '../httpClient';
+import Animate_page from './Animate-page';
 
 
 export function Profile() {
@@ -67,6 +68,7 @@ export function Profile() {
     return (
         <div>
             <NavBar />
+            <Animate_page>
             <div className="ProfileBody">
                 <h1>View Profile</h1>
                 <div>
@@ -105,6 +107,7 @@ export function Profile() {
                     <p>Logout</p>
                 </NavLink>
             </div>
+            </Animate_page>
         </div>
 
 
