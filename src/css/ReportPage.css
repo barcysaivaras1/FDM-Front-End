@@ -1,0 +1,65 @@
+.reportContainer{
+    font-family: "Kaiti SC";
+    margin-left: 10vw;
+    width: 90vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.reportForm {
+    width: 65.975%;
+    display: flex;
+    flex-direction: column;
+    gap: 1svh;
+    /* align-items: center; I don't think this is necessary */
+}
+
+.reportLegend {
+    color: #0F1F3C;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 1.08svh;
+    text-align: center;
+}
+
+.reportTitleField {
+    font-size: 30px;
+}
+
+.reportDescriptionField {
+    width: 100%;
+    font-size: 30px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    border-radius: 2px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 90px;
+    line-height: 30px;
+    display: block;
+    overflow: hidden;
+    padding-left: 3px;
+}
+
+.reportSubmit {
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: #0F1F3C;
+
+    color: #FFF;
+    text-align: center;
+    font-family: "Kaiti SC";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+    width: 100%;
+    height: 51px;
+    cursor: pointer;
+}

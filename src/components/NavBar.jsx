@@ -51,6 +51,12 @@ function NavBar() {
                 </div>
             </NavLink>
 
+            <NavLink to="/make-a-report" className="DesktopIdentifiers">
+                <div>
+                    <p>Make a Report</p>
+                </div>
+            </NavLink>
+
             <NavLink to="/" id="LogoutBtn" onClick={() => { logoutBackend() }}>
                 <p>Logout</p>
             </NavLink>

@@ -11,6 +11,7 @@ import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
 import { LineManagerExpenses } from "./components/LineManagerExpenses";
 import { ReviewExpense } from './components/ReviewExpense';
+import { ReportPage } from "./components/ReportPage";
 import NotFound from "./components/NotFound";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" exact element={<Profile />} />
         <Route path="/line-manager-expenses" exact element={<LineManagerExpenses />} />
         <Route path="/review-claim" exact element={<ReviewExpense />} />
+        <Route path="/make-a-report" exact element={<ReportPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
