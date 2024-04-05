@@ -99,7 +99,7 @@ const ToggleButton = (props) =>{
 const Expense = (props) =>{
     return(
         <ul className = 'claimInfo'>
-            <li>{props.expense.date}</li>
+            <li>{props.expense.date.replace(" 00:00:00 GMT", "")}</li>
             <li>{props.expense.title}</li>
             <li>{props.expense.currency+props.expense.amount}</li>
             <li>{props.expense.expenseType}</li>

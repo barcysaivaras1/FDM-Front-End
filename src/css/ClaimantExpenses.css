@@ -79,6 +79,7 @@ body {
     display: flex;
     flex-direction: column;
     font-size: 0.8em;
+    color: rgb(19, 31, 58);
 }
 
 /*I HAVE NO IDEA WHY THIS CENTERS THE IMAGE BUT LEAVE IT*/
