@@ -4,6 +4,7 @@ import '../css/CreateClaim.css';
 import { CiImageOn } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 import httpClient from '../httpClient';
+import Animate_page from './Animate-page';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
@@ -227,6 +228,7 @@ export function CreateClaim () {
     return(
         <div>
             <NavBar />
+            <Animate_page>
             <div className='createContainer'>
                 <legend className='createLegend'>Create Claim</legend>
                 <form className='createForm' onSubmit={handeSubmit}>
@@ -335,6 +337,7 @@ export function CreateClaim () {
                     <button className='infield createSubmit'>Submit Claim</button>
                 </form>
             </div>
+            </Animate_page>
         </div>
     )
 }

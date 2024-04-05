@@ -3,6 +3,7 @@ import "../css/LineManagerExpenses.css"
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
 import httpClient from "../httpClient";
+import Animate_page from "./Animate-page";
 
 export function LineManagerExpenses() {
     const [expenses, setExpenses] = useState([]);
@@ -35,6 +36,7 @@ export function LineManagerExpenses() {
     return (
         <div className = 'LMEContainer'>
             <NavBar />
+            <Animate_page>
             <div className='LMEBody'>
                 <h1 className = 'title'>Expenses</h1>
 
@@ -46,6 +48,7 @@ export function LineManagerExpenses() {
 
                 <div className = "scrollboxExpenses"><ExpenseList listOfClaims = {bigList} displayType = {displayType}/></div>
             </div>
+            </Animate_page>
         </div>
     )
 }

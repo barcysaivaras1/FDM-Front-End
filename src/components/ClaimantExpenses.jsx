@@ -6,6 +6,7 @@ import NavBar from './NavBar';
 import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon } from '../assets/Icons';
 import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
+import Animate_page from './Animate-page';
 
 //Maybe we would retrieve each expense on the server and store them in specific arrays?
 var AcceptedArr = []
@@ -261,6 +262,7 @@ export function ClaimantExpenses(){
     }
     return(
         <div>
+        <Animate_page>
         <div className='ViewExpensesPage'>
             <div id='PhoneBox'>
                 <div id='TitleBox'>
@@ -333,6 +335,7 @@ export function ClaimantExpenses(){
                        item ? <animated.div style={style}><FilterBox handleCollapse={handleCollapse} handleApplyFilters={handleApplyFilters}/></animated.div>
                        : '')
                        }
+            </Animate_page>
             <NavBar/>
         </div>
     )

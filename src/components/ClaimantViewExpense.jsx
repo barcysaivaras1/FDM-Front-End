@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
 import { NavLink, useLocation } from "react-router-dom";
 import httpClient from "../httpClient";
+import Animate_page from "./Animate-page";
 
 export function ClaimantViewExpense() {
     let { state } = useLocation();
@@ -33,6 +34,7 @@ export function ClaimantViewExpense() {
     return (
         <div>
             <NavBar/> 
+            <Animate_page>
             <div id="ExpenseBody">
                 <div id="TitleBar">
                     <NavLink to={"/my-expenses"}><BackButtonIcon/></NavLink>
@@ -92,6 +94,7 @@ export function ClaimantViewExpense() {
                     )
                 }
             </div>
+            </Animate_page>
         </div>
     )
 }
