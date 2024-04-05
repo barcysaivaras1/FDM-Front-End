@@ -1,0 +1,41 @@
+#JudgmentContainer {
+    width: 90vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    
+}
+
+#DenyClaim {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40vw;
+    height: 7svh;
+    background-color: white;
+    margin-bottom: 2svh;
+    border-radius: 5px;
+    border: 1px solid #0F1F3C;
+    cursor: pointer;
+}
+
+#DenyClaim p {
+    color: #0F1F3C;
+}
+
+#ApproveClaim {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40vw;
+    height: 7svh;
+    background-color: #0F1F3C;
+    margin-bottom: 2svh;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#ApproveClaim p {
+    color: white;
+}

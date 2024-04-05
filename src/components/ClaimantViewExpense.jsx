@@ -73,7 +73,7 @@ export function ClaimantViewExpense() {
                         claim && (
                             claim.receipts.length > 0 ? (
                                 claim.receipts.map((evidence) => {
-                                    <a href={evidence}>Attached Evidence</a>
+                                    <a href={evidence}  target='_blank'>Attached Evidence</a>
                                 })
                             ) : (
                                 <p>No evidence attached to this claim.</p>

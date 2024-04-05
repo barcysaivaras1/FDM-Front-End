@@ -99,7 +99,7 @@ const Expense = (props) =>{
             <li>{props.expense.date}</li>
             <li>{props.expense.title}</li>
             <li>{props.expense.currency+props.expense.amount}</li>
-            <li>{props.expense.expensetype}</li>
+            <li>{props.expense.expenseType}</li>
             <li>{props.expense.status}</li>
         </ul>
     )
@@ -110,7 +110,7 @@ const ExpenseList = (props) =>{
         return Array.from(
             { length: props.listOfClaims.length },
             (_, i) => (
-                <Link to = "/">
+                <Link to = "/review-claim" state={{ claim: props.listOfClaims[i] }}>
                     <Expense expense = {props.listOfClaims[i]} />
                 </Link>
             )
@@ -128,7 +128,7 @@ const ExpenseList = (props) =>{
         return Array.from(
             { length: filteredList.length },
             (_, i) => (
-                <Link>
+                <Link to = "/review-claim" state={{ claim: filteredList[i] }}>
                     <Expense expense = {filteredList[i]} />
                 </Link>
             )
@@ -146,7 +146,7 @@ const ExpenseList = (props) =>{
         return Array.from(
             { length: filteredList.length },
             (_, i) => (
-                <Link to ="/">
+                <Link to = "/review-claim" state={{ claim: filteredList[i] }}>
                     <Expense expense = {filteredList[i]} />
                 </Link>
             )
@@ -164,7 +164,7 @@ const ExpenseList = (props) =>{
         return Array.from(
             { length: filteredList.length },
             (_, i) => (
-                <Link to ="/">
+                <Link to = "/review-claim" state={{ claim: filteredList[i] }}>
                     <Expense expense = {filteredList[i]} />
                 </Link>
             )
