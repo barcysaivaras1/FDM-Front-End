@@ -36,9 +36,17 @@ export function Profile() {
         if (profile.claims.length !== 0) {
             profile.claims.map((claim) => {
                 if (claim.status == "Approved") {
-                    setTotalAccepted(totalAccepted + 1);
-                    setTotalSpent((totalSpent) => { return totalSpent + parseFloat(claim.amount) });
-                    // console.log(claim.amount);
+                    setTotalAccepted((totalAccepted) => { return totalAccepted + 1 });
+                    if (claim.currency == "€") {
+                        setTotalSpent((totalSpent) => { return totalSpent + (parseFloat(claim.amount) * 0.86) });
+                    }
+                    else if (claim.currency == "$") {
+                        setTotalSpent((totalSpent) => { return totalSpent + (parseFloat(claim.amount) * 0.79) });
+                    }
+                    else { // has to be claim.currency == £
+                        setTotalSpent((totalSpent) => { return totalSpent + parseFloat(claim.amount) });
+                    }
+                    
                 }
             })
         }
@@ -85,7 +93,7 @@ export function Profile() {
                     <p className="StatsTitle">Total Accepted Claims</p>
                     <p className="cont">
                         {/* 1  */}
-                        {(totalAccepted !== 0) ? (totalAccepted) : "0"}
+                        {(totalAccepted !== 0) ? (totalAccepted / 2) : "0"}
                     </p>
                     <p className="StatsTitle">Total Budget Spent</p>
                     <p className="cont">
