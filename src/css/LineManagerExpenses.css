@@ -66,10 +66,18 @@
     display: flex;
     flex-direction: row;
     padding-left: 0;
+    margin: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 .claimInfo li{
     display: block;
     flex-basis: 100%;
     list-style-type: none;
+    color: black;
+}
+
+.claimInfo:hover{
+    background-color: hsla(206, 22%, 81%, 0.418);
 }
