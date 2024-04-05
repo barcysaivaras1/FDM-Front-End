@@ -4,9 +4,12 @@ import FDMLogo from "../assets/FDMLogo.png";
 import { NavLink } from "react-router-dom";
 import httpClient from '../httpClient';
 import useAuth from '../hooks/useAuth';
+import { useContext } from 'react';
+import AuthContext from '../context/AuthProvider';
 
 function NavBar() {
     const { setAuth } = useAuth();
+    const { auth } = useContext(AuthContext); // auth.role = 1 (employee), auth.role = 2 (Line Manager)
 
     async function logoutBackend() {
         await httpClient.post("/api/auth/logout")
@@ -26,12 +29,16 @@ function NavBar() {
             </style>
             <img src={FDMLogo} id="FDMLogo" />
 
-            {/* All this needs now is an if statement to check whether user is a line manager */}
-            <NavLink to="/line-manager-expenses" className="DesktopIdentifiers">
-                <div>
-                    <p>Review Expenses</p>
-                </div>
-            </NavLink>
+            {/* All this needs now is an if statement to check whether user is a line manager - DONE :3 */}
+            {
+                auth.role === 2 && (
+                    <NavLink to="/line-manager-expenses" className="DesktopIdentifiers">
+                        <div>
+                            <p>Review Expenses</p>
+                        </div>
+                    </NavLink>
+                )
+            }
 
             <NavLink to="/my-expenses">
                 <div>
