@@ -23,7 +23,7 @@ function Login() {
         )
         .then(function (response) {
             console.log("Response:  ", response);
-            setAuth({ user: 'armin' })
+            setAuth({ user: response.data.user, role: response.data.role })
             navigate("/profile");
         })
         .catch(function (error) {

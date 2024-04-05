@@ -13,18 +13,23 @@ import { LineManagerExpenses } from "./components/LineManagerExpenses";
 import { ReviewExpense } from './components/ReviewExpense';
 import NotFound from "./components/NotFound";
 import RequireAuth from './components/RequireAuth';
+import Unauthorised from './components/Unauthorised';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path='/' exact element={<Login />} />
+        <Route path='/unauthorised' element={<Unauthorised />} />
 
-        <Route element={<RequireAuth />}>
+        <Route element={<RequireAuth allowedRoles={[1, 2]} />}>
           <Route path="/my-expenses" exact element={<ClaimantExpenses />} />
           <Route path="/view-expense" exact element={<ClaimantViewExpense />} />
           <Route path="/create-claim" exact element={<CreateClaim />} />
           <Route path="/profile" exact element={<Profile />} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[2]} />}>
           <Route path="/line-manager-expenses" exact element={<LineManagerExpenses />} />
           <Route path="/review-claim" exact element={<ReviewExpense />} />
         </Route>

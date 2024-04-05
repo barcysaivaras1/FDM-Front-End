@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
         const fetchDetails = async () => {
             try {
                 const response = await httpClient.get('/api/auth/me');
-                setAuth({ user: response.data.username });
+                setAuth({ user: response.data.user, role: response.data.role });
             } catch (error) {
                 console.log('Not logged in')
             } finally {
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div></div>;
     }
 
     return (
