@@ -285,7 +285,7 @@ export function ClaimantExpenses(){
                         PendingArr.map((expense, index) => 
                         (transition_pending((style, item) =>
                         item ? <animated.div style={style}>
-                            <Link to="/view-expense" state={{ id: expense.claim_id }}>
+                            <Link to="/view-expense" state={{ claim: expense }}>
                                 <ExpenseBox key={index} expense={expense}/>
                             </Link>
                         </animated.div>
@@ -304,7 +304,7 @@ export function ClaimantExpenses(){
                         RejectedArr.map((expense, index) => 
                         (transition_rejected((style, item) =>
                         item ? <animated.div style={style}>
-                            <Link to="/view-expense" state={{ id: expense.claim_id }}>
+                            <Link to="/view-expense" state={{ claim: expense }}>
                                 <ExpenseBox key={index} expense={expense}/>
                             </Link>
                         </animated.div>
@@ -321,7 +321,7 @@ export function ClaimantExpenses(){
                     { AcceptedArr.map((expense, index) => 
                         (transition_accepted((style, item) =>
                         item ? <animated.div style={style}>
-                                <Link to="/view-expense" state={{ id: expense.claim_id }}>
+                                <Link to="/view-expense" state={{ claim: expense }}>
                                     <ExpenseBox key={index} expense={expense}/>
                                 </Link>
                             </animated.div>

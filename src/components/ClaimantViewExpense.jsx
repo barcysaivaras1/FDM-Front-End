@@ -10,29 +10,13 @@ export function ClaimantViewExpense() {
     console.log(state);
     const [claim, setClaim] = useState();
 
-    async function fetchClaim() {
-        await httpClient.get(`/api/claims/${state.id}`)
-        .then(function(response) {
-            setClaim(response.data);
-        })
-        .catch(function(error) {
-            console.log(error);
-        })
-    }
-
     useEffect(() => {
         document.title = "View Expense";
-        
-        if (claim === undefined) {
-            fetchClaim();
-        }
-        else{
-            return;
-        }
+        setClaim(state.claim);
     }, [])
 
     async function appealClaim() {
-        await httpClient.post(`/api/claims/${state.id}/appeal`,
+        await httpClient.post(`/api/claims/${state.claim.claim_id}/appeal`,
             {
                 description: claim.description
             }
