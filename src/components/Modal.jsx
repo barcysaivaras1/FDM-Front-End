@@ -1,3 +1,5 @@
+import { CloseIcon } from '../assets/Icons';
+
 import '../css/Modal.css';
 
 const Modal = ({ open, children, onClose }) => {
@@ -10,7 +12,7 @@ const Modal = ({ open, children, onClose }) => {
         <div className='overlay' />
 
         <div className='modal'>
-            <button onClick={onClose}>x</button>
+            <CloseIcon onClick={onClose} />
 
             {children}
         </div>
