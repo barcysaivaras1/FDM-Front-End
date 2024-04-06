@@ -397,7 +397,7 @@ export default ClaimantExpenses;
 
 
 const ExpenseBox = (props) =>{
-
+    // console.log(`ExpenseBox, props.expense: `, props.expense);
     var img
 
     if(props.expense.status === "Pending"){

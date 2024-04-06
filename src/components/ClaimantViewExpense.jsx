@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../css/ClaimantViewExpense.css"
 import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import httpClient from "../httpClient";
 import Animate_page from "./Animate-page";
 
@@ -37,7 +37,7 @@ export function ClaimantViewExpense() {
             <Animate_page>
             <div id="ExpenseBody">
                 <div id="TitleBar">
-                    <NavLink to={"/my-expenses"}><BackButtonIcon/></NavLink>
+                    <Link to={"/my-expenses"}><BackButtonIcon/></Link>
                     <h1>View Expense</h1>
                 </div>
                 <hr/>
@@ -84,13 +84,23 @@ export function ClaimantViewExpense() {
                     }
                 </div>
 
+                {
+                    claim?.status === "Draft" && (
+                        <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
+                            <div id="DraftEdit">
+                                <p>Edit this Draft</p>
+                            </div>
+                        </Link>
+                    )
+                }
+
                 { /* Tested, fully functional. */
                     claim?.status === "Denied" && (
-                        <NavLink to={"/my-expenses"} onClick={() => {appealClaim()}}>
+                        <Link to={"/my-expenses"} onClick={() => {appealClaim()}}>
                             <div id="AppealClaim">
                                 <p>Appeal this claim</p>
                             </div>
-                        </NavLink>
+                        </Link>
                     )
                 }
             </div>

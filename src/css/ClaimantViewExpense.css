@@ -1,83 +1,83 @@
-    #ExpenseBody {
-        overflow: scroll;
-        height: 90.176svh;
-    }
+#ExpenseBody {
+    overflow: scroll;
+    height: 90.176svh;
+}
 
-    #TitleBar, hr, #AppealClaim {
-        width: 86.225vw;
-        margin-inline: auto;
-    }
-    
-    #TitleBar {
-        display: flex;
-        margin-top: 3.025svh;
-    }
-    
-    #TitleBar h1 {
-        margin: 3px;
-    }
-    
-    #Status, #ExpenseDetails {
-        margin-inline: auto;
-        margin-top: 2svh;
-        width: 82vw;
-        padding-top: 1svh;
-        padding-inline: 4vw;
-        padding-bottom: 2svh;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-    }
+#TitleBar, hr, #AppealClaim, #DraftEdit {
+    width: 86.225vw;
+    margin-inline: auto;
+}
 
-    #Status {
-        height: 12.4svh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    
-    #ExpenseDetails {
-        margin-bottom: 2svh;
-    }
-    
-    #ExpenseDetails h2 {
-        margin-top: 2svh;
-    }
-    
-    h2, p, a {
-        margin: 0;
-        font-family: Inter;
-        font-weight: 400;
-    }
+#TitleBar {
+    display: flex;
+    margin-top: 3.025svh;
+}
 
-    h2 {
-        font-size: 16px;
-        color: #204382;
-    }
+#TitleBar h1 {
+    margin: 3px;
+}
 
-    p {
-        font-size: 18px;
-    }
+#Status, #ExpenseDetails {
+    margin-inline: auto;
+    margin-top: 2svh;
+    width: 82vw;
+    padding-top: 1svh;
+    padding-inline: 4vw;
+    padding-bottom: 2svh;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
 
-    #AppealClaim {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 90vw;
-        height: 7svh;
-        background-color: #0F1F3C;
-        margin-bottom: 2svh;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
+#Status {
+    height: 12.4svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
-    #AppealClaim:hover {
-        background-color: #26354F;
-    }
+#ExpenseDetails {
+    margin-bottom: 2svh;
+}
 
-    #AppealClaim p {
-        color: white;
-    }
+#ExpenseDetails h2 {
+    margin-top: 2svh;
+}
+
+h2, p, a {
+    margin: 0;
+    font-family: Inter;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 16px;
+    color: #204382;
+}
+
+p {
+    font-size: 18px;
+}
+
+#AppealClaim, #DraftEdit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90vw;
+    height: 7svh;
+    background-color: #0F1F3C;
+    margin-bottom: 2svh;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#AppealClaim:hover {
+    background-color: #26354F;
+}
+
+#AppealClaim p, #DraftEdit p {
+    color: white;
+}
 
 /* laptop view of the navbar */
 @media screen and (min-width: 1024px) {
@@ -91,7 +91,7 @@
         padding: 2vw;
     }
 
-    #AppealClaim {
+    #AppealClaim, #DraftEdit {
         width: 86vw;
     }
 
@@ -110,4 +110,6 @@
 #ExpenseBody {
     -ms-overflow-style: none;
     scrollbar-width: none;
-  }
+}
+
+/* End of File */

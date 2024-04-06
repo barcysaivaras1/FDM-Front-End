@@ -5,8 +5,87 @@ import { CiImageOn } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
+import { ls_keys } from './utils';
+import { ensureLS_saveDraftClaim_exists } from './utils';
+import { addToDraftsArr } from './ClaimantExpenses';
+import { Link, useLocation } from 'react-router-dom';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
+
+
+
+
+
+/**
+ * 
+ * @param {{
+ * title: string|null,
+ * type: string|null,
+ * currency: string|null,
+ * amount: number|null,
+ * date: string|null,
+ * description: string|null,
+ * image: string|null
+ * }} details 
+ */
+async function saveAsDraft(details) {
+    const ls_draftStorage = ensureLS_saveDraftClaim_exists();
+    const { title, type, currency, amount, date, description, image } = details;
+
+    const thingsToCheckNull = [title, type, currency, amount, date, description];
+    if (thingsToCheckNull.every((v)=> v === null)) {
+        console.log(`saveAsDraft : Nothing to save, all fields are null.`);
+        return;
+    }
+    
+    const image_contents_base64 = "something";
+    const output_to_server = {
+        title, type, currency, amount, date, description, image: image_contents_base64
+    };
+    const reqClaims = new Request("/api/claims/drafts", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(output_to_server),
+    });
+    // console.info({reqClaims});
+    /**
+     * @type {Response}
+     */
+    const response = await fetch(reqClaims);
+    try {
+        if (response.status === 200) {
+            const json = await response.json();
+            console.info(`saveAsDraft : response: `, json);
+            // server is returning {"id": number, "message": string}
+            // so we unpack that
+            const {id, message} = json;
+            if (id !== undefined && id !== null) {
+                ls_draftStorage["most-recent-draft"] = id;
+                ls_draftStorage["most-recent-timestamp"] = Date.now();
+                ls_draftStorage["draft_ids"].push(id);
+                window.localStorage.setItem(ls_keys["save-draft-claim"], JSON.stringify(ls_draftStorage));
+                console.log(`saveAsDraft : Draft-claim created with id: ${id}.`);
+                window.alert(`This has been saved as a draft, and the form has been cleared.\nTo open the draft, go to the \"My Expenses\" section.`);
+
+                addToDraftsArr(id, details);
+            } else {
+                console.error(`saveAsDraft : Failed to create draft-claim. Id was nullish.`);
+            }
+        } else {
+            console.error(`saveAsDraft : Failed to do/view claim. Status: ${response.status}`);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    console.info(`Save as Draft: `, {details});
+    return;
+};
+
 
 export function CreateClaim () {
     const [title, setTitle] = useState(null);
@@ -39,7 +118,7 @@ export function CreateClaim () {
         });
         // void return.
         return;
-    }
+    };
 
     /**
      * Check if a value is null or undefined
@@ -50,80 +129,80 @@ export function CreateClaim () {
         return thing === null || thing === undefined;
     };
 
-    useEffect(()=>{
-        const data = localStorage.getItem(ls_key);
-        if (data) {
-            const parsed = JSON.parse(data);
-            setTitle(parsed.title);
-            setType(parsed.type);
-            setCurrency(parsed.currency);
-            setAmount(parsed.amount);
-            setDate(parsed.date);
-            setDescription(parsed.description);
+    // useEffect(()=>{
+    //     const data = localStorage.getItem(ls_key);
+    //     if (data) {
+    //         const parsed = JSON.parse(data);
+    //         setTitle(parsed.title);
+    //         setType(parsed.type);
+    //         setCurrency(parsed.currency);
+    //         setAmount(parsed.amount);
+    //         setDate(parsed.date);
+    //         setDescription(parsed.description);
 
-            // create new image from imageData in "image"
-            const image = new Image();
-            image.src = parsed.image;
-            const blob = new Blob([parsed.image], {type: "image/png"});
-            const file = new File([blob], "some-image.png", {type: "image/png"});
-            setImage(file);
+    //         // create new image from imageData in "image"
+    //         const image = new Image();
+    //         image.src = parsed.image;
+    //         const blob = new Blob([parsed.image], {type: "image/png"});
+    //         const file = new File([blob], "some-image.png", {type: "image/png"});
+    //         setImage(file);
 
-            // const imgElement = document.createElement("img");
-            // imgElement.src = parsed.image;
-            // console.log(imgElement);
-            // const legend = document.querySelector("legend");
-            // console.log(legend, imgElement);
-            // legend?.appendChild(imgElement);
-            // imgElement.onload = ()=>{
-            // };
-            // imgElement.style.display = "block";
-            console.log(file, blob);
-            setPreview(URL.createObjectURL(file));
+    //         // const imgElement = document.createElement("img");
+    //         // imgElement.src = parsed.image;
+    //         // console.log(imgElement);
+    //         // const legend = document.querySelector("legend");
+    //         // console.log(legend, imgElement);
+    //         // legend?.appendChild(imgElement);
+    //         // imgElement.onload = ()=>{
+    //         // };
+    //         // imgElement.style.display = "block";
+    //         console.log(file, blob);
+    //         setPreview(URL.createObjectURL(file));
 
-            localStorage.removeItem(ls_key);
-        }
-    }, []);
-    useEffect(()=>{
-        const thingsToCheck = [title, type, currency, amount, date, description, image];
-        const handleBeforeUnload = (evt)=>{
-            const somethingIsBlank = thingsToCheck.some(isNullish);
-            console.log(`Checking for nullish values: ${thingsToCheck.map((v)=>{console.log(v);return isNullish(v);})}`);
-            if (!somethingIsBlank) {
-                // nothing is left blank, no need to hold them here.
-                evt.returnValue = false;
-            }
+    //         localStorage.removeItem(ls_key);
+    //     }
+    // }, []);
+    // useEffect(()=>{
+    //     const thingsToCheck = [title, type, currency, amount, date, description, image];
+    //     const handleBeforeUnload = (evt)=>{
+    //         const somethingIsBlank = thingsToCheck.some(isNullish);
+    //         console.log(`Checking for nullish values: ${thingsToCheck.map((v)=>{console.log(v);return isNullish(v);})}`);
+    //         if (!somethingIsBlank) {
+    //             // nothing is left blank, no need to hold them here.
+    //             evt.returnValue = false;
+    //         }
 
-            if (!image) {
-                // no image is selected, no need to hold it here.
-                evt.returnValue = false;
-                return;
-            }
+    //         if (!image) {
+    //             // no image is selected, no need to hold it here.
+    //             evt.returnValue = false;
+    //             return;
+    //         }
 
-            /**
-             * @type {File}
-             */
-            const _img = image;
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const imgBase64Data = reader.result;
-                // Use the base64Data as needed
+    //         /**
+    //          * @type {File}
+    //          */
+    //         const _img = image;
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             const imgBase64Data = reader.result;
+    //             // Use the base64Data as needed
                 
-                const data_to_save = {
-                    title, type, currency, amount, date, description, image: imgBase64Data
-                };
-                console.log(data_to_save);
-                localStorage.setItem(ls_key, JSON.stringify(data_to_save));
-            };
-            reader.readAsDataURL(_img);
+    //             const data_to_save = {
+    //                 title, type, currency, amount, date, description, image: imgBase64Data
+    //             };
+    //             console.log(data_to_save);
+    //             localStorage.setItem(ls_key, JSON.stringify(data_to_save));
+    //         };
+    //         reader.readAsDataURL(_img);
 
-            evt.returnValue = true;
-        };
-        window.addEventListener("beforeunload", handleBeforeUnload);
-        return ()=>{
-            window.removeEventListener("beforeunload", handleBeforeUnload);
-        };
+    //         evt.returnValue = true;
+    //     };
+    //     window.addEventListener("beforeunload", handleBeforeUnload);
+    //     return ()=>{
+    //         window.removeEventListener("beforeunload", handleBeforeUnload);
+    //     };
 
-    }, [title, type, currency, amount, date, description, image]);
+    // }, [title, type, currency, amount, date, description, image]);
 
     useEffect(() => {
         document.title = "Create New Claim";
@@ -223,7 +302,7 @@ export function CreateClaim () {
                             </>
                         )}
                     </div>
-                    <button 
+                    {/* <button 
                         className='infield clearSubmit'
                         onClick={() => {
                             setTitle("");
@@ -238,7 +317,45 @@ export function CreateClaim () {
                     >
                         Clear form
                     </button>
+                    <button className='infield createSubmit'>Submit Claim</button> */}
+
+                    <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
+                        saveAsDraft({title, type, currency, amount, date, description, image});
+                    }}>Save as Draft</b>
+                    <Link className='infield clearSubmit' to="/create-claim" state={{
+                        draftClaim: {
+                            amount: null, 
+                            claim_id: null, 
+                            currency: null, 
+                            date: null, 
+                            description: null, 
+                            expenseType: null, 
+                            receipts: null, 
+                            status: null, 
+                            title: null, 
+                            user_id: null
+                        }
+                    }} >
+                        <b className='infield clearSubmit' 
+                            // className='infield clearSubmit'
+                            onClick={() => {
+                                setTitle("");
+                                setType("");
+                                setCurrency("");
+                                setAmount("");
+                                setDate("");
+                                setDescription("");
+                                setImage(null);
+                                setPreview(null);
+                                alreadyLoadedDraft = true;
+                            }}
+                        >
+                            Clear form
+                        </b>
+                    </Link>
                     <button className='infield createSubmit'>Submit Claim</button>
+
+
                 </form>
             </div>
             </Animate_page>
