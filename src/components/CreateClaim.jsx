@@ -19,122 +19,26 @@ export function CreateClaim () {
     const [preview, setPreview] = useState(null);
     const navigate = useNavigate();
     
-    async function handeSubmit(e) {
-       
-
+    async function handleSubmit(e) {
         e.preventDefault();
-        // stuff that will handle the inputs
-
-
-        // for now it will just alarm the user with the
-        // inputted data for debugging puproses
-        // alert(`Successful submit. \nTitle: ${title} \nType: ${type} \nCurrency: ${currency} \nAmount: ${amount} \nDate: ${date} \nDescription: ${description} \nImage: ${image} \nPreview: ${preview}`);
         console.log(image);
-        const data = localStorage.getItem(ls_key);
-        console.log(`localstorage data: `, {data});
-        // if (data) {
-        //     const parsed = JSON.parse(data);
-        //     const imgElement = document.createElement("img");
-        //     imgElement.src = parsed.image;
-        //     const legend = document.querySelector("legend");
-        //     legend?.appendChild(imgElement);
-        // }
-
-        // const a = getApiURL("/claims");
-        // console.info({a});
-        // const b = getApiURL("/claims/{id}", [12345, 67890]);
-        // console.info({b});
-        // const c = getApiURL("/claims/{id}/images", [12345, 67890]);
-        // console.info({c});
-
-
-        // const loginResponse = await fetch(getApiURL("/auth/login"), {
-        //     method: "POST",
-        //     credentials: "include",
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({username: "armin2", password: "password"})
-        // });
-        // // cookie is set automatically by the browser
-        // try {
-        //     const json = await loginResponse.json();
-        //     console.info(json);
-        // } catch (e) {
-        //     console.error(e);
-        // }
-
-
-        // const image_contents_base64 = "something";
-        // const output_to_server = {
-        //     title, type, currency, amount, date, description, image: image_contents_base64
-        // };
-        // const reqClaims = new Request("/api/claims", {
-        //     method: "POST",
-        //     // credentials: "include",
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(output_to_server),
-        // });
-        // console.info({reqClaims});
-        // /**
-        //  * @type {Response}
-        //  */
-        // console.log("sending query")
-        // const response = await fetch(reqClaims);
-        // console.log("query sent")
-        // try {
-        //     console.log("response recieved")
-        //     if (response.status === 200) {
-        //         const json = await response.json();
-        //         console.info(json);
-        //     } else {
-        //         console.error(`Failed to do/view claim. Status: ${response.status}`);
-        //     }
-        // } catch (e) {
-        //     console.error(e);
-        // }
 
         await httpClient.post('/api/claims/', {
-                title: title,
-                amount: amount,
-                currency: currency,
-                type: type,
-                date: date,
-                description: description,
-                image: image
-            },
-        )
-        .then(function(response) {
+            title: title,
+            amount: amount,
+            currency: currency,
+            type: type,
+            date: date,
+            description: description,
+            image: image
+        }).then(function(response) {
             console.log("Success" + response);
             navigate("/my-expenses");
-        })
-        .catch(function(error) {
+        }).catch(function(error) {
             console.error("Failed to do/view claim. Status: " + error.response.status);
-        })
-
-
-        // const logoutResponse = await fetch(getApiURL("/auth/logout"), {
-        //     method: "POST",
-        //     credentials: "include",
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         "Content-Type": "application/json"
-        //     }
-        // });
-        // try {
-        //     const json = await logoutResponse.json();
-        //     console.info(json);
-        // } catch (e) {
-        //     console.error(e);
-        // }
-
-
-
-        // return response;
+        });
+        // void return.
+        return;
     }
 
     /**
@@ -231,7 +135,7 @@ export function CreateClaim () {
             <Animate_page>
             <div className='createContainer'>
                 <legend className='createLegend'>Create Claim</legend>
-                <form className='createForm' onSubmit={handeSubmit}>
+                <form className='createForm' onSubmit={handleSubmit}>
                     <input type="text" 
                         className='infield titleInput' 
                         name='title'
