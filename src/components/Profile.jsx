@@ -71,37 +71,69 @@ export function Profile() {
             <Animate_page>
             <div className="ProfileBody">
                 <h1>View Profile</h1>
-                <div>
+
+                <div className='info'>
                     {profile ? (
                         profile.profile_picture ? (
-                            <img className='pfp' src={'http://127.0.0.1:5000/' + profile.profile_picture} alt="pfp" />
+                            <img className='pfp' src={'/api/' + profile.profile_picture} alt="pfp" />
                         ) : (
                             // ensure that even with an unset profile picture, the default picture gets displayed
-                            <img className='pfp' src={'http://127.0.0.1:5000//static/profile-pictures/default.png'} alt="pfp" />
+                            <img className='pfp' src={'/api/static/profile-pictures/default.png'} alt="Your profile picture" />
                         )
                     ) : null}
+                    
                     <p id="EmployeeName">
                         {profile ? (profile.first_name + " " + profile.last_name) : "-"}
                     </p>
-                    <p id='EmployeeRole'>{profile ? (profile.role) : "-"}</p>
+
+                    <p id='EmployeeRole'>
+                        {profile ? (profile.role) : "-"}
+                    </p>
                 </div>
                 <div id='Stats'>
-                    <p className="StatsTitle" id='LMETitle'>Line Manager</p>
-                    <p className="cont">
-                        {profile ? (
-                            profile.line_manager ? (profile.line_manager) : ("-")
-                        ) : "-"}
-                    </p>
-                    <p className="StatsTitle">Total Accepted Claims</p>
-                    <p className="cont">
-                        {/* 1  */}
-                        {(totalAccepted !== 0) ? (totalAccepted / 2) : "0"}
-                    </p>
-                    <p className="StatsTitle">Total Budget Spent</p>
-                    <p className="cont">
-                        {/* £49.99 */}
-                        {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2)) : "£0"}
-                    </p>
+                    <div>
+                        <p className="StatsTitle" id='LMETitle'>
+                            Your Email
+                        </p>
+                        
+                        <p className="cont">
+                            {profile ? profile.email : null}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p className="StatsTitle" id='LMETitle'>
+                            Your Line Manager
+                        </p>
+
+                        <p className="cont">
+                            {profile ? (
+                                profile.line_manager ? profile.line_manager : ("-")
+                            ) : "-"}
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <p className="StatsTitle">
+                            Total Accepted Claims
+                        </p>
+
+                        <p className="cont">
+                            {/* 1  */}
+                            {(totalAccepted !== 0) ? (totalAccepted / 2) : "0"}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p className="StatsTitle">
+                            Total Budget Spent
+                        </p>
+
+                        <p className="cont">
+                            {/* £49.99 */}
+                            {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2)) : "£0"}
+                        </p>
+                    </div>
                 </div>
                 <NavLink to="/" id="LogoutBtnProfile" onClick={() => { logoutBackend() }}>
                     <p>Logout</p>

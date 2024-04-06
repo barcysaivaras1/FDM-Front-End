@@ -10,6 +10,11 @@ body{
     overflow-y: scroll;
 }
 
+.ProfileBody .info {
+    display: flex;
+    flex-direction: column;
+}
+
 #EmployeeRole {
     font-weight: 200;
     color: rgba(0,0,0,0.6);
@@ -33,18 +38,22 @@ body{
     flex-direction: column;
     align-items: center;
     margin-block: auto;
-    justify-content: center;
+    margin-block-start: 30px;
+    align-items: baseline;
+    gap: 20px;
+}
+
+#Stats div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .StatsTitle{
     color:#204382;
     font-size: 20px;
     font-weight:400;
-    margin-top: 20px;
-}
-
-#LMETitle {
-    margin-top: 0;
 }
 
 .cont{
