@@ -383,13 +383,13 @@ export function ClaimantExpenses(){
                             ))
                         }
                     </div> 
-                    {
-                        transition_filter((style, item) =>
-                            item ? <animated.div style={style}><FilterBox handleCollapse={handleCollapse} handleApplyFilters={handleApplyFilters}/></animated.div>
-                            : '')
-                    }
                 </div>
             </div>
+            {
+                transition_filter((style, item) =>
+                    item ? <animated.div style={style}><FilterBox handleCollapse={handleCollapse} handleApplyFilters={handleApplyFilters}/></animated.div>
+                    : '')
+            }
         </Animate_page>
     </div>);
 }
