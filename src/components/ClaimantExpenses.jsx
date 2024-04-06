@@ -416,7 +416,7 @@ const ExpenseBox = (props) =>{
             <div className='claim-info'>
                 <div className='claim-date'>{props.expense.date.replace(" 00:00:00 GMT", "")}</div>
                 <div>{props.expense.currency+props.expense.amount}</div>
-                <div>{props.expense.description}</div>
+                <div>{props.expense.title}</div>
             </div>
             <div className='claim-arrow'>
                 <ArrowRightIcon/>

@@ -14,22 +14,26 @@ export function ClaimantViewExpense() {
     useEffect(() => {
         document.title = "View Expense";
         setClaim(state.claim);
-    }, [])
+        if (state.draftClaim !== undefined) {
+            console.info(`Draft claim found: ${state.draftClaim}`);
+            setClaim(state.draftClaim);
+        } else {
+            console.info("No draft claim found.");
+        }
+    }, []);
 
     async function appealClaim() {
         await httpClient.post(`/api/claims/${state.claim.claim_id}/appeal`,
             {
                 description: claim.description
             }
-        )
-        .then(function(response) {
+        ).then(function(response) {
             alert(response.data.message);
-        })
-        .catch(function(error) {
+        }).catch(function(error) {
             console.log(error);
             alert(error.response.data.error);
-        })
-    }
+        });
+    };
 
     return (
         <div>
@@ -85,6 +89,7 @@ export function ClaimantViewExpense() {
                 </div>
 
                 {
+                    
                     claim?.status === "Draft" && (
                         <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
                             <div id="DraftEdit">

@@ -88,6 +88,7 @@ async function saveAsDraft(details) {
 
 
 export function CreateClaim () {
+    let alreadyLoadedDraft = false;
     const [title, setTitle] = useState(null);
     const [type, setType] = useState(null);
     const [currency, setCurrency] = useState(null);
@@ -96,6 +97,32 @@ export function CreateClaim () {
     const [description, setDescription] = useState(null);
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
+
+    let { state } = useLocation();
+    useEffect(()=>{
+        console.log(state);
+        if (state !== null && !alreadyLoadedDraft && state["draftClaim"] !== undefined) {
+            console.log(`Draft claim found in state: `, state["draftClaim"]);
+            alreadyLoadedDraft = true;
+            const { amount, claim_id, currency, date, description, expenseType, receipts, status, title, user_id } = state["draftClaim"];
+            setTitle(title);
+            setType(expenseType);
+            setCurrency(currency);
+            setAmount(amount);
+            setDate(date);
+            setDescription(description);
+            // setImage(receipts);
+            // setPreview(receipts);
+            console.log(`Loaded draft: `, state["draftClaim"]);
+            console.log(title, description, expenseType);
+            // window.location.reload();
+        } else {
+            console.log(`No draft claim found in state.`);
+            console.log(`state is: `, state);
+            console.log(`alreadyLoadedDraft is: `, alreadyLoadedDraft);
+        }
+    }, [state, alreadyLoadedDraft, setTitle, setType, setCurrency, setAmount, setDate, setDescription]);
+
     const navigate = useNavigate();
     
     async function handleSubmit(e) {
