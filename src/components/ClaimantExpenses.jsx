@@ -14,6 +14,10 @@ var PendingArr = []
 var RejectedArr = []
 var DraftsArr = []
 
+function removeDuplicatesFromArray(arr) {
+    return arr.filter((value, index) => arr.indexOf(value) === index);
+};
+
 async function fetchClaims (setIsLoading) {
     await httpClient.get('/api/claims/').then(function(response) {
         setIsLoading(true);
