@@ -12,48 +12,81 @@ import Animate_page from './Animate-page';
 var AcceptedArr = []
 var PendingArr = []
 var RejectedArr = []
-var DraftArr = []
+var DraftsArr = []
 
 async function fetchClaims (setIsLoading) {
-    await httpClient.get('/api/claims/')
-    .then(function(response) {
+    await httpClient.get('/api/claims/').then(function(response) {
         setIsLoading(true);
         console.log(response.data);
-        let maxNum = response.data.claims.length;
-        if (maxNum !== 0){
+        const maxNum = response.data.claims.length;
+        if (maxNum !== 0) {
             response.data.claims.map((claim) => {
-                let currentNum = AcceptedArr.length + PendingArr.length + RejectedArr.length + DraftArr.length
+                const currentNum = AcceptedArr.length + PendingArr.length + RejectedArr.length + DraftsArr.length;
                 if (maxNum <= currentNum) {
-                    return
+                    return;
+                } else if (claim.status === "Approved") {
+                    AcceptedArr.push(claim);
+                } else if (claim.status === "Pending") {
+                    PendingArr.push(claim);
+                    console.log("pending msg");
+                } else if (claim.status === "Denied") {
+                    RejectedArr.push(claim);
+                } else if (claim.status === "Draft") {
+                    DraftsArr.push(claim);
                 }
-                else if (claim.status === "Approved"){
-                    AcceptedArr.push(claim)
-                }
-                else if (claim.status === "Pending"){
-                    PendingArr.push(claim)
-                    console.log("pending msg")
-                }
-                else if (claim.status === "Denied"){
-                    RejectedArr.push(claim)
-                }
-                else if (claim.status === "Draft"){
-                    DraftArr.push(claim)
-                }
-            })
+            });
         }
-    })
-    .catch(function(error) {
+    }).catch(function(error) {
         console.log(error);
-    })
-    .finally(() => setIsLoading(false))
-}
+    }).finally(() => setIsLoading(false));
+};
 
-var TempAcceptedArr = []
-var TempPendingArr = []
-var TempRejectedArr = []
+var TempAcceptedArr = [];
+var TempPendingArr = [];
+var TempRejectedArr = [];
 
 
 // var counter = 0;
+export function emptyDraftsArr() {
+    DraftsArr = [];
+    console.log("Drafts array emptied.");
+    return;
+};
+/**
+ * 
+ * @param {number} draftClaimId 
+ * @param {{
+ * title: string|null,
+ * type: string|null,
+ * currency: string|null,
+ * amount: number|null,
+ * date: string|null,
+ * description: string|null,
+ * image: string|null
+ * }} details 
+ */
+export function addToDraftsArr(draftClaimId, details) {
+    const { title, type, currency, amount, date, description, image } = details;
+    const output = {
+        id: draftClaimId,
+        title: title,
+        type: type,
+        currency: currency,
+        amount: amount,
+        date: date,
+        description: description,
+        image: image,
+
+        // but then the thing that code below actually uses (which weren't covered above)...
+        date_time: date,
+        currency_type: currency,
+        desc: title
+    };
+    DraftsArr.push(output);
+    console.log(`Drafts array updated, with: `, output);
+
+    return;
+};
 
 
 export function ClaimantExpenses(){
@@ -64,44 +97,34 @@ export function ClaimantExpenses(){
 
         // forces the Arrays to empty on every render, 
         // so we end up with the correct amount of claims
-        AcceptedArr = []
-        PendingArr = []
-        RejectedArr = []
-        DraftArr = []
+        AcceptedArr = [];
+        PendingArr = [];
+        RejectedArr = [];
+        DraftsArr = [];
         
         fetchClaims(setIsLoading);
-    }, [])
+    }, []);
 
     //Example expense object, This is used to display
     // const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:151,desc:"Fortnite Card",state:"Accepted"})
-    const [apply_filters, setApplyFilters] = useState(false)
+    const [apply_filters, setApplyFilters] = useState(false);
 
     //To check the state of each type of expense
-    const [isCollapsed, setIsCollapsed] = useState({pending:true, rejected:true, accepted:true, filter:false})
-
-    //epic, DELETE THIS ONCE BACKEND WORKS AND POPULATES THE 3 ARRAYS ABOVE
-    // for(var i=0;i<counter;i++){
-    // const diffStates = ["Pending","Accepted","Rejected"]
-    // console.log("Happy")
-    // var rdmState = diffStates[(Math.floor(Math.random() * diffStates.length))]
-    // console.log(rdmState)
-    // const newExpense = {...expense, state: rdmState};
-    // console.log(newExpense.state) 
-    
-    // if (newExpense.state === "Accepted"){
-    //     AcceptedArr.push(newExpense)
-    // }
-    // else if (newExpense.state === "Pending"){
-    //     PendingArr.push(newExpense)
-    // }
-    // else if (newExpense.state === "Rejected"){
-    //     RejectedArr.push(newExpense)
-    // }
-    // }
-    // counter=0
-    //end of EPIC
+    const [isCollapsed, setIsCollapsed] = useState({
+        drafts: true, 
+        pending: true, 
+        rejected: true, 
+        accepted: true, 
+        filter: false
+    });
 
     //Animations
+    const transition_drafts = useTransition(isCollapsed.drafts, {
+        from: {x:-2000, opacty:0, height:0},
+        enter: {x:0, opacity:1, height:76},
+        leave: {x:2000 ,opacity:0, height:0},
+        config: { duration: 200 },
+    });
     const transition_pending = useTransition(isCollapsed.pending ,{
         from: {x:-2000,opacty:0, height:0},
         enter: {x:0, opacity:1, height:76},
@@ -128,9 +151,12 @@ export function ClaimantExpenses(){
     })
 
     //This handles what will happen when the collapse button is pressed
-    const handleCollapse = (column) =>{
-
-        if(column === "pending"){
+    const handleCollapse = (column)=>{
+        if (column === "drafts") {
+            const swapCollapse = {...isCollapsed, drafts  :!(isCollapsed.drafts)};
+            setIsCollapsed(swapCollapse);
+        }
+        else if(column === "pending"){
             const swapCollapse = {...isCollapsed, pending  :!(isCollapsed.pending)}
             setIsCollapsed(swapCollapse)
         }
@@ -146,201 +172,221 @@ export function ClaimantExpenses(){
             const swapCollapse = {...isCollapsed, filter  :!isCollapsed.filter}
             setIsCollapsed(swapCollapse)
         }
-    }
+    };
 
     //This will remove the filters that were applied, does this by storing
     //the arrays pre-filter and then bringing them back when the filter is removed
-    const handleRemoveFilters = () =>{
-        setApplyFilters(false)
-        AcceptedArr = TempAcceptedArr
-        RejectedArr = TempRejectedArr
-        PendingArr = TempPendingArr
-        TempPendingArr = []
-        TempAcceptedArr = []
-        TempRejectedArr = []
-        console.log(AcceptedArr)
-    }
+    const handleRemoveFilters = ()=>{
+        setApplyFilters(false);
+        AcceptedArr = TempAcceptedArr;
+        RejectedArr = TempRejectedArr;
+        PendingArr = TempPendingArr;
+        TempPendingArr = [];
+        TempAcceptedArr = [];
+        TempRejectedArr = [];
+        console.log(AcceptedArr);
+    };
     //This will apply filters to the expenses
     const handleApplyFilters = (month,amountF,currency) => {
-        setApplyFilters(true)
-        handleCollapse("filter")
+        setApplyFilters(true);
+        handleCollapse("filter");
 
         //Saving what the arrays were pre-filter
-        if(TempAcceptedArr.length === 0 && TempAcceptedArr.length === 0 && TempRejectedArr.length === 0){
+        if (TempAcceptedArr.length === 0 && TempAcceptedArr.length === 0 && TempRejectedArr.length === 0) {
             TempAcceptedArr = AcceptedArr
             TempRejectedArr = RejectedArr
             TempPendingArr = PendingArr
         }
         //Filtering based on amount
-        if(amountF.Ten){
+        if (amountF.Ten){
             AcceptedArr = filterAmountArray(AcceptedArr,10)
             RejectedArr = filterAmountArray(RejectedArr,10)
             PendingArr = filterAmountArray(PendingArr,10)
         }
-        else if(amountF.Fifty){
+        else if (amountF.Fifty){
             AcceptedArr = filterAmountArray(AcceptedArr,50)
             RejectedArr = filterAmountArray(RejectedArr,50)
             PendingArr = filterAmountArray(PendingArr,50)
         }
-        else if(amountF.Hundred){
+        else if (amountF.Hundred){
             AcceptedArr = filterAmountArray(AcceptedArr,100)
             RejectedArr = filterAmountArray(RejectedArr,100)
             PendingArr = filterAmountArray(PendingArr,100)
         }
 
         //Filtering based on currency
-        if(currency.Pound){
+        if (currency.Pound) {
             AcceptedArr = filterCurrencyArray(AcceptedArr,"£")
             RejectedArr = filterCurrencyArray(RejectedArr,"£")
             PendingArr = filterCurrencyArray(PendingArr,"£")
         }
-        else if(currency.Dollar){
+        else if (currency.Dollar) {
             AcceptedArr = filterCurrencyArray(AcceptedArr,"$")
             RejectedArr = filterCurrencyArray(RejectedArr,"$")
             PendingArr = filterCurrencyArray(PendingArr,"$")
         }
-        else if(currency.Euro){
+        else if (currency.Euro) {
             AcceptedArr = filterCurrencyArray(AcceptedArr,"€")
             RejectedArr = filterCurrencyArray(RejectedArr,"€")
             PendingArr = filterCurrencyArray(PendingArr,"€")
         }
 
-        if(month.Month){
+        if (month.Month) {
             AcceptedArr = filterMonthArray(AcceptedArr,1)
             RejectedArr = filterMonthArray(RejectedArr,1)
             PendingArr = filterMonthArray(PendingArr,1)
         }
-        else if(month.ThreeMonth){
+        else if (month.ThreeMonth) {
             AcceptedArr = filterMonthArray(AcceptedArr,3)
             RejectedArr = filterMonthArray(RejectedArr,3)
             PendingArr = filterMonthArray(PendingArr,3)
         }
-        else if(month.SixMonth){
+        else if (month.SixMonth) {
             AcceptedArr = filterMonthArray(AcceptedArr,6)
             RejectedArr = filterMonthArray(RejectedArr,6)
             PendingArr = filterMonthArray(PendingArr,6)
         }
-    }
+    };
 
-    function filterAmountArray(arr,amount_to_filter_by){
-        const newArr = []
-            for(var i=0;i<arr.length;i++){
-                if(arr[i].amount < amount_to_filter_by){
-                    newArr.push(arr[i])
-                }
-            }
-            return newArr;
-    }
-    function filterCurrencyArray(arr,currency_to_filter_by){
-        const newArr = []
-            for(var i=0;i<arr.length;i++){
-                if(arr[i].currency === currency_to_filter_by){
-                    newArr.push(arr[i])
-                }
-            }
-            return newArr;
-    }
-
-    function filterMonthArray(arr,month_to_filter_by){
-        const newArr = []
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        const d = new Date();
-        let month = d.getMonth();
-        let year = d.getFullYear();
-       
-
-
+    function filterAmountArray(arr,amount_to_filter_by) {
+        const newArr = [];
         for(var i=0;i<arr.length;i++){
-            let expense_year = parseInt(arr[i].date.substr(12,4))
-            let expense_month_num = months.indexOf(arr[i].date.substr(8,3))
-            for(var j=0;j<(year-expense_year);j++){
-                expense_month_num = expense_month_num-12
-            }
-            if(Math.abs(expense_month_num-month) <= month_to_filter_by){
+            if(arr[i].amount < amount_to_filter_by){
                 newArr.push(arr[i])
             }
         }
         return newArr;
-    }
+    };
+    function filterCurrencyArray(arr,currency_to_filter_by) {
+        const newArr = []
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].currency === currency_to_filter_by){
+                newArr.push(arr[i])
+            }
+        }
+        return newArr;
+    };
+
+    function filterMonthArray(arr,month_to_filter_by){
+        const newArr = [];
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const d = new Date();
+        let month = d.getMonth();
+        let year = d.getFullYear();
+       
+        for(var i=0;i<arr.length;i++){
+            let expense_year = parseInt(arr[i].date.substr(12,4));
+            let expense_month_num = months.indexOf(arr[i].date.substr(8,3));
+            for(var j=0;j<(year-expense_year);j++){
+                expense_month_num = expense_month_num-12;
+            }
+            if(Math.abs(expense_month_num-month) <= month_to_filter_by){
+                newArr.push(arr[i]);
+            }
+        }
+        return newArr;
+    };
+
+    
     return(
-        <div>
+    <div>
         <Animate_page>
-        <div className='ViewExpensesPage'>
-            <div id='PhoneBox'>
-                <div id='TitleBox'>
-                <h1 id='Title'>View Expenses</h1>
-                <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
-                    <FilterIcon />
-                </button>
-                </div>
-                {apply_filters?
-                <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button>
-                : ""
-                }
-                    <div className='expense-column'>
-                        <div className='h2-collapse'>
-                            <h2 className='ExpenseType'>Pending</h2>
-                            <button onClick={() => handleCollapse("pending")}>
-                                <p className='collapse-text'>{isCollapsed.pending ? "Collapse" : "Expand"}</p>
-                                <CollapseIcon/>
-                            </button>
-                        </div>
-                        {
-                        PendingArr.map((expense, index) => 
-                        (transition_pending((style, item) =>
-                        item ? <animated.div style={style}>
-                            <Link to="/view-expense" state={{ claim: expense }}>
-                                <ExpenseBox key={index} expense={expense}/>
-                            </Link>
-                        </animated.div>
-                        : '')
-                        ))
-                        }
-                    </div>
-                    <div className='h2-collapse'>
-                        <h2 className='ExpenseType'>Rejected</h2>
-                        <button onClick={() => handleCollapse("rejected")}>
-                            <p className='collapse-text'>{isCollapsed.rejected ? "Collapse" : "Expand"}</p>
-                            <CollapseIcon/>
+            <div className='ViewExpensesPage'>
+                <div id='PhoneBox'>
+                    <div id='TitleBox'>
+                        <h1 id='Title'>View Expenses</h1>
+                        { apply_filters ? <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button> : "" }
+                        <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
+                            <FilterIcon />
                         </button>
+                        <div className='expense-column'>
+                            <div className="h2-collapse">
+                                <h2 className="ExpenseType">Draft Claims</h2>
+                                <button onClick={()=> handleCollapse("drafts")}>
+                                    <p className='collapse-text'>{isCollapsed.drafts ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                removeDuplicatesFromArray(DraftsArr).map((expense, index) => 
+                                    (transition_drafts((style, item) =>
+                                    item ? <animated.div style={style}>
+                                        <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: expense}}>
+                                            <ExpenseBox key={index} expense={expense} />
+                                        </Link>
+                                    </animated.div>
+                                    : '')
+                                ))
+                            }
+
+                            <div className='h2-collapse'>
+                                <h2 className='ExpenseType'>Pending</h2>
+                                <button onClick={() => handleCollapse("pending")}>
+                                    <p className='collapse-text'>{isCollapsed.pending ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                PendingArr.map((expense, index) => 
+                                    (transition_pending((style, item) =>
+                                    item ? <animated.div style={style}>
+                                        <Link to="/view-expense" state={{ claim: expense }}>
+                                            <ExpenseBox key={index} expense={expense}/>
+                                        </Link>
+                                    </animated.div>
+                                    : '')
+                                ))
+                            }
+
+                            <div className='h2-collapse'>
+                                <h2 className='ExpenseType'>Rejected</h2>
+                                <button onClick={() => handleCollapse("rejected")}>
+                                    <p className='collapse-text'>{isCollapsed.rejected ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                RejectedArr.map((expense, index) => 
+                                    (transition_rejected((style, item) =>
+                                    item ? <animated.div style={style}>
+                                        <Link to="/view-expense" state={{ claim: expense }}>
+                                            <ExpenseBox key={index} expense={expense}/>
+                                        </Link>
+                                    </animated.div>
+                                    : '')
+                                ))
+                            }
+
+                            <div className='h2-collapse'>
+                                <h2 className='ExpenseType'>Accepted</h2>
+                                <button onClick={() => handleCollapse("accepted")}>
+                                    <p className='collapse-text'>{isCollapsed.accepted ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                AcceptedArr.map((expense, index) => 
+                                    (transition_accepted((style, item) =>
+                                    item ? <animated.div style={style}>
+                                            <Link to="/view-expense" state={{ claim: expense }}>
+                                                <ExpenseBox key={index} expense={expense}/>
+                                            </Link>
+                                        </animated.div>
+                                    : '')
+                                ))
+                            }
+                        </div> 
                     </div>
                     {
-                        RejectedArr.map((expense, index) => 
-                        (transition_rejected((style, item) =>
-                        item ? <animated.div style={style}>
-                            <Link to="/view-expense" state={{ claim: expense }}>
-                                <ExpenseBox key={index} expense={expense}/>
-                            </Link>
-                        </animated.div>
-                        : '')
-                        ))
+                        transition_filter((style, item) =>
+                            item ? <animated.div style={style}><FilterBox handleCollapse={handleCollapse} handleApplyFilters={handleApplyFilters}/></animated.div>
+                            : '')
                     }
-                    <div className='h2-collapse'>
-                        <h2 className='ExpenseType'>Accepted</h2>
-                        <button onClick={() => handleCollapse("accepted")}>
-                            <p className='collapse-text'>{isCollapsed.accepted ? "Collapse" : "Expand"}</p>
-                            <CollapseIcon/>
-                        </button>
-                        </div>
-                    { AcceptedArr.map((expense, index) => 
-                        (transition_accepted((style, item) =>
-                        item ? <animated.div style={style}>
-                                <Link to="/view-expense" state={{ claim: expense }}>
-                                    <ExpenseBox key={index} expense={expense}/>
-                                </Link>
-                            </animated.div>
-                        : '')
-                        ))}
-            </div>                    
+                    <NavBar/>
+                </div>
             </div>
-            {transition_filter((style, item) =>
-                       item ? <animated.div style={style}><FilterBox handleCollapse={handleCollapse} handleApplyFilters={handleApplyFilters}/></animated.div>
-                       : '')
-                       }
-            </Animate_page>
-            <NavBar/>
-        </div>
-    )
+        </Animate_page>
+    </div>);
 }
 export default ClaimantExpenses;
 
