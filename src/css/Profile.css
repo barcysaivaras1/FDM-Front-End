@@ -61,12 +61,27 @@ body{
     font-weight: 300;
 }
 
-
 #LogoutBtnProfile {
+    width: 180px;
     text-align: center;
+    color: red;
+    border: 2px solid red;
+    padding: 12px 0;
+    margin-bottom: 1svh;
+    border-radius: 10px;
+}
+
+.change-password {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.change-password button{
     color: white;
     background-color: #0F1F3C;
-    padding: 2% 5%;
+    padding: 15px 35px;
     margin-bottom: 1svh;
     border-radius: 10px;
 }
