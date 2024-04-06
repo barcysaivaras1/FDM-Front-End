@@ -4,12 +4,20 @@ import { NavLink } from "react-router-dom";
 import NavBar from "./NavBar";
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
+import Modal from './Modal';
 
 
 export function Profile() {
     const [profile, setProfile] = useState()
     const [totalAccepted, setTotalAccepted] = useState(0);
     const [totalSpent, setTotalSpent] = useState(0.0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    const [successMessage, setSuccessMessage] = useState();
+    const [errorMessage, setErrorMessage] = useState();
 
     async function logoutBackend() {
         await httpClient.post("/api/auth/logout")
@@ -53,6 +61,44 @@ export function Profile() {
         }
     }
 
+    const validatePasswords = (e) => {
+        setSuccessMessage(null);
+        
+        if (e.target.name === "newPassword" && e.target.value !== confirmNewPassword) {
+            setErrorMessage("Passwords do not match");
+        } else if (e.target.name === "confirmNewPassword" && e.target.value !== newPassword) {
+            setErrorMessage("Passwords do not match");
+        } else {
+            setErrorMessage(null);
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (newPassword !== confirmNewPassword) {
+            setErrorMessage("Passwords do not match");
+            return;
+        }
+
+        httpClient.put('/api/auth/change-password', {
+            old_password: oldPassword,
+            new_password: newPassword
+        })
+        .then(function(response) {
+            console.log(response);
+            setErrorMessage(null);
+            setSuccessMessage("Password successfully updated");
+        })
+        .catch(function(error) {
+            if (error.response.status === 401) {
+                setErrorMessage("Old password is incorrect");
+            } else {
+                setErrorMessage(error.response.data.error);
+            }
+        })
+    }
+
     useEffect(() => {
         document.title = 'Your Profile';
         fetchProfile();
@@ -91,7 +137,7 @@ export function Profile() {
                     </p>
                 </div>
                 <div id='Stats'>
-                    <div>
+                    <div className='stat'>
                         <p className="StatsTitle" id='LMETitle'>
                             Your Email
                         </p>
@@ -101,7 +147,7 @@ export function Profile() {
                         </p>
                     </div>
 
-                    <div>
+                    <div className='stat'>
                         <p className="StatsTitle" id='LMETitle'>
                             Your Line Manager
                         </p>
@@ -113,7 +159,7 @@ export function Profile() {
                         </p>
                     </div>
                     
-                    <div>
+                    <div className='stat'>
                         <p className="StatsTitle">
                             Total Accepted Claims
                         </p>
@@ -124,7 +170,7 @@ export function Profile() {
                         </p>
                     </div>
 
-                    <div>
+                    <div className='stat'>
                         <p className="StatsTitle">
                             Total Budget Spent
                         </p>
@@ -133,6 +179,51 @@ export function Profile() {
                             {/* £49.99 */}
                             {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2)) : "£0"}
                         </p>
+                    </div>
+
+                    <div className='change-password'>
+                        <button onClick={() => setIsModalOpen(true)}>Change password</button>
+
+                        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                            <form onSubmit={handleSubmit} className='change-password-form'>
+                                <div>
+                                    <label>Old Password</label>
+                                    <input 
+                                        type="password"
+                                        name="oldPassword"
+                                        value={oldPassword}
+                                        onChange={(e) => setOldPassword(e.target.value)}
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label>New Password</label>
+                                    <input 
+                                        type="password"
+                                        name="newPassword"
+                                        value={newPassword}
+                                        onChange={(e) => {setNewPassword(e.target.value); validatePasswords(e)}}
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label>Confirm New Password</label>
+                                    <input 
+                                        type="password"
+                                        name="confirmNewPassword"
+                                        value={confirmNewPassword}
+                                        onChange={(e) => {setConfirmNewPassword(e.target.value); validatePasswords(e)}}
+                                        required
+                                    />
+                                </div>
+
+                                <p className='success-message'>{successMessage}</p>
+                                <p className='error-message'>{errorMessage}</p>
+                                <button className='submit-button'>Update Password</button>
+                            </form>
+                        </Modal>
                     </div>
                 </div>
                 <NavLink to="/" id="LogoutBtnProfile" onClick={() => { logoutBackend() }}>

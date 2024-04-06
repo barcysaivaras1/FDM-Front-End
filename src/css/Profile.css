@@ -43,7 +43,7 @@ body{
     gap: 20px;
 }
 
-#Stats div {
+#Stats .stat {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,6 +69,27 @@ body{
     padding: 2% 5%;
     margin-bottom: 1svh;
     border-radius: 10px;
+}
+
+.ProfileBody .change-password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ProfileBody .change-password-form div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.ProfileBody .change-password-form .error-message {
+    color: red;
+}
+
+.ProfileBody .change-password-form .success-message {
+    color: green;
 }
 
 @media screen and (min-width: 1024px) {
