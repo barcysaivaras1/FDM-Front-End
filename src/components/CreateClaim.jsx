@@ -308,42 +308,46 @@ export function CreateClaim () {
 
                     <div>
                         <div className="proofArea">
-                            {
-                                (imagesArr.length > 0) ? (
-                                    imagesArr.map((fileHandle)=>{
-                                        return (
-                                        <>
-                                            <img
-                                                data-file={fileHandle} 
-                                                src={URL.createObjectURL(fileHandle)}
-                                                alt="uploaded proof"
-                                                className='proofPreview'
-                                            />
+                            <section className="proofArea-picture-gallery">
+                                {
+                                    (imagesArr.length > 0) ? (
+                                        imagesArr.map((fileHandle)=>{
+                                            return (
+                                            <>
+                                                <article className="proof-image-holder">
+                                                    <img
+                                                        data-file={fileHandle} 
+                                                        src={URL.createObjectURL(fileHandle)}
+                                                        alt="uploaded proof"
+                                                        className='proofPreview'
+                                                    />
 
-                                            <button
-                                                type='button'
-                                                className='cancelButton'
-                                                onClick={() => {
-                                                    // const targetButton = evt.target;
-                                                    // const imgElement = targetButton.previousSibling; // this is <img> elem.
-                                                    removeAnImage(fileHandle);
-                                                    setImage(null);
-                                                    setPreview(null);
-                                                    console.log(`Attempted to remove this image ${fileHandle}.`);
-                                                }}
-                                            >
-                                                Remove
-                                            </button>
+                                                    <button
+                                                        type='button'
+                                                        className='cancelButton'
+                                                        onClick={() => {
+                                                            // const targetButton = evt.target;
+                                                            // const imgElement = targetButton.previousSibling; // this is <img> elem.
+                                                            removeAnImage(fileHandle);
+                                                            setImage(null);
+                                                            setPreview(null);
+                                                            console.log(`Attempted to remove this image ${fileHandle}.`);
+                                                        }}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </article>
+                                            </>
+                                            )
+                                        })
+                                    ) : (
+                                        <>
+                                            <p>No images here yet.</p>
                                         </>
-                                        )
-                                    })
-                                ) : (
-                                    <>
-                                        <p>No images here yet.</p>
-                                    </>
-                                )
-                            }
-                            <>
+                                    )
+                                }
+                            </section>
+                            <section className="proofArea-upload-footer">
                                 <CiImageOn/>
                                 <input
                                     className='imageInput'
@@ -360,13 +364,13 @@ export function CreateClaim () {
                                     required
                                 />
                                 <label htmlFor="file" className='almostButton'>Upload an Image</label>
-                            </>
+                            </section>
                         </div>
                     </div>
 
-                    <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
+                    <button type="button" className="infield clearSubmit saveDraftSubmit" onClick={()=>{
                         saveAsDraft({title, type, currency, amount, date, description, image: recentImage});
-                    }}>Save as Draft</b>
+                    }}>Save as Draft</button>
                     <Link className='infield clearSubmit' to="/create-claim" state={{
                         draftClaim: {
                             amount: null, 
@@ -381,8 +385,7 @@ export function CreateClaim () {
                             user_id: null
                         }
                     }} >
-                        <b className='infield clearSubmit' 
-                            // className='infield clearSubmit'
+                        <button type="button" className='infield clearSubmit' 
                             onClick={() => {
                                 setTitle("");
                                 setType("");
@@ -396,7 +399,7 @@ export function CreateClaim () {
                             }}
                         >
                             Clear form
-                        </b>
+                        </button>
                     </Link>
 
                         <button className='infield createSubmit'>Submit Claim</button>
