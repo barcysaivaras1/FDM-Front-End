@@ -376,23 +376,6 @@ export function CreateClaim () {
                         </div>
                     </div>
 
-                        {/* <button
-                            className='infield clearSubmit'
-                            onClick={() => {
-                                setTitle("");
-                                setType("");
-                                setCurrency("");
-                                setAmount("");
-                                setDate("");
-                                setDescription("");
-                                setImage(null);
-                                setPreview(null);
-                            }}
-                        >
-                            Clear form
-                        </button>
-                    <button className='infield createSubmit'>Submit Claim</button> */}
-
                     <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
                         saveAsDraft({title, type, currency, amount, date, description, image});
                     }}>Save as Draft</b>
