@@ -2,6 +2,11 @@ body{
     margin: 0;
 }
 
+.create {
+    width: 100%;
+    overflow-y: scroll;
+}
+
 /* Overflow needed */
 .createContainer{
     font-family: "Inter";
@@ -10,12 +15,17 @@ body{
     gap: 1svh;
     align-items: center;
     margin: auto;
-    overflow-y: scroll;
 
     height: 90.176svh;
     justify-content: center;
     
     width: 100%;
+    max-width: 50rem;
+}
+
+.createContainer input, .createContainer textarea, .createContainer select {
+    outline: none;
+    padding: 8px;
 }
 
 .createLegend {
@@ -46,7 +56,6 @@ body{
     height: 44px;
 
     background-color: #E4E5E8;
-    padding-left: 2vw;
 }
 
 .infield::placeholder, option[value="placeholder"]{
@@ -61,6 +70,11 @@ body{
     gap: 1vw;
 }
 
+.inlineContainer div {
+    width: 100%;
+    flex-grow: 1;
+}
+
 .descriptionInput {
     font-family: "Inter";
     resize: none;
@@ -70,7 +84,7 @@ body{
 
 .proofArea {
     height: 30svh;
-    max-height: 20svh;
+    max-height: fit-content;
     border: 3px dashed rgba(15, 31, 60, 0.4);
     border-radius: 10px;
 
@@ -160,9 +174,5 @@ body{
         padding-inline: 10vw;
         width: 90vw;
         height: 100svh;
-    }
-
-    .infield {
-        padding-left: 1vw;
     }
 }
