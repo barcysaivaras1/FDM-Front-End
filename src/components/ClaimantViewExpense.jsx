@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import "../css/ClaimantViewExpense.css"
 import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import httpClient from "../httpClient";
 import Animate_page from "./Animate-page";
+import { removeFromDraftsArr } from "./ClaimantExpenses";
+
 
 export function ClaimantViewExpense() {
     let { state } = useLocation();
@@ -14,22 +16,93 @@ export function ClaimantViewExpense() {
     useEffect(() => {
         document.title = "View Expense";
         setClaim(state.claim);
-    }, [])
+        if (state.draftClaim !== undefined) {
+            console.info(`Draft claim found: ${state.draftClaim}`);
+            setClaim(state.draftClaim);
+        } else {
+            console.info("No draft claim found.");
+        }
+    }, []);
 
     async function appealClaim() {
         await httpClient.post(`/api/claims/${state.claim.claim_id}/appeal`,
             {
                 description: claim.description
             }
-        )
-        .then(function(response) {
+        ).then(function(response) {
             alert(response.data.message);
-        })
-        .catch(function(error) {
+        }).catch(function(error) {
             console.log(error);
             alert(error.response.data.error);
-        })
-    }
+        });
+    };
+
+    
+    async function deleteDraft() {
+        const draftClaim = state.draftClaim;
+        if (!draftClaim) {
+            window.alert("No draft claim found.");
+            console.error(`No draft claim found.`);
+        } else {
+            console.log(`delete draft : Deleting draft-claim: `, draftClaim);
+            const draftClaimId = draftClaim.id || draftClaim.claim_id;
+            if (draftClaimId === undefined || draftClaimId === null) {
+                window.alert("Draft claim id is nullish.");
+                console.error(`Draft claim id is nullish.`);
+                return;
+            }
+            const reqClaims = new Request(`/api/claims/drafts/${draftClaim.id}`, {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            });
+            // console.info({reqClaims});
+            /**
+             * @type {Response}
+             */
+            const response = await fetch(reqClaims);
+            try {
+                if (response.status === 200) {
+                    const json = await response.json();
+                    console.info(`delete draft : response: `, json);
+                    // server is returning {"id": number, "message": string}
+                    // so we unpack that
+                    const {id, message} = json;
+                    if (id !== undefined && id !== null) {
+                        ls_draftStorage["most-recent-draft"] = null;
+                        ls_draftStorage["most-recent-timestamp"] = Date.now();
+                        /**
+                         * @type {number[]}
+                         */
+                        const arr = ls_draftStorage["draft_ids"];
+                        const index_for_id = arr.findIndex((val)=>{
+                            return val === id;
+                        });
+                        if (index_for_id !== -1) {
+                            arr.splice(index_for_id, 1);
+                        }
+                        window.localStorage.setItem(ls_keys["save-draft-claim"], JSON.stringify(ls_draftStorage));
+                        console.log(`delete draft : Draft-claim deleted, id was: ${id}.`);
+                        window.alert(`This draft-claim has been deleted.`);
+        
+                        removeFromDraftsArr(id);
+                    } else {
+                        console.error(`delete draft : Failed to delete draft-claim. Id was nullish.`);
+                    }
+                } else {
+                    console.error(`delete draft : Failed to delete draft-claim. Status: ${response.status}`);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+
+            return;
+        }
+        return;
+    };
 
     return (
         <div>
@@ -37,7 +110,7 @@ export function ClaimantViewExpense() {
             <Animate_page>
             <div id="ExpenseBody">
                 <div id="TitleBar">
-                    <NavLink to={"/my-expenses"}><BackButtonIcon/></NavLink>
+                    <Link to={"/my-expenses"}><BackButtonIcon/></Link>
                     <h1>View Expense</h1>
                 </div>
                 <hr/>
@@ -84,13 +157,32 @@ export function ClaimantViewExpense() {
                     }
                 </div>
 
+                {
+                    
+                    claim?.status === "Draft" && (
+                        <div>
+                            <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
+                                <div id="DraftEdit">
+                                    <p>Edit this Draft</p>
+                                </div>
+                            </Link>
+
+                            <Link to={"/my-expenses"} onClick={() => {deleteDraft()}}>
+                                <div id="DraftDelete">
+                                    <p>Delete this Draft</p>
+                                </div>
+                            </Link>
+                        </div>
+                    )
+                }
+
                 { /* Tested, fully functional. */
                     claim?.status === "Denied" && (
-                        <NavLink to={"/my-expenses"} onClick={() => {appealClaim()}}>
+                        <Link to={"/my-expenses"} onClick={() => {appealClaim()}}>
                             <div id="AppealClaim">
                                 <p>Appeal this claim</p>
                             </div>
-                        </NavLink>
+                        </Link>
                     )
                 }
             </div>

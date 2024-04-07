@@ -84,11 +84,17 @@ export function addToDraftsArr(draftClaimId, details) {
         // but then the thing that code below actually uses (which weren't covered above)...
         date_time: date,
         currency_type: currency,
-        desc: title
+        desc: title,
+        claim_id: draftClaimId
     };
     DraftsArr.push(output);
     console.log(`Drafts array updated, with: `, output);
 
+    return;
+};
+export function removeFromDraftsArr(draftClaimId) {
+    DraftsArr = DraftsArr.filter((claim) => claim.id !== draftClaimId);
+    console.log(`Drafts array updated, with claim ${draftClaimId} removed.`);
     return;
 };
 
@@ -397,7 +403,7 @@ export default ClaimantExpenses;
 
 
 const ExpenseBox = (props) =>{
-
+    // console.log(`ExpenseBox, props.expense: `, props.expense);
     var img
 
     if(props.expense.status === "Pending"){
@@ -416,7 +422,7 @@ const ExpenseBox = (props) =>{
             <div className='claim-info'>
                 <div className='claim-date'>{props.expense.date.replace(" 00:00:00 GMT", "")}</div>
                 <div>{props.expense.currency+props.expense.amount}</div>
-                <div>{props.expense.description}</div>
+                <div>{props.expense.title}</div>
             </div>
             <div className='claim-arrow'>
                 <ArrowRightIcon/>
