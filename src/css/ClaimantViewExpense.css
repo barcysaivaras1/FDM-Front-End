@@ -1,10 +1,19 @@
-#ExpenseBody {
+.view-expense {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
     overflow: scroll;
+}
+
+#ExpenseBody {
+    width: 100%;
+    max-width: 50rem;
     height: 90.176svh;
 }
 
 #TitleBar, hr, #AppealClaim, #DraftEdit, #DraftDelete {
-    width: 86.225vw;
+    width: 100%;
     margin-inline: auto;
 }
 
@@ -20,7 +29,7 @@
 #Status, #ExpenseDetails {
     margin-inline: auto;
     margin-top: 2svh;
-    width: 82vw;
+    width: 100%;
     padding-top: 1svh;
     padding-inline: 4vw;
     padding-bottom: 2svh;
@@ -63,7 +72,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90vw;
+    width: 100%;
     height: 7svh;
     background-color: #0F1F3C;
     margin-bottom: 2svh;
@@ -89,10 +98,11 @@ p {
 
     #Status, #ExpenseDetails {
         padding: 2vw;
+        box-sizing: border-box;
     }
 
     #AppealClaim, #DraftEdit, #DraftDelete {
-        width: 86vw;
+        width: 100%;
     }
 
     .AI {

@@ -111,47 +111,50 @@ export function ClaimantViewExpense() {
         <div>
             <NavBar/> 
             <Animate_page>
-            <div id="ExpenseBody">
-                <div id="TitleBar">
-                    <Link to={"/my-expenses"}><BackButtonIcon/></Link>
-                    <h1>View Expense</h1>
-                </div>
-                <hr/>
-                <div id="Status">
-                    {
-                        claim && (
-                            claim.status === "Pending" ? <PendingIcon/> : (
-                                claim.status === "Approved" ? <AcceptedIcon/> : (
-                                    claim.status === "Denied" && <RejectedIcon/>
+            <div className='view-expense'>
+                <div id="ExpenseBody">
+                    <div id="TitleBar">
+                        <Link to={"/my-expenses"}><BackButtonIcon/></Link>
+                        <h1>View Expense</h1>
+                    </div>
+                    <hr/>
+                    <div id="Status">
+                        {
+                            claim && (
+                                claim.status === "Pending" ? <PendingIcon/> : (
+                                    claim.status === "Approved" ? <AcceptedIcon/> : (
+                                        claim.status === "Denied" ? <RejectedIcon/> : (
+                                            claim.status === "Draft" && <DraftIcon/>
+                                        )
+                                    )
                                 )
                             )
-                        )
-                    }
-                    <h2>Status</h2>
-                    <p>{claim?.status}</p>
-                </div>
-                <div id="ExpenseDetails">
-                    <h2>Expense</h2>
-                    <p>{claim?.title}</p>
+                        }
+                        <h2>Status</h2>
+                        <p>{claim?.status}</p>
+                    </div>
+                    <div id="ExpenseDetails">
+                        <h2>Expense</h2>
+                        <p>{claim?.title}</p>
 
-                    <h2>Date</h2>
-                    <p>{claim?.date.replace(" 00:00:00 GMT", "")}</p>
+                        <h2>Date</h2>
+                        <p>{claim?.date.replace(" 00:00:00 GMT", "")}</p>
 
-                    <h2>Amount</h2>
-                    <p>{claim?.currency+claim?.amount} <i className="AI">AI detected amount to be {claim?.currency+claim?.amount}.</i></p>
+                        <h2>Amount</h2>
+                        <p>{claim?.currency+claim?.amount} <i className="AI">AI detected amount to be {claim?.currency+claim?.amount}.</i></p>
 
-                    <h2>Type</h2>
-                    <p>{claim?.expenseType}</p>
+                        <h2>Type</h2>
+                        <p>{claim?.expenseType}</p>
 
-                    <h2>Description</h2>
-                    <p>{claim?.description}</p>
+                        <h2>Description</h2>
+                        <p>{claim?.description}</p>
 
-                    <h2>Evidence</h2>
-                    { /* UNTESTED!!!!!! */
-                        claim && (
-                            claim.receipts.length > 0 ? (
-                                claim.receipts.map((evidence) => {
-                                    const imageUrl = evidence.imageContentsBase64;
+                        <h2>Evidence</h2>
+                        { /* UNTESTED!!!!!! */
+                            claim && (
+                                claim.receipts.length > 0 ? (
+                                    claim.receipts.map((evidence) => {
+                                        const imageUrl = evidence.imageContentsBase64;
 
                                     // const response = await fetch(imageUrl);
                                     // const imageBlob = await response.blob();
@@ -171,42 +174,43 @@ export function ClaimantViewExpense() {
                                         <img src={imageUrl}></img>
                                     </>
                                     )
-                                })
-                            ) : (
-                                <p>No evidence attached to this claim.</p>
+                                    })
+                                ) : (
+                                    <p>No evidence attached to this claim.</p>
+                                )
                             )
+                        }
+                    </div>
+
+                    {
+
+                        claim?.status === "Draft" && (
+                            <div>
+                                <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
+                                    <div id="DraftEdit">
+                                        <p>Edit this Draft</p>
+                                    </div>
+                                </Link>
+
+                                <Link to={"/my-expenses"} onClick={() => {deleteDraft()}}>
+                                    <div id="DraftDelete">
+                                        <p>Delete this Draft</p>
+                                    </div>
+                                </Link>
+                            </div>
+                        )
+                    }
+
+                    { /* Tested, fully functional. */
+                        claim?.status === "Denied" && (
+                            <Link to={"/my-expenses"} onClick={() => {appealClaim()}}>
+                                <div id="AppealClaim">
+                                    <p>Appeal this claim</p>
+                                </div>
+                            </Link>
                         )
                     }
                 </div>
-
-                {
-                    
-                    claim?.status === "Draft" && (
-                        <div>
-                            <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
-                                <div id="DraftEdit">
-                                    <p>Edit this Draft</p>
-                                </div>
-                            </Link>
-
-                            <Link to={"/my-expenses"} onClick={() => {deleteDraft()}}>
-                                <div id="DraftDelete">
-                                    <p>Delete this Draft</p>
-                                </div>
-                            </Link>
-                        </div>
-                    )
-                }
-
-                { /* Tested, fully functional. */
-                    claim?.status === "Denied" && (
-                        <Link to={"/my-expenses"} onClick={() => {appealClaim()}}>
-                            <div id="AppealClaim">
-                                <p>Appeal this claim</p>
-                            </div>
-                        </Link>
-                    )
-                }
             </div>
             </Animate_page>
         </div>

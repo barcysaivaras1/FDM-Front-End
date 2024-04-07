@@ -2,6 +2,11 @@ body{
     margin: 0;
 }
 
+.create {
+    width: 100%;
+    overflow-y: scroll;
+}
+
 /* Overflow needed */
 .createContainer{
     font-family: "Inter";
@@ -10,12 +15,12 @@ body{
     gap: 1svh;
     align-items: center;
     margin: auto;
-    overflow-y: scroll;
 
     height: 90.176svh;
     justify-content: center;
     
     width: 100%;
+    max-width: 50rem;
 }
 
 .createContainer input, .createContainer textarea, .createContainer select {
