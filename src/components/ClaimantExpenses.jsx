@@ -3,7 +3,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import { useEffect, useState } from 'react';
 import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
-import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon } from '../assets/Icons';
+import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon, DraftIcon } from '../assets/Icons';
 import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
@@ -414,6 +414,9 @@ const ExpenseBox = (props) =>{
     }
     else if(props.expense.status === "Approved"){
         img = <AcceptedIcon />
+    }
+    else if(props.expense.status === "Draft"){
+        img = <DraftIcon />
     }
 
     return(
