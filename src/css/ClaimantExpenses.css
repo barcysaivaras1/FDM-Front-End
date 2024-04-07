@@ -13,8 +13,8 @@ body {
 
 .ViewExpensesPage{
     font-family: "Kaiti SC";
-    width: 100%;
-    max-width: 50rem;
+    width: 95%;
+    max-width: 70rem;
 }
 
 @media screen and (max-width: 1024px) {

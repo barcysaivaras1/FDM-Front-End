@@ -121,4 +121,7 @@ body{
     #LogoutBtnProfile {
         display: none;
     }
+    .ProfileBody{
+        height: 100svh;
+    }
 }
