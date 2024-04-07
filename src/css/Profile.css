@@ -78,12 +78,22 @@ body{
     width: 100%;
 }
 
-.change-password button{
+.change-password label {
+    font-family: 'Kaiti SC';
+}
+
+.change-password .modal-button, .change-password .submit-button {
     color: white;
-    background-color: #0F1F3C;
+    background-color: #0f1f3c;
     padding: 15px 35px;
     margin-bottom: 1svh;
     border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.change-password .modal-button:hover, .change-password .submit-button:hover {
+    background-color: #1a3363;
 }
 
 .ProfileBody .change-password-form {

@@ -41,15 +41,17 @@
     padding-left: 10px;
     padding-right: 10px;
     margin-right: 2vw;
-    color : black;
+    background-color: rgb(190, 188, 188);
+    color : rgb(0, 0, 0);
 }
 
 .optionActive {
     box-shadow: 0 4px 4px rgba(255, 255, 255, 0.25);
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin-right: 2vw;
-    color: #00008B;
+    background: linear-gradient(1deg, #0F1F3C 29.91%, #204382 98.99%);
+    color: #ffffff;
 }
 
 .columnTitles{

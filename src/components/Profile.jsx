@@ -182,7 +182,7 @@ export function Profile() {
                     </div>
 
                     <div className='change-password'>
-                        <button onClick={() => setIsModalOpen(true)}>Change password</button>
+                        <button onClick={() => setIsModalOpen(true)} className='modal-button'>Change password</button>
 
                         <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
                             <form onSubmit={handleSubmit} className='change-password-form'>
