@@ -240,181 +240,181 @@ export function CreateClaim () {
         <div>
             <NavBar />
             <Animate_page>
-            <div className='createContainer'>
-                <legend className='createLegend'>Create Claim</legend>
-                <form className='createForm' onSubmit={handleSubmit}>
-                    <div>
-                        <label>Title</label>
-                        <input
-                            type="text"
-                            className='infield titleInput'
-                            name='title'
-                            placeholder='Title...'
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label>Expense Type</label>
-                        <select
-                            name="expenseType"
-                            className='infield typeInput'
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
-                            required
-                        >
-                            <option value="" disabled selected hidden>Type of Expense</option>
-                            <option value="Travel">Travel Expense</option>
-                            <option value="Accomomdation">Accomodation Expense</option>
-                            <option value="Catering">Catering Expense</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <div className='inlineContainer'>
-                            <div>
-                                <label>Currency</label>
-                                <select
-                                    name="currencyType"
-                                    className='infield currencyInput'
-                                    value={currency}
-                                    onChange={(e) => setCurrency(e.target.value)}
-                                    required
-                                >
-                                    <option value="" disabled selected hidden>Currency</option>
-                                    <option value="€">EUR €</option>
-                                    <option value="£">GBP £</option>
-                                    <option value="$">USD $</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label>Amount</label>
-                                <input
-                                    type="number"
-                                    className='infield amountInput'
-                                    name='amount'
-                                    placeholder='Amount'
-                                    value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    step="0.01"
-                                    min="0.01"
-                                    required
-                                />
-                            </div>
+            <div className='create'>
+                <div className='createContainer'>
+                    <legend className='createLegend'>Create Claim</legend>
+                    <form className='createForm' onSubmit={handleSubmit}>
+                        <div>
+                            <label>Title</label>
+                            <input
+                                type="text"
+                                className='infield titleInput'
+                                name='title'
+                                placeholder='Title...'
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                            />
                         </div>
-                    </div>
 
-                    <div>
-                        <label>Date</label>
-                        <input
-                            type="date"
-                            className='infield dateInput'
-                            name="date"
-                            placeholder='Date of expense'
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            max={new Date().toJSON().slice(0, 10)}
-                            required
-                        />
-                    </div>
+                        <div>
+                            <label>Expense Type</label>
+                            <select
+                                name="expenseType"
+                                className='infield typeInput'
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
+                                required
+                            >
+                                <option value="" disabled selected hidden>Type of Expense</option>
+                                <option value="Travel">Travel Expense</option>
+                                <option value="Accomomdation">Accomodation Expense</option>
+                                <option value="Catering">Catering Expense</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label>Description</label>
-                        <textarea
-                            name="description"
-                            className='infield descriptionInput'
-                            placeholder='Description'
-                            value={description}
-                            onChange={(e) => {
-                                setDescription(e.target.value)
-                            }}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <div className="proofArea">
-                            {image ? (
-                                <>
-                                    <img
-                                        src={preview}
-                                        alt="uploaded proof"
-                                        className='proofPreview'
-                                    />
-
-                                    <button
-                                        className='cancelButton'
-                                        onClick={() => {
-                                            setImage(null);
-                                            setPreview()
-                                        }}
+                        <div>
+                            <div className='inlineContainer'>
+                                <div>
+                                    <label>Currency</label>
+                                    <select
+                                        name="currencyType"
+                                        className='infield currencyInput'
+                                        value={currency}
+                                        onChange={(e) => setCurrency(e.target.value)}
+                                        required
                                     >
-                                        Remove
-                                    </button>
-                                </>
-                            ) : (
-                                <>
-                                    <CiImageOn/>
+                                        <option value="" disabled selected hidden>Currency</option>
+                                        <option value="€">EUR €</option>
+                                        <option value="£">GBP £</option>
+                                        <option value="$">USD $</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label>Amount</label>
                                     <input
-                                        className='imageInput'
-                                        id='file'
-                                        name='file'
-                                        type='file'
-                                        accept='image/*'
-                                        onChange={(e) => {
-                                            setImage(e.target.files[0]);
-                                            setPreview(URL.createObjectURL(e.target.files[0]))
-                                        }}
+                                        type="number"
+                                        className='infield amountInput'
+                                        name='amount'
+                                        placeholder='Amount'
+                                        value={amount}
+                                        onChange={(e) => setAmount(e.target.value)}
+                                        step="0.01"
+                                        min="0.01"
                                         required
                                     />
-                                    <label htmlFor="file" className='almostButton'>Upload an Image</label>
-                                </>
-                            )}
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
-                        saveAsDraft({title, type, currency, amount, date, description, image});
-                    }}>Save as Draft</b>
-                    <Link className='infield clearSubmit' to="/create-claim" state={{
-                        draftClaim: {
-                            amount: null, 
-                            claim_id: null, 
-                            currency: null, 
-                            date: null, 
-                            description: null, 
-                            expenseType: null, 
-                            receipts: null, 
-                            status: null, 
-                            title: null, 
-                            user_id: null
-                        }
-                    }} >
-                        <b className='infield clearSubmit' 
-                            // className='infield clearSubmit'
-                            onClick={() => {
-                                setTitle("");
-                                setType("");
-                                setCurrency("");
-                                setAmount("");
-                                setDate("");
-                                setDescription("");
-                                setImage(null);
-                                setPreview(null);
-                                alreadyLoadedDraft = true;
-                            }}
-                        >
-                            Clear form
-                        </b>
-                    </Link>
+                        <div>
+                            <label>Date</label>
+                            <input
+                                type="date"
+                                className='infield dateInput'
+                                name="date"
+                                placeholder='Date of expense'
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                max={new Date().toJSON().slice(0, 10)}
+                                required
+                            />
+                        </div>
 
-                    <button className='infield createSubmit'>Submit Claim</button>
+                        <div>
+                            <label>Description</label>
+                            <textarea
+                                name="description"
+                                className='infield descriptionInput'
+                                placeholder='Description'
+                                value={description}
+                                onChange={(e) => {
+                                    setDescription(e.target.value)
+                                }}
+                                required
+                            />
+                        </div>
 
+                        <div>
+                            <div className="proofArea">
+                                {image ? (
+                                    <>
+                                        <img
+                                            src={preview}
+                                            alt="uploaded proof"
+                                            className='proofPreview'
+                                        />
 
-                </form>
+                                        <button
+                                            className='cancelButton'
+                                            onClick={() => {
+                                                setImage(null);
+                                                setPreview()
+                                            }}
+                                        >
+                                            Remove
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <CiImageOn/>
+                                        <input
+                                            className='imageInput'
+                                            id='file'
+                                            name='file'
+                                            type='file'
+                                            accept='image/*'
+                                            onChange={(e) => {
+                                                setImage(e.target.files[0]);
+                                                setPreview(URL.createObjectURL(e.target.files[0]))
+                                            }}
+                                            required
+                                        />
+                                        <label htmlFor="file" className='almostButton'>Upload an Image</label>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                        <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
+                            saveAsDraft({title, type, currency, amount, date, description, image});
+                        }}>Save as Draft</b>
+                        <Link className='infield clearSubmit' to="/create-claim" state={{
+                            draftClaim: {
+                                amount: null,
+                                claim_id: null,
+                                currency: null,
+                                date: null,
+                                description: null,
+                                expenseType: null,
+                                receipts: null,
+                                status: null,
+                                title: null,
+                                user_id: null
+                            }
+                        }} >
+                            <b className='infield clearSubmit'
+                                // className='infield clearSubmit'
+                                onClick={() => {
+                                    setTitle("");
+                                    setType("");
+                                    setCurrency("");
+                                    setAmount("");
+                                    setDate("");
+                                    setDescription("");
+                                    setImage(null);
+                                    setPreview(null);
+                                    alreadyLoadedDraft = true;
+                                }}
+                            >
+                                Clear form
+                            </b>
+                        </Link>
+
+                        <button className='infield createSubmit'>Submit Claim</button>
+                    </form>
+                </div>
             </div>
             </Animate_page>
         </div>

@@ -307,93 +307,95 @@ export function ClaimantExpenses(){
     <div>
         <NavBar/>
         <Animate_page>
-            <div className='ViewExpensesPage'>
-                <div id='PhoneBox'>
-                    <div id='TitleBox'>
-                        <h1 id='Title'>View Expenses</h1>
-                        { apply_filters ? <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button> : "" }
-                        <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
-                            <FilterIcon />
-                        </button>
-                    </div>
-
-                    <div className='expense-column'>
-                        <div className="h2-collapse">
-                            <h2 className="ExpenseType">Draft Claims</h2>
-                            <button onClick={()=> handleCollapse("drafts")}>
-                                <p className='collapse-text'>{isCollapsed.drafts ? "Collapse" : "Expand"}</p>
-                                <CollapseIcon/>
+            <div className='view-expenses'>
+                <div className='ViewExpensesPage'>
+                    <div id='PhoneBox'>
+                        <div id='TitleBox'>
+                            <h1 id='Title'>View Expenses</h1>
+                            { apply_filters ? <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button> : "" }
+                            <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
+                                <FilterIcon />
                             </button>
                         </div>
-                        {
-                            removeDuplicatesFromArray(DraftsArr).map((expense, index) => 
-                                (transition_drafts((style, item) =>
-                                item ? <animated.div style={style}>
-                                    <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: expense}}>
-                                        <ExpenseBox key={index} expense={expense} />
-                                    </Link>
-                                </animated.div>
-                                : '')
-                            ))
-                        }
 
-                        <div className='h2-collapse'>
-                            <h2 className='ExpenseType'>Pending</h2>
-                            <button onClick={() => handleCollapse("pending")}>
-                                <p className='collapse-text'>{isCollapsed.pending ? "Collapse" : "Expand"}</p>
-                                <CollapseIcon/>
-                            </button>
-                        </div>
-                        {
-                            PendingArr.map((expense, index) => 
-                                (transition_pending((style, item) =>
-                                item ? <animated.div style={style}>
-                                    <Link to="/view-expense" state={{ claim: expense }}>
-                                        <ExpenseBox key={index} expense={expense}/>
-                                    </Link>
-                                </animated.div>
-                                : '')
-                            ))
-                        }
+                        <div className='expense-column'>
+                            <div className="h2-collapse">
+                                <h2 className="ExpenseType">Draft Claims</h2>
+                                <button onClick={()=> handleCollapse("drafts")}>
+                                    <p className='collapse-text'>{isCollapsed.drafts ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                removeDuplicatesFromArray(DraftsArr).map((expense, index) =>
+                                    (transition_drafts((style, item) =>
+                                    item ? <animated.div style={style}>
+                                        <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: expense}}>
+                                            <ExpenseBox key={index} expense={expense} />
+                                        </Link>
+                                    </animated.div>
+                                    : '')
+                                ))
+                            }
 
-                        <div className='h2-collapse'>
-                            <h2 className='ExpenseType'>Rejected</h2>
-                            <button onClick={() => handleCollapse("rejected")}>
-                                <p className='collapse-text'>{isCollapsed.rejected ? "Collapse" : "Expand"}</p>
-                                <CollapseIcon/>
-                            </button>
-                        </div>
-                        {
-                            RejectedArr.map((expense, index) => 
-                                (transition_rejected((style, item) =>
-                                item ? <animated.div style={style}>
-                                    <Link to="/view-expense" state={{ claim: expense }}>
-                                        <ExpenseBox key={index} expense={expense}/>
-                                    </Link>
-                                </animated.div>
-                                : '')
-                            ))
-                        }
-
-                        <div className='h2-collapse'>
-                            <h2 className='ExpenseType'>Accepted</h2>
-                            <button onClick={() => handleCollapse("accepted")}>
-                                <p className='collapse-text'>{isCollapsed.accepted ? "Collapse" : "Expand"}</p>
-                                <CollapseIcon/>
-                            </button>
-                        </div>
-                        {
-                            AcceptedArr.map((expense, index) => 
-                                (transition_accepted((style, item) =>
-                                item ? <animated.div style={style}>
+                            <div className='h2-collapse'>
+                                <h2 className='ExpenseType'>Pending</h2>
+                                <button onClick={() => handleCollapse("pending")}>
+                                    <p className='collapse-text'>{isCollapsed.pending ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                PendingArr.map((expense, index) =>
+                                    (transition_pending((style, item) =>
+                                    item ? <animated.div style={style}>
                                         <Link to="/view-expense" state={{ claim: expense }}>
                                             <ExpenseBox key={index} expense={expense}/>
                                         </Link>
                                     </animated.div>
-                                : '')
-                            ))
-                        }
-                    </div> 
+                                    : '')
+                                ))
+                            }
+
+                            <div className='h2-collapse'>
+                                <h2 className='ExpenseType'>Rejected</h2>
+                                <button onClick={() => handleCollapse("rejected")}>
+                                    <p className='collapse-text'>{isCollapsed.rejected ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                RejectedArr.map((expense, index) =>
+                                    (transition_rejected((style, item) =>
+                                    item ? <animated.div style={style}>
+                                        <Link to="/view-expense" state={{ claim: expense }}>
+                                            <ExpenseBox key={index} expense={expense}/>
+                                        </Link>
+                                    </animated.div>
+                                    : '')
+                                ))
+                            }
+
+                            <div className='h2-collapse'>
+                                <h2 className='ExpenseType'>Accepted</h2>
+                                <button onClick={() => handleCollapse("accepted")}>
+                                    <p className='collapse-text'>{isCollapsed.accepted ? "Collapse" : "Expand"}</p>
+                                    <CollapseIcon/>
+                                </button>
+                            </div>
+                            {
+                                AcceptedArr.map((expense, index) =>
+                                    (transition_accepted((style, item) =>
+                                    item ? <animated.div style={style}>
+                                            <Link to="/view-expense" state={{ claim: expense }}>
+                                                <ExpenseBox key={index} expense={expense}/>
+                                            </Link>
+                                        </animated.div>
+                                    : '')
+                                ))
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
             {
