@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import httpClient from "../httpClient";
 import Animate_page from "./Animate-page";
 import { removeFromDraftsArr } from "./ClaimantExpenses";
+import { ensureLS_saveDraftClaim_exists, ls_keys } from "./utils";
 
 
 export function ClaimantViewExpense() {
@@ -39,6 +40,7 @@ export function ClaimantViewExpense() {
 
     
     async function deleteDraft() {
+        const ls_draftStorage = ensureLS_saveDraftClaim_exists();
         const draftClaim = state.draftClaim;
         if (!draftClaim) {
             window.alert("No draft claim found.");
