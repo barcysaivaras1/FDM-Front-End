@@ -151,7 +151,26 @@ export function ClaimantViewExpense() {
                         claim && (
                             claim.receipts.length > 0 ? (
                                 claim.receipts.map((evidence) => {
-                                    <a href={evidence}  target='_blank'>Attached Evidence</a>
+                                    const imageUrl = evidence.imageContentsBase64;
+
+                                    // const response = await fetch(imageUrl);
+                                    // const imageBlob = await response.blob();
+                                    // const objectURL = URL.createObjectURL(imageBlob);
+                                    // const imageElement = new Image();
+                                    // imageElement.src = objectURL;
+                                    // imageElement.width = 50;
+                                    // console.log({objectURL, imageElement});
+
+                                    const imgElem = document.createElement("img");
+                                    imgElem.src = imageUrl;
+                                    
+                                    // new Blob(["data:image/png;base64," + evidence.imageContentsBase64], {type: ".png"})
+                                    return (
+                                    <>
+                                        {/* <a href={URL.createObjectURL(imgElem)}  target='_blank'>Attached Evidence</a> <br/> */}
+                                        <img src={imageUrl}></img>
+                                    </>
+                                    )
                                 })
                             ) : (
                                 <p>No evidence attached to this claim.</p>
