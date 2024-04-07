@@ -5,8 +5,8 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import { ClaimantExpenses } from "./components/ClaimantExpenses";
-import { ClaimantViewExpense } from "./components/ClaimantViewExpense";
+import { MyExpenses } from "./components/MyExpenses.jsx";
+import { ViewExpense } from "./components/ViewExpense.jsx";
 import { CreateClaim } from "./components/CreateClaim";
 import { Profile } from "./components/Profile";
 import { LineManagerExpenses } from "./components/LineManagerExpenses";
@@ -23,8 +23,8 @@ function App() {
         <Route path='/unauthorised' element={<Unauthorised />} />
 
         <Route element={<RequireAuth allowedRoles={[1, 2]} />}>
-          <Route path="/my-expenses" exact element={<ClaimantExpenses />} />
-          <Route path="/view-expense" exact element={<ClaimantViewExpense />} />
+          <Route path="/my-expenses" exact element={<MyExpenses />} />
+          <Route path="/view-expense" exact element={<ViewExpense />} />
           <Route path="/create-claim" exact element={<CreateClaim />} />
           <Route path="/profile" exact element={<Profile />} />
         </Route>

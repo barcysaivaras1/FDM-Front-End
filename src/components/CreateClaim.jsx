@@ -7,7 +7,7 @@ import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
 import { ls_keys } from './utils';
 import { ensureLS_saveDraftClaim_exists } from './utils';
-import { addToDraftsArr } from './ClaimantExpenses';
+import { addToDraftsArr } from './MyExpenses.jsx';
 import { Link, useLocation } from 'react-router-dom';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";

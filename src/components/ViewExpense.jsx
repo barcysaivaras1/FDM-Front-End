@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import "../css/ClaimantViewExpense.css"
+import "../css/ViewExpense.css"
 import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon, DraftIcon } from "../assets/Icons"
 import { Link, useLocation } from "react-router-dom";
 import httpClient from "../httpClient";
 import Animate_page from "./Animate-page";
-import { removeFromDraftsArr } from "./ClaimantExpenses";
+import { removeFromDraftsArr } from "./MyExpenses.jsx";
 import { ensureLS_saveDraftClaim_exists, ls_keys } from "./utils";
 
 
-export function ClaimantViewExpense() {
+export function ViewExpense() {
     let { state } = useLocation();
     console.log(state);
     const [claim, setClaim] = useState();

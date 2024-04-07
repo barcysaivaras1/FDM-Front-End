@@ -1,4 +1,4 @@
-import '../css/ClaimantExpenses.css'
+import '../css/MyExpenses.css'
 import { RxCrossCircled } from "react-icons/rx";
 import { useEffect, useState } from 'react';
 import { useTransition,animated } from 'react-spring';
@@ -111,7 +111,7 @@ export function removeFromDraftsArr(draftClaimId) {
     return;
 };
 
-export function ClaimantExpenses(){
+export function MyExpenses(){
     const [isLoading, setIsLoading] = useState(true);
 
     const clearClaimsArrays = () => {
@@ -423,7 +423,7 @@ export function ClaimantExpenses(){
         </Animate_page>
     </div>);
 }
-export default ClaimantExpenses;
+export default MyExpenses;
 
 
 const ExpenseBox = (props) =>{
