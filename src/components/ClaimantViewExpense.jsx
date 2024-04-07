@@ -45,13 +45,14 @@ export function ClaimantViewExpense() {
             console.error(`No draft claim found.`);
         } else {
             console.log(`delete draft : Deleting draft-claim: `, draftClaim);
-            const draftClaimId = draftClaim.id || draftClaim.claim_id;
+            const draftClaimId = draftClaim.claim_id;
             if (draftClaimId === undefined || draftClaimId === null) {
                 window.alert("Draft claim id is nullish.");
                 console.error(`Draft claim id is nullish.`);
                 return;
             }
-            const reqClaims = new Request(`/api/claims/drafts/${draftClaim.id}`, {
+            console.log(`delete draft : Draft-claim id: ${draftClaimId}`);
+            const reqClaims = new Request(`/api/claims/drafts/${draftClaimId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
