@@ -355,7 +355,7 @@ export function CreateClaim () {
                                     id='file'
                                     name='file'
                                     type='file'
-                                    accept='image/*'
+                                    accept='.png'
                                     onChange={(e) => {
                                         setImage(e.target.files[0]);
                                         addAnImage(e.target.files[0]);
