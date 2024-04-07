@@ -92,17 +92,20 @@ export function addToDraftsArr(draftClaimId, details) {
 
     return;
 };
+export let _GLOB_FORCE_RELOAD = undefined;
 export function removeFromDraftsArr(draftClaimId) {
     DraftsArr = DraftsArr.filter((claim) => claim.id !== draftClaimId);
     console.log(`Drafts array updated, with claim ${draftClaimId} removed.`);
+    if (_GLOB_FORCE_RELOAD !== undefined) {
+        _GLOB_FORCE_RELOAD();
+    }
     return;
 };
-
 
 export function ClaimantExpenses(){
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
+    const clearClaimsArrays = () => {
         document.title = "Your Expenses";
 
         // forces the Arrays to empty on every render, 
@@ -113,7 +116,9 @@ export function ClaimantExpenses(){
         DraftsArr = [];
         
         fetchClaims(setIsLoading);
-    }, []);
+    };
+    _GLOB_FORCE_RELOAD = clearClaimsArrays;
+    useEffect(clearClaimsArrays, []);
 
     //Example expense object, This is used to display
     // const [expense, setExpense] = useState({date_time:"2024/2/21 - 1:48PM",currency_type:"£",amount:151,desc:"Fortnite Card",state:"Accepted"})
