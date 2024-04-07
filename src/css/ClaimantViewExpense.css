@@ -3,7 +3,7 @@
     height: 90.176svh;
 }
 
-#TitleBar, hr, #AppealClaim, #DraftEdit {
+#TitleBar, hr, #AppealClaim, #DraftEdit, #DraftDelete {
     width: 86.225vw;
     margin-inline: auto;
 }
@@ -59,7 +59,7 @@ p {
     font-size: 18px;
 }
 
-#AppealClaim, #DraftEdit {
+#AppealClaim, #DraftEdit, #DraftDelete {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,7 +75,7 @@ p {
     background-color: #26354F;
 }
 
-#AppealClaim p, #DraftEdit p {
+#AppealClaim p, #DraftEdit p, #DraftDelete p {
     color: white;
 }
 
@@ -91,7 +91,7 @@ p {
         padding: 2vw;
     }
 
-    #AppealClaim, #DraftEdit {
+    #AppealClaim, #DraftEdit, #DraftDelete {
         width: 86vw;
     }
 

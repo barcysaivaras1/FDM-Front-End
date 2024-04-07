@@ -84,11 +84,17 @@ export function addToDraftsArr(draftClaimId, details) {
         // but then the thing that code below actually uses (which weren't covered above)...
         date_time: date,
         currency_type: currency,
-        desc: title
+        desc: title,
+        claim_id: draftClaimId
     };
     DraftsArr.push(output);
     console.log(`Drafts array updated, with: `, output);
 
+    return;
+};
+export function removeFromDraftsArr(draftClaimId) {
+    DraftsArr = DraftsArr.filter((claim) => claim.id !== draftClaimId);
+    console.log(`Drafts array updated, with claim ${draftClaimId} removed.`);
     return;
 };
 

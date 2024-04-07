@@ -19,6 +19,7 @@ const ls_key = "fdm-expenses-client/create-claim/form-data";
 /**
  * 
  * @param {{
+ * claim_id: number|null,
  * title: string|null,
  * type: string|null,
  * currency: string|null,
