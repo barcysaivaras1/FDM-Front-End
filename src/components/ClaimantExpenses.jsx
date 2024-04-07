@@ -3,7 +3,16 @@ import { RxCrossCircled } from "react-icons/rx";
 import { useEffect, useState } from 'react';
 import { useTransition,animated } from 'react-spring';
 import NavBar from './NavBar';
-import { AcceptedIcon, ArrowRightIcon, CollapseIcon, PendingIcon, RejectedIcon, FilterIcon, DraftIcon } from '../assets/Icons';
+import {
+    AcceptedIcon,
+    ArrowRightIcon,
+    CollapseIcon,
+    PendingIcon,
+    RejectedIcon,
+    FilterIcon,
+    DraftIcon,
+    ArrowUpIcon, ArrowDownIcon
+} from '../assets/Icons';
 import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
@@ -321,10 +330,12 @@ export function ClaimantExpenses(){
                         <div className='expense-column'>
                             <div className="h2-collapse">
                                 <h2 className="ExpenseType">Draft Claims</h2>
-                                <button onClick={()=> handleCollapse("drafts")}>
-                                    <p className='collapse-text'>{isCollapsed.drafts ? "Collapse" : "Expand"}</p>
-                                    <CollapseIcon/>
-                                </button>
+
+                                {isCollapsed.drafts ? (
+                                    <ArrowDownIcon onClick={() => handleCollapse('drafts')} />
+                                ) : (
+                                    <ArrowUpIcon onClick={() => handleCollapse('drafts')} />
+                                )}
                             </div>
                             {
                                 removeDuplicatesFromArray(DraftsArr).map((expense, index) =>
@@ -340,10 +351,12 @@ export function ClaimantExpenses(){
 
                             <div className='h2-collapse'>
                                 <h2 className='ExpenseType'>Pending</h2>
-                                <button onClick={() => handleCollapse("pending")}>
-                                    <p className='collapse-text'>{isCollapsed.pending ? "Collapse" : "Expand"}</p>
-                                    <CollapseIcon/>
-                                </button>
+
+                                {isCollapsed.pending ? (
+                                    <ArrowDownIcon onClick={() => handleCollapse('pending')} />
+                                ) : (
+                                    <ArrowUpIcon onClick={() => handleCollapse('pending')} />
+                                )}
                             </div>
                             {
                                 PendingArr.map((expense, index) =>
@@ -359,10 +372,12 @@ export function ClaimantExpenses(){
 
                             <div className='h2-collapse'>
                                 <h2 className='ExpenseType'>Rejected</h2>
-                                <button onClick={() => handleCollapse("rejected")}>
-                                    <p className='collapse-text'>{isCollapsed.rejected ? "Collapse" : "Expand"}</p>
-                                    <CollapseIcon/>
-                                </button>
+
+                                {isCollapsed.rejected ? (
+                                    <ArrowDownIcon onClick={() => handleCollapse('rejected')} />
+                                ) : (
+                                    <ArrowUpIcon onClick={() => handleCollapse('rejected')} />
+                                )}
                             </div>
                             {
                                 RejectedArr.map((expense, index) =>
@@ -378,10 +393,12 @@ export function ClaimantExpenses(){
 
                             <div className='h2-collapse'>
                                 <h2 className='ExpenseType'>Accepted</h2>
-                                <button onClick={() => handleCollapse("accepted")}>
-                                    <p className='collapse-text'>{isCollapsed.accepted ? "Collapse" : "Expand"}</p>
-                                    <CollapseIcon/>
-                                </button>
+
+                                {isCollapsed.accepted ? (
+                                    <ArrowDownIcon onClick={() => handleCollapse('accepted')} />
+                                ) : (
+                                    <ArrowUpIcon onClick={() => handleCollapse('accepted')} />
+                                )}
                             </div>
                             {
                                 AcceptedArr.map((expense, index) =>
