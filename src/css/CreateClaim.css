@@ -79,7 +79,7 @@ body{
 
 .proofArea {
     height: 30svh;
-    max-height: 20svh;
+    max-height: fit-content;
     border: 3px dashed rgba(15, 31, 60, 0.4);
     border-radius: 10px;
 

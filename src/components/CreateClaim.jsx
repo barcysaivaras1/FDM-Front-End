@@ -96,8 +96,40 @@ export function CreateClaim () {
     const [amount, setAmount] = useState(null);
     const [date, setDate] = useState(null);
     const [description, setDescription] = useState(null);
-    const [image, setImage] = useState(null);
+    const [recentImage, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
+
+    const [imagesArr, setImagesArr] = useState([]);
+    function addAnImage(imageThing) {
+        var buffer = Array.from(imagesArr);
+        buffer.push(imageThing);
+        setImagesArr(buffer);
+        console.info(`[ADD AN IMAGE] I pushed ${imageThing}.`);
+        return;
+    };
+    function removeAnImage(imageThing) {
+        var buffer = Array.from(imagesArr);
+        const index = buffer.findIndex((item)=>{
+            return item === imageThing;
+        });
+        if (index !== -1) {
+            buffer.splice(index, 1);
+            setImagesArr(buffer);
+            console.info(`[REMOVE IMAGE] I removed ${imageThing}.`);
+        };
+        return;
+    };
+    useEffect(()=>{
+        // Appends new elements to the end of an array, and returns the new length of the array.
+        // @param items — New elements to add to the array.
+        // addAnImage((imagesArr) => {
+        //     imagesArr.push(recentImage);
+        //     console.log(`Our images are: ${imagesArr}`);
+        //     return imagesArr;
+        // });
+        console.log(`Recent image is ${recentImage}`);
+        console.log(`Images Arr: `, imagesArr);
+    }, [recentImage, imagesArr]);
 
     let { state } = useLocation();
     useEffect(()=>{
@@ -128,7 +160,7 @@ export function CreateClaim () {
     
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log(image);
+        console.log(recentImage);
 
         await httpClient.post('/api/claims/', {
             title: title,
@@ -137,7 +169,7 @@ export function CreateClaim () {
             type: type,
             date: date,
             description: description,
-            image: image
+            image: recentImage
         }).then(function(response) {
             console.log("Success" + response);
             navigate("/my-expenses");
@@ -337,47 +369,64 @@ export function CreateClaim () {
 
                     <div>
                         <div className="proofArea">
-                            {image ? (
-                                <>
-                                    <img
-                                        src={preview}
-                                        alt="uploaded proof"
-                                        className='proofPreview'
-                                    />
+                            {
+                                (imagesArr.length > 0) ? (
+                                    imagesArr.map((fileHandle)=>{
+                                        return (
+                                        <>
+                                            <img
+                                                data-file={fileHandle} 
+                                                src={URL.createObjectURL(fileHandle)}
+                                                alt="uploaded proof"
+                                                className='proofPreview'
+                                            />
 
-                                    <button
-                                        className='cancelButton'
-                                        onClick={() => {
-                                            setImage(null);
-                                            setPreview()
-                                        }}
-                                    >
-                                        Remove
-                                    </button>
-                                </>
-                            ) : (
-                                <>
-                                    <CiImageOn/>
-                                    <input
-                                        className='imageInput'
-                                        id='file'
-                                        name='file'
-                                        type='file'
-                                        accept='image/*'
-                                        onChange={(e) => {
-                                            setImage(e.target.files[0]);
-                                            setPreview(URL.createObjectURL(e.target.files[0]))
-                                        }}
-                                        required
-                                    />
-                                    <label htmlFor="file" className='almostButton'>Upload an Image</label>
-                                </>
-                            )}
+                                            <button
+                                                type='button'
+                                                className='cancelButton'
+                                                onClick={() => {
+                                                    // const targetButton = evt.target;
+                                                    // const imgElement = targetButton.previousSibling; // this is <img> elem.
+                                                    removeAnImage(fileHandle);
+                                                    setImage(null);
+                                                    setPreview(null);
+                                                    console.log(`Attempted to remove this image ${fileHandle}.`);
+                                                }}
+                                            >
+                                                Remove
+                                            </button>
+                                        </>
+                                        )
+                                    })
+                                ) : (
+                                    <>
+                                        <p>No images here yet.</p>
+                                    </>
+                                )
+                            }
+                            <>
+                                <CiImageOn/>
+                                <input
+                                    className='imageInput'
+                                    id='file'
+                                    name='file'
+                                    type='file'
+                                    accept='image/*'
+                                    onChange={(e) => {
+                                        setImage(e.target.files[0]);
+                                        addAnImage(e.target.files[0]);
+                                        setPreview(URL.createObjectURL(e.target.files[0]));
+                                    }} 
+                                    multiple 
+                                    required
+                                />
+                                <label htmlFor="file" className='almostButton'>Upload an Image</label>
+                            </>
                         </div>
                     </div>
 
                     <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
-                        saveAsDraft({title, type, currency, amount, date, description, image});
+                        saveAsDraft({title, type, currency, amount, date, description, image: recentImage});
                     }}>Save as Draft</b>
                     <Link className='infield clearSubmit' to="/create-claim" state={{
                         draftClaim: {
