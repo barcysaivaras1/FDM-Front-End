@@ -150,36 +150,36 @@ export function ClaimantViewExpense() {
                         <p>{claim?.description}</p>
 
                         <h2>Evidence</h2>
-                        { /* UNTESTED!!!!!! */
-                            claim && (
-                                claim.receipts.length > 0 ? (
-                                    claim.receipts.map((evidence) => {
-                                        const imageUrl = evidence.imageContentsBase64;
+                        {
+                        claim && (
+                            claim.receipts.length > 0 ? (
+                                claim.receipts.map((evidence) => {
+                                    const imageUrl = evidence.imageContentsBase64;
 
-                                    // const response = await fetch(imageUrl);
-                                    // const imageBlob = await response.blob();
-                                    // const objectURL = URL.createObjectURL(imageBlob);
-                                    // const imageElement = new Image();
-                                    // imageElement.src = objectURL;
-                                    // imageElement.width = 50;
-                                    // console.log({objectURL, imageElement});
+                                    /*
+                                        Acknowledgements:
 
-                                    const imgElem = document.createElement("img");
-                                    imgElem.src = imageUrl;
+                                        https://stackoverflow.com/a/73502589
+                                    */
+                                    function openUp() {
+                                        let image = new Image();
+                                        image.src = imageUrl;
+                                        var newTab = window.open();
+                                        newTab.document.body.innerHTML = image.outerHTML;
+                                    }
                                     
-                                    // new Blob(["data:image/png;base64," + evidence.imageContentsBase64], {type: ".png"})
+                                    
                                     return (
                                     <>
-                                        {/* <a href={URL.createObjectURL(imgElem)}  target='_blank'>Attached Evidence</a> <br/> */}
-                                        <img src={imageUrl}></img>
+                                        <a href='' onClick={() => {openUp()}}>Attached evidence</a> <br />
                                     </>
                                     )
-                                    })
-                                ) : (
-                                    <p>No evidence attached to this claim.</p>
-                                )
+                                })
+                            ) : (
+                                <p>No evidence attached to this claim.</p>
                             )
-                        }
+                        )
+                    }
                     </div>
 
                     {

@@ -84,13 +84,37 @@ export function ReviewExpense() {
                     <p>{state.claim.description}</p>
 
                     <h2>Evidence</h2>
-                    { /* UNTESTED!!!!!! */
-                        state.claim.receipts.length > 0 ? (
-                            state.claim.receipts.map((evidence) => {
-                                <a href={evidence} target='_blank'>Attached Evidence</a>
-                            })
-                        ) : (
-                            <p>No evidence attached to this claim.</p>
+                    {
+                        state.claim && (
+                            state.claim.receipts.length > 0 ? (
+                                state.claim.receipts.map((evidence) => {
+                                    const imageUrl = evidence.imageContentsBase64;
+
+                                    const imgElem = document.createElement("img");
+                                    imgElem.src = imageUrl;
+
+                                    /*
+                                        Acknowledgements:
+
+                                        https://stackoverflow.com/a/73502589
+                                    */
+                                    function openUp() {
+                                        let image = new Image();
+                                        image.src = imageUrl;
+                                        var newTab = window.open();
+                                        newTab.document.body.innerHTML = image.outerHTML;
+                                    }
+                                    
+                                    
+                                    return (
+                                    <>
+                                        <a href='' onClick={() => {openUp()}}>Attached evidence</a> <br />
+                                    </>
+                                    )
+                                })
+                            ) : (
+                                <p>No evidence attached to this claim.</p>
+                            )
                         )
                     }
                 </div>

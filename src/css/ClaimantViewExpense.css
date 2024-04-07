@@ -8,7 +8,7 @@
 
 #ExpenseBody {
     width: 100%;
-    max-width: 50rem;
+    /* max-width: 50rem; Fu- I mean, Messes up the whole page (THIS IS LINKED TO REVIEW TOO)*/
     height: 90.176svh;
 }
 
