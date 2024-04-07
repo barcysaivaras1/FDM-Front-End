@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../css/ClaimantViewExpense.css"
 import NavBar from "./NavBar";
-import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon } from "../assets/Icons"
+import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon, DraftIcon } from "../assets/Icons"
 import { Link, useLocation } from "react-router-dom";
 import httpClient from "../httpClient";
 import Animate_page from "./Animate-page";
@@ -119,7 +119,9 @@ export function ClaimantViewExpense() {
                         claim && (
                             claim.status === "Pending" ? <PendingIcon/> : (
                                 claim.status === "Approved" ? <AcceptedIcon/> : (
-                                    claim.status === "Denied" && <RejectedIcon/>
+                                    claim.status === "Denied" ? <RejectedIcon/> : (
+                                        claim.status === "Draft" && <DraftIcon/>
+                                    )
                                 )
                             )
                         )
