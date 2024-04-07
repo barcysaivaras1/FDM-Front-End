@@ -170,17 +170,13 @@ export function CreateClaim () {
     
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log(recentImage);
-
         console.log(`Reminder: images array : `, imagesArr);
-
-        // const convertedImages_b64 = imagesArr.map(async(fileHandle)=>{
-        //     const base64string = await blobToBase64(fileHandle);
-        //     return base64string;
-        // });
-        // const actualStuff = await Promise.all(convertedImages_b64);
-        // console.log(convertedImages_b64);
-        // console.log(actualStuff);
+        /**
+         * Acknowledgements: 
+         * - https://stackoverflow.com/questions/62677113/sending-an-image-uploaded-in-a-form-to-a-server-using-formdata-and-fetchapi-in-j
+         * - https://stackoverflow.com/questions/66584058/how-do-i-post-an-array-of-images-using-formdata-reactjs
+         * - https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
+         */
         
         const bodyFormData = new FormData();
         bodyFormData.append("title", title);
@@ -204,15 +200,6 @@ export function CreateClaim () {
             console.error(`[CREATE CLAIM] Failed to create claim. Status: ${error.response.status}`);
         });
         return;
-    };
-
-    /**
-     * Check if a value is null or undefined
-     * @param {any} thing - The value to check
-     * @returns {boolean} - True if the value is null or undefined, false otherwise
-     */
-    function isNullish(thing) {
-        return thing === null || thing === undefined;
     };
 
     useEffect(() => {
