@@ -174,27 +174,34 @@ export function CreateClaim () {
 
         console.log(`Reminder: images array : `, imagesArr);
 
-        const convertedImages_b64 = imagesArr.map(async(fileHandle)=>{
-            const base64string = await blobToBase64(fileHandle);
-            return base64string;
+        // const convertedImages_b64 = imagesArr.map(async(fileHandle)=>{
+        //     const base64string = await blobToBase64(fileHandle);
+        //     return base64string;
+        // });
+        // const actualStuff = await Promise.all(convertedImages_b64);
+        // console.log(convertedImages_b64);
+        // console.log(actualStuff);
+        
+        const bodyFormData = new FormData();
+        bodyFormData.append("title", title);
+        bodyFormData.append("amount", amount);
+        bodyFormData.append("currency", currency);
+        bodyFormData.append("type", type);
+        bodyFormData.append("date", date);
+        bodyFormData.append("description", description);
+        imagesArr.forEach((fileHandle)=>{
+            // This works because with FormData, we're appending File objects to the same key.
+            //   Think of FormData as a HashMap, where each entry is an ArrayList.
+            //   We append item to the ArrayList indexed by the key.
+            // On the server, I will extract the data from FormData object.
+            bodyFormData.append("images[]", fileHandle);
         });
-        const actualStuff = await Promise.all(convertedImages_b64);
-        console.log(convertedImages_b64);
-        console.log(actualStuff);
 
-        await httpClient.post('/api/claims/', {
-            title: title,
-            amount: amount,
-            currency: currency,
-            type: type,
-            date: date,
-            description: description,
-            images: actualStuff
-        }).then(function(response) {
-            console.log("Success" + response);
-            navigate("/my-expenses");
+        await httpClient.post('/api/claims/', bodyFormData).then(function(response) {
+            console.log(`[CREATE CLAIM] Successfully created claim 👍. Status: ${response.status}`);
+            // navigate("/my-expenses");
         }).catch(function(error) {
-            console.error("Failed to do/view claim. Status: " + error.response.status);
+            console.error(`[CREATE CLAIM] Failed to create claim. Status: ${error.response.status}`);
         });
         return;
     };
@@ -355,7 +362,7 @@ export function CreateClaim () {
                                     id='file'
                                     name='file'
                                     type='file'
-                                    accept='.png'
+                                    accept='image/*'
                                     onChange={(e) => {
                                         setImage(e.target.files[0]);
                                         addAnImage(e.target.files[0]);
