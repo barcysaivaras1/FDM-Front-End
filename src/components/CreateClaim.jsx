@@ -13,8 +13,18 @@ import { Link, useLocation } from 'react-router-dom';
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
 
-
-
+/**
+ * @param {Blob} blob
+ * @returns {Promise<string>}
+ */
+function blobToBase64(blob) {
+	return new Promise((resolve, reject)=>{
+		const reader = new FileReader();
+		reader.onloadend = ()=> resolve(reader.result);
+		reader.onerror = reject;
+		reader.readAsDataURL(blob);
+	});
+};
 
 /**
  * 
@@ -96,8 +106,40 @@ export function CreateClaim () {
     const [amount, setAmount] = useState(null);
     const [date, setDate] = useState(null);
     const [description, setDescription] = useState(null);
-    const [image, setImage] = useState(null);
+    const [recentImage, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
+
+    const [imagesArr, setImagesArr] = useState([]);
+    function addAnImage(imageThing) {
+        var buffer = Array.from(imagesArr);
+        buffer.push(imageThing);
+        setImagesArr(buffer);
+        console.info(`[ADD AN IMAGE] I pushed ${imageThing}.`);
+        return;
+    };
+    function removeAnImage(imageThing) {
+        var buffer = Array.from(imagesArr);
+        const index = buffer.findIndex((item)=>{
+            return item === imageThing;
+        });
+        if (index !== -1) {
+            buffer.splice(index, 1);
+            setImagesArr(buffer);
+            console.info(`[REMOVE IMAGE] I removed ${imageThing}.`);
+        };
+        return;
+    };
+    useEffect(()=>{
+        // Appends new elements to the end of an array, and returns the new length of the array.
+        // @param items — New elements to add to the array.
+        // addAnImage((imagesArr) => {
+        //     imagesArr.push(recentImage);
+        //     console.log(`Our images are: ${imagesArr}`);
+        //     return imagesArr;
+        // });
+        console.log(`Recent image is ${recentImage}`);
+        console.log(`Images Arr: `, imagesArr);
+    }, [recentImage, imagesArr]);
 
     let { state } = useLocation();
     useEffect(()=>{
@@ -128,109 +170,37 @@ export function CreateClaim () {
     
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log(image);
-
-        await httpClient.post('/api/claims/', {
-            title: title,
-            amount: amount,
-            currency: currency,
-            type: type,
-            date: date,
-            description: description,
-            image: image
-        }).then(function(response) {
-            console.log("Success" + response);
-            navigate("/my-expenses");
-        }).catch(function(error) {
-            console.error("Failed to do/view claim. Status: " + error.response.status);
+        console.log(`Reminder: images array : `, imagesArr);
+        /**
+         * Acknowledgements: 
+         * - https://stackoverflow.com/questions/62677113/sending-an-image-uploaded-in-a-form-to-a-server-using-formdata-and-fetchapi-in-j
+         * - https://stackoverflow.com/questions/66584058/how-do-i-post-an-array-of-images-using-formdata-reactjs
+         * - https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
+         */
+        
+        const bodyFormData = new FormData();
+        bodyFormData.append("title", title);
+        bodyFormData.append("amount", amount);
+        bodyFormData.append("currency", currency);
+        bodyFormData.append("type", type);
+        bodyFormData.append("date", date);
+        bodyFormData.append("description", description);
+        imagesArr.forEach((fileHandle)=>{
+            // This works because with FormData, we're appending File objects to the same key.
+            //   Think of FormData as a HashMap, where each entry is an ArrayList.
+            //   We append item to the ArrayList indexed by the key.
+            // On the server, I will extract the data from FormData object.
+            bodyFormData.append("images[]", fileHandle);
         });
-        // void return.
+
+        await httpClient.post('/api/claims/', bodyFormData).then(function(response) {
+            console.log(`[CREATE CLAIM] Successfully created claim 👍. Status: ${response.status}`);
+            // navigate("/my-expenses");
+        }).catch(function(error) {
+            console.error(`[CREATE CLAIM] Failed to create claim. Status: ${error.response.status}`);
+        });
         return;
     };
-
-    /**
-     * Check if a value is null or undefined
-     * @param {any} thing - The value to check
-     * @returns {boolean} - True if the value is null or undefined, false otherwise
-     */
-    function isNullish(thing) {
-        return thing === null || thing === undefined;
-    };
-
-    // useEffect(()=>{
-    //     const data = localStorage.getItem(ls_key);
-    //     if (data) {
-    //         const parsed = JSON.parse(data);
-    //         setTitle(parsed.title);
-    //         setType(parsed.type);
-    //         setCurrency(parsed.currency);
-    //         setAmount(parsed.amount);
-    //         setDate(parsed.date);
-    //         setDescription(parsed.description);
-
-    //         // create new image from imageData in "image"
-    //         const image = new Image();
-    //         image.src = parsed.image;
-    //         const blob = new Blob([parsed.image], {type: "image/png"});
-    //         const file = new File([blob], "some-image.png", {type: "image/png"});
-    //         setImage(file);
-
-    //         // const imgElement = document.createElement("img");
-    //         // imgElement.src = parsed.image;
-    //         // console.log(imgElement);
-    //         // const legend = document.querySelector("legend");
-    //         // console.log(legend, imgElement);
-    //         // legend?.appendChild(imgElement);
-    //         // imgElement.onload = ()=>{
-    //         // };
-    //         // imgElement.style.display = "block";
-    //         console.log(file, blob);
-    //         setPreview(URL.createObjectURL(file));
-
-    //         localStorage.removeItem(ls_key);
-    //     }
-    // }, []);
-    // useEffect(()=>{
-    //     const thingsToCheck = [title, type, currency, amount, date, description, image];
-    //     const handleBeforeUnload = (evt)=>{
-    //         const somethingIsBlank = thingsToCheck.some(isNullish);
-    //         console.log(`Checking for nullish values: ${thingsToCheck.map((v)=>{console.log(v);return isNullish(v);})}`);
-    //         if (!somethingIsBlank) {
-    //             // nothing is left blank, no need to hold them here.
-    //             evt.returnValue = false;
-    //         }
-
-    //         if (!image) {
-    //             // no image is selected, no need to hold it here.
-    //             evt.returnValue = false;
-    //             return;
-    //         }
-
-    //         /**
-    //          * @type {File}
-    //          */
-    //         const _img = image;
-    //         const reader = new FileReader();
-    //         reader.onloadend = () => {
-    //             const imgBase64Data = reader.result;
-    //             // Use the base64Data as needed
-                
-    //             const data_to_save = {
-    //                 title, type, currency, amount, date, description, image: imgBase64Data
-    //             };
-    //             console.log(data_to_save);
-    //             localStorage.setItem(ls_key, JSON.stringify(data_to_save));
-    //         };
-    //         reader.readAsDataURL(_img);
-
-    //         evt.returnValue = true;
-    //     };
-    //     window.addEventListener("beforeunload", handleBeforeUnload);
-    //     return ()=>{
-    //         window.removeEventListener("beforeunload", handleBeforeUnload);
-    //     };
-
-    // }, [title, type, currency, amount, date, description, image]);
 
     useEffect(() => {
         document.title = "Create New Claim";
@@ -336,81 +306,98 @@ export function CreateClaim () {
                             />
                         </div>
 
-                        <div>
-                            <div className="proofArea">
-                                {image ? (
-                                    <>
-                                        <img
-                                            src={preview}
-                                            alt="uploaded proof"
-                                            className='proofPreview'
-                                        />
+                    <div>
+                        <div className="proofArea">
+                            {
+                                (imagesArr.length > 0) ? (
+                                    imagesArr.map((fileHandle)=>{
+                                        return (
+                                        <>
+                                            <img
+                                                data-file={fileHandle} 
+                                                src={URL.createObjectURL(fileHandle)}
+                                                alt="uploaded proof"
+                                                className='proofPreview'
+                                            />
 
-                                        <button
-                                            className='cancelButton'
-                                            onClick={() => {
-                                                setImage(null);
-                                                setPreview()
-                                            }}
-                                        >
-                                            Remove
-                                        </button>
-                                    </>
+                                            <button
+                                                type='button'
+                                                className='cancelButton'
+                                                onClick={() => {
+                                                    // const targetButton = evt.target;
+                                                    // const imgElement = targetButton.previousSibling; // this is <img> elem.
+                                                    removeAnImage(fileHandle);
+                                                    setImage(null);
+                                                    setPreview(null);
+                                                    console.log(`Attempted to remove this image ${fileHandle}.`);
+                                                }}
+                                            >
+                                                Remove
+                                            </button>
+                                        </>
+                                        )
+                                    })
                                 ) : (
                                     <>
-                                        <CiImageOn/>
-                                        <input
-                                            className='imageInput'
-                                            id='file'
-                                            name='file'
-                                            type='file'
-                                            accept='image/*'
-                                            onChange={(e) => {
-                                                setImage(e.target.files[0]);
-                                                setPreview(URL.createObjectURL(e.target.files[0]))
-                                            }}
-                                            required
-                                        />
-                                        <label htmlFor="file" className='almostButton'>Upload an Image</label>
+                                        <p>No images here yet.</p>
                                     </>
-                                )}
-                            </div>
-                        </div>
-
-                        <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
-                            saveAsDraft({title, type, currency, amount, date, description, image});
-                        }}>Save as Draft</b>
-                        <Link className='infield clearSubmit' to="/create-claim" state={{
-                            draftClaim: {
-                                amount: null,
-                                claim_id: null,
-                                currency: null,
-                                date: null,
-                                description: null,
-                                expenseType: null,
-                                receipts: null,
-                                status: null,
-                                title: null,
-                                user_id: null
+                                )
                             }
-                        }} >
-                            <b className='infield clearSubmit'
-                                // className='infield clearSubmit'
-                                onClick={() => {
-                                    setTitle("");
-                                    setType("");
-                                    setCurrency("");
-                                    setAmount("");
-                                    setDate("");
-                                    setDescription("");
-                                    setImage(null);
-                                    setPreview(null);
-                                    alreadyLoadedDraft = true;
-                                }}
-                            >
-                                Clear form
-                            </b>
-                        </Link>
+                            <>
+                                <CiImageOn/>
+                                <input
+                                    className='imageInput'
+                                    id='file'
+                                    name='file'
+                                    type='file'
+                                    accept='image/*'
+                                    onChange={(e) => {
+                                        setImage(e.target.files[0]);
+                                        addAnImage(e.target.files[0]);
+                                        setPreview(URL.createObjectURL(e.target.files[0]));
+                                    }} 
+                                    multiple 
+                                    required
+                                />
+                                <label htmlFor="file" className='almostButton'>Upload an Image</label>
+                            </>
+                        </div>
+                    </div>
+
+                    <b className="infield clearSubmit saveDraftSubmit" onClick={()=>{
+                        saveAsDraft({title, type, currency, amount, date, description, image: recentImage});
+                    }}>Save as Draft</b>
+                    <Link className='infield clearSubmit' to="/create-claim" state={{
+                        draftClaim: {
+                            amount: null, 
+                            claim_id: null, 
+                            currency: null, 
+                            date: null, 
+                            description: null, 
+                            expenseType: null, 
+                            receipts: null, 
+                            status: null, 
+                            title: null, 
+                            user_id: null
+                        }
+                    }} >
+                        <b className='infield clearSubmit' 
+                            // className='infield clearSubmit'
+                            onClick={() => {
+                                setTitle("");
+                                setType("");
+                                setCurrency("");
+                                setAmount("");
+                                setDate("");
+                                setDescription("");
+                                setImage(null);
+                                setPreview(null);
+                                alreadyLoadedDraft = true;
+                            }}
+                        >
+                            Clear form
+                        </b>
+                    </Link>
 
                         <button className='infield createSubmit'>Submit Claim</button>
                     </form>
