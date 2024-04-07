@@ -14,6 +14,7 @@ import { ReviewExpense } from './components/ReviewExpense';
 import NotFound from "./components/NotFound";
 import RequireAuth from './components/RequireAuth';
 import Unauthorised from './components/Unauthorised';
+import Admin from "./components/Admin.jsx";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path='/' exact element={<Login />} />
         <Route path='/unauthorised' element={<Unauthorised />} />
 
-        <Route element={<RequireAuth allowedRoles={[1, 2]} />}>
+        <Route element={<RequireAuth allowedRoles={[1, 2, 4]} />}>
           <Route path="/my-expenses" exact element={<MyExpenses />} />
           <Route path="/view-expense" exact element={<ViewExpense />} />
           <Route path="/create-claim" exact element={<CreateClaim />} />
@@ -32,6 +33,10 @@ function App() {
         <Route element={<RequireAuth allowedRoles={[2]} />}>
           <Route path="/line-manager-expenses" exact element={<LineManagerExpenses />} />
           <Route path="/review-claim" exact element={<ReviewExpense />} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[4]} />}>
+          <Route path="/admin" exact element={<Admin />} />
         </Route>
         
         <Route path="*" element={<NotFound />} />
