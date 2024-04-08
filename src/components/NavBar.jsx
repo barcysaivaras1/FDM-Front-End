@@ -62,6 +62,12 @@ function NavBar() {
                 </div>
             </NavLink>
 
+            <NavLink to="/settings">
+                <div>
+                    <p>Settings</p>
+                </div>
+            </NavLink>
+
             <NavLink to="/" id="LogoutBtn" onClick={() => { logoutBackend() }}>
                 <p>Logout</p>
             </NavLink>

@@ -1,0 +1,13 @@
+.settings {
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.settings-container {
+    width: 100%;
+    max-width: 50rem;
+    height: 100svh;
+}
