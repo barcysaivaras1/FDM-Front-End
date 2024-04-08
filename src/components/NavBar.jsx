@@ -1,15 +1,17 @@
 import '../css/navbar.css';
-import { ProfileIcon, ViewExpensesIcon, CreateExpenseIcon } from "../assets/Icons";
+import { ViewExpensesIcon, CreateExpenseIcon, AccountNavIcon } from "../assets/Icons";
 import FDMLogo from "../assets/FDMLogo.png";
-import { NavLink } from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import httpClient from '../httpClient';
 import useAuth from '../hooks/useAuth';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import AuthContext from '../context/AuthProvider';
 
 function NavBar() {
     const { setAuth } = useAuth();
-    const { auth } = useContext(AuthContext); // auth.role = 1 (employee), auth.role = 2 (Line Manager)
+    const { auth } = useContext(AuthContext); // auth.role = 1 (employee), auth.role = 2 (Line Manager), auth.role = 4 (System admin)
+    const [accountNavOpen, setAccountNavOpen] = useState(false);
+    let accountNavRef = useRef();
 
     async function logoutBackend() {
         await httpClient.post("/api/auth/logout")
@@ -22,55 +24,67 @@ function NavBar() {
         })
     }
 
+    useEffect(() => {
+        let handler = (event) => {
+            if (!accountNavRef.current.contains(event.target)){
+                setAccountNavOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handler);
+
+        return() => {
+            document.removeEventListener("mousedown", handler);
+        }
+    }, []);
+
     return (
-        <nav>
+        <nav className='navbar'>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
             </style>
-            <img src={FDMLogo} id="FDMLogo" />
+            <div className='one'>
+                <img src={FDMLogo} id="FDMLogo" width={80} />
 
-            {/* All this needs now is an if statement to check whether user is a line manager - DONE :3 */}
-            {
-                auth.role === 2 && (
-                    <NavLink to="/line-manager-expenses" className="DesktopIdentifiers">
-                        <div>
-                            <p>Review Expenses</p>
+                {/* All this needs now is an if statement to check whether user is a line manager - DONE :3 */}
+                {
+                    auth.role === 2 && (
+                        <NavLink to="/line-manager-expenses" className="DesktopIdentifiers">
+                            <div>
+                                <p>Review Expenses</p>
+                            </div>
+                        </NavLink>
+                    )
+                }
+
+                <NavLink to="/my-expenses" className='link'>
+                    <div>
+                        <ViewExpensesIcon />
+                        <p className="MobileIdentifiers">View</p>
+                        <p className="DesktopIdentifiers">My Expenses</p>
+                    </div>
+                </NavLink>
+
+                <NavLink to="/create-claim" className='link'>
+                    <div>
+                        <CreateExpenseIcon />
+                        <p className="DesktopIdentifiers">Create Claim</p>
+                    </div>
+                </NavLink>
+            </div>
+
+            <div className='account two' ref={accountNavRef}>
+                <AccountNavIcon onClick={() => setAccountNavOpen(!accountNavOpen)} className='accountNavIcon' />
+
+                {accountNavOpen && (
+                    <div className='account-dropdown'>
+                        <div className='links'>
+                            <Link to='/profile' className='dropdown-link'>Profile</Link>
+                            <Link to='/' className='dropdown-link' onClick={() => logoutBackend()}>Logout</Link>
                         </div>
-                    </NavLink>
-                )
-            }
-
-            <NavLink to="/my-expenses">
-                <div>
-                    <ViewExpensesIcon />
-                    <p className="MobileIdentifiers">View</p>
-                    <p className="DesktopIdentifiers">My Expenses</p>
-                </div>
-            </NavLink>
-
-            <NavLink to="/create-claim">
-                <div>
-                    <CreateExpenseIcon />
-                    <p className="DesktopIdentifiers">Create Claim</p>
-                </div>
-            </NavLink>
-
-            <NavLink to="/profile">
-                <div>
-                    <ProfileIcon />
-                    <p>Profile</p>
-                </div>
-            </NavLink>
-
-            <NavLink to="/settings">
-                <div>
-                    <p>Settings</p>
-                </div>
-            </NavLink>
-
-            <NavLink to="/" id="LogoutBtn" onClick={() => { logoutBackend() }}>
-                <p>Logout</p>
-            </NavLink>
+                    </div>
+                )}
+            </div>
         </nav>
 
     )

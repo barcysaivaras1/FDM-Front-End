@@ -3,8 +3,52 @@ nav {
     /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
 }
 
+nav img {
+    margin: auto;
+}
+
 a:link {
     text-decoration: none;
+}
+
+nav .account {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+nav .account-dropdown {
+    width: 140px;
+    border-radius: 4px;
+    background-color: #e0e0e0;
+}
+
+nav .account-dropdown .links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+nav .account-dropdown .links .dropdown-link {
+    width: 100%;
+    color: black;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    padding: 2px;
+}
+
+nav .account-dropdown .links .dropdown-link:hover {
+    background-color: #d0d0d0;
+}
+
+
+nav .account .accountNavIcon {
+    margin: auto;
 }
 
 /* mobile view of the navbar */
@@ -22,7 +66,30 @@ a:link {
         z-index: 100;
     }
 
-    nav div {
+    nav .one {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: calc(100% * (2/3));
+    }
+
+    nav .two {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        width: calc(100% * (1/3));
+    }
+
+    nav .account-dropdown {
+        position: absolute;
+        background-color: lightgrey;
+        padding: 4px;
+        /*width: 200px;*/
+        /*left: 9rem;*/
+        bottom: 9rem;
+    }
+
+    nav .link div {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -32,7 +99,7 @@ a:link {
         margin-bottom: .7svh;
     }
 
-    nav div p{
+    nav .link div p{
         margin-top: 0;
         margin-bottom: 0;
         color: white;
@@ -51,7 +118,7 @@ a:link {
         display: none;
     }
 
-    nav div:hover, svg:hover, .active{
+    nav .link div:hover, svg:hover, .active{
         cursor: pointer;
 
         .activated{
@@ -77,13 +144,28 @@ a:link {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         padding-left: 2vw;
         padding-right: 2vw;
         align-items: center;
         z-index: 100;
     }
 
-    nav div {
+    nav .one {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+    }
+
+    nav .two {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        padding: 14px 0;
+    }
+
+    nav .link div {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -92,17 +174,19 @@ a:link {
         width: 9.375vw;
     }
 
-    nav svg {
+    nav .link svg {
         display: none;
     }
 
-    nav div p{
+    nav .link div p{
         margin-top: 0;
         margin-bottom: 0;
         color: white;
         font-family: Inter;
-        font-size: 0.6875rem;
-        font-size: clamp(0.6875rem, 0.3227990970654628rem + 0.564334085778781vw, 1rem);
+        /*font-size: 0.6875rem;*/
+        /*font-size: clamp(0.6875rem, 0.3227990970654628rem + 0.564334085778781vw, 1rem);*/
+        font-size: 0.8rem;
+        font-size: clamp(0.8rem, 0.3227990970654628rem + 0.564334085778781vw, 1rem);
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -117,7 +201,7 @@ a:link {
         display: none;
     }
     
-    nav div:hover, .active {
+    nav .link div:hover, .active {
         cursor: pointer;
         background-color: #0F1F3C;
         box-shadow: 0 4px 4px rgba(255, 255, 255, 0.25);
@@ -135,6 +219,13 @@ a:link {
         margin: 0;
     }
 
+    nav .account-dropdown {
+        position: absolute;
+        padding: 4px;
+        width: 200px;
+        left: 9rem;
+        bottom: 1rem;
+    }
 }
 
 /* Icons Stuff */

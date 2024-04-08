@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
 import Modal from './Modal';
+import {AccountNavIcon} from "../assets/Icons.jsx";
 
 
 export function Profile() {
