@@ -111,6 +111,17 @@ p {
     }
 }
 
+/* mobile view */
+@media screen and (max-width: 1024px) {
+    #Status, #ExpenseDetails {
+        box-sizing: border-box;
+    }
+    #ExpenseBody {
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
+}
+
 
 /* Hide Scrollbar */
 .main-container::-webkit-scrollbar {
