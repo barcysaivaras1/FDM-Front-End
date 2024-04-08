@@ -79,7 +79,8 @@ export function emptyDraftsArr() {
  * }} details 
  */
 export function addToDraftsArr(draftClaimId, details) {
-    const { title, type, currency, amount, date, description, image } = details;
+    const { title, type ,currency, amount, date, description, image } = details;
+  
     const output = {
         id: draftClaimId,
         title: title,
@@ -430,12 +431,15 @@ export function MyExpenses(){
 }
 export default MyExpenses;
 
+function isNullish(value) {
+    return value === null || value === undefined;
+};
 
 const ExpenseBox = (props) =>{
     // console.log(`ExpenseBox, props.expense: `, props.expense);
     var img
 
-    if(props.expense.status === "Pending"){
+    if (props.expense.status === "Pending"){
         img = <PendingIcon />
     }
     else if(props.expense.status === "Denied"){
@@ -452,9 +456,9 @@ const ExpenseBox = (props) =>{
         <div className='claim-box'>
             <div className='Status-Img'>{img}</div>
             <div className='claim-info'>
-                <div className='claim-date'>{props.expense.date.replace(" 00:00:00 GMT", "")}</div>
-                <div>{props.expense.currency+props.expense.amount}</div>
-                <div>{props.expense.title}</div>
+                <div className='claim-date'>{ isNullish(props.expense.date) ? ("Unknown Date") : (props.expense.date.replace(" 00:00:00 GMT", "")) }</div>
+                <div>{ (isNullish(props.expense.currency) || isNullish(props.expense.amount)) ? ("Unknown Currency") : (props.expense.currency+props.expense.amount) }</div>
+                <div>{ isNullish(props.expense.title) ? ("Title Unknown (impossible... how?)") : (props.expense.title) }</div>
             </div>
             <div className='claim-arrow'>
                 <ArrowRightIcon/>
@@ -463,6 +467,8 @@ const ExpenseBox = (props) =>{
 
     )
 }
+
+
 
 const FilterBox = (props) =>{
     //3 states , Month,3Month,6Month
