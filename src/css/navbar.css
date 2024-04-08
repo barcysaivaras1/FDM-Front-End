@@ -12,10 +12,11 @@ a:link {
 }
 
 nav .account {
-    height: 50px;
-    width: 50px;
     cursor: pointer;
+    /* the 10000 is very real 😭😭 */
     z-index: 10000;
+    display: flex;
+    place-content: center;
 }
 
 nav .account-dropdown {
@@ -51,6 +52,24 @@ nav .account .accountNavIcon {
     margin: auto;
 }
 
+.notClicked {
+    .ClickedIcon {
+        display: none;
+    }
+    .notClickedIcon {
+        display: unset;
+    }
+}
+
+.clicked, .notClicked:hover {
+    .notClickedIcon {
+        display: none;
+    }
+    .ClickedIcon {
+        display: unset;
+    }
+}
+
 /* mobile view of the navbar */
 @media screen and (max-width: 1024px) {
     nav {
@@ -73,13 +92,6 @@ nav .account .accountNavIcon {
         width: calc(100% * (2/3));
     }
 
-    nav .two {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        width: calc(100% * (1/3));
-    }
-
     nav .account-dropdown {
         position: absolute;
         background-color: lightgrey;
@@ -89,10 +101,12 @@ nav .account .accountNavIcon {
         bottom: 9rem;
     }
 
+
     nav .link div {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-block: auto;
     }
 
     nav svg {
@@ -114,6 +128,10 @@ nav .account .accountNavIcon {
         margin-bottom: 0
     }
 
+    #ViewBtn {
+        display: flex;
+    }
+
     #FDMLogo, .DesktopIdentifiers {
         display: none;
     }
@@ -128,6 +146,7 @@ nav .account .accountNavIcon {
             display: none;
         }
     }
+
 
     #LogoutBtn {
         display: none;
@@ -155,14 +174,6 @@ nav .account .accountNavIcon {
         display: flex;
         flex-direction: column;
         align-content: center;
-    }
-
-    nav .two {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-content: center;
-        padding: 14px 0;
     }
 
     nav .link div {
@@ -217,6 +228,14 @@ nav .account .accountNavIcon {
 
     #LogoutBtn p {
         margin: 0;
+    }
+
+    nav .account {
+        position: absolute;
+        left: 0; right: 0;
+        bottom: 2svh;
+        margin: auto;
+        width: max-content;
     }
 
     nav .account-dropdown {
