@@ -10,7 +10,6 @@ body{
 /* Overflow needed */
 .createContainer {
     font-family: "Inter";
-    padding-left: 10vw;
     margin: auto;
     height: 90.176svh;
     width: calc(100% - 20vw);
