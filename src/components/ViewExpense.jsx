@@ -121,6 +121,7 @@ export function ViewExpense() {
                     <div id="Status">
                         {
                             claim && (
+                                claim.status === null || claim.status === undefined? "No Status":
                                 claim.status === "Pending" ? <PendingIcon/> : (
                                     claim.status === "Approved" ? <AcceptedIcon/> : (
                                         claim.status === "Denied" ? <RejectedIcon/> : (
@@ -131,23 +132,23 @@ export function ViewExpense() {
                             )
                         }
                         <h2>Status</h2>
-                        <p>{claim?.status}</p>
+                        <p>{isNOTNullish(claim?.status)? claim?.status : 'No Expense Status'}</p>
                     </div>
                     <div id="ExpenseDetails">
                         <h2>Expense</h2>
                         <p>{claim?.title}</p>
 
                         <h2>Date</h2>
-                        <p>{claim?.date.replace(" 00:00:00 GMT", "")}</p>
+                        <p>{isNOTNullish(claim?.date)? claim?.date.replace(" 00:00:00 GMT", "") : 'No Date'}</p>
 
                         <h2>Amount</h2>
-                        <p>{claim?.currency+claim?.amount} <i className="AI">AI detected amount to be {claim?.currency+claim?.amount}.</i></p>
+                        <p>{isNOTNullish(claim?.currency)? claim?.currency : 'No Currency'+ isNOTNullish(claim?.amount)? claim?.amount: 'No Amount'} <i className="AI">AI detected amount to be {isNOTNullish(claim?.currency)? claim?.currency: 'No Currency'+isNOTNullish(claim?.amount)? claim?.amount: 'No Amount'}.</i></p>
 
                         <h2>Type</h2>
-                        <p>{claim?.expenseType}</p>
+                        <p>{isNOTNullish(claim?.expenseType)? claim?.expenseType : 'No Expense Type'}</p>
 
                         <h2>Description</h2>
-                        <p>{claim?.description}</p>
+                        <p>{isNOTNullish(claim?.description)? claim?.description : 'No Description'}</p>
 
                         <h2>Evidence</h2>
                         {
@@ -184,7 +185,7 @@ export function ViewExpense() {
 
                     {
 
-                        claim?.status === "Draft" && (
+                        isNOTNullish(claim?.status)? claim?.status === "Draft" && (
                             <div>
                                 <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
                                     <div id="DraftEdit">
@@ -199,16 +200,18 @@ export function ViewExpense() {
                                 </Link>
                             </div>
                         )
+                        :''
                     }
 
                     { /* Tested, fully functional. */
-                        claim?.status === "Denied" && (
+                        isNOTNullish(claim?.status)? claim?.status === "Denied" && (
                             <Link to={"/my-expenses"} onClick={() => {appealClaim()}}>
                                 <div id="AppealClaim">
                                     <p>Appeal this claim</p>
                                 </div>
                             </Link>
                         )
+                        : ''
                     }
                 </div>
             </div>
@@ -216,6 +219,10 @@ export function ViewExpense() {
         </div>
     )
 }
+
+function isNOTNullish(value) {
+    return value != null || value != undefined;
+};
 
 /* 
     Model output from { state }:
