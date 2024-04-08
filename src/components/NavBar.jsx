@@ -81,6 +81,9 @@ function NavBar() {
                         <div className='account-dropdown'>
                             <div className='links'>
                                 <Link to='/profile' className='dropdown-link'>Profile</Link>
+
+                                <hr className='divider' />
+
                                 <Link to='/' className='dropdown-link' onClick={() => logoutBackend()}>Logout</Link>
                             </div>
                         </div>

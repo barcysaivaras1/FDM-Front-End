@@ -334,13 +334,13 @@ export function MyExpenses(){
                         </div>
 
                         <div className='expense-column'>
-                            <div className="h2-collapse">
+                            <div className="h2-collapse" onClick={() => handleCollapse('drafts')}>
                                 <h2 className="ExpenseType">Draft Claims</h2>
 
                                 {isCollapsed.drafts ? (
-                                    <ArrowDownIcon onClick={() => handleCollapse('drafts')} />
+                                    <ArrowDownIcon />
                                 ) : (
-                                    <ArrowUpIcon onClick={() => handleCollapse('drafts')} />
+                                    <ArrowUpIcon />
                                 )}
                             </div>
                             {
@@ -355,13 +355,13 @@ export function MyExpenses(){
                                 ))
                             }
 
-                            <div className='h2-collapse'>
+                            <div className='h2-collapse' onClick={() => handleCollapse('pending')}>
                                 <h2 className='ExpenseType'>Pending</h2>
 
                                 {isCollapsed.pending ? (
-                                    <ArrowDownIcon onClick={() => handleCollapse('pending')} />
+                                    <ArrowDownIcon />
                                 ) : (
-                                    <ArrowUpIcon onClick={() => handleCollapse('pending')} />
+                                    <ArrowUpIcon />
                                 )}
                             </div>
                             {
@@ -376,13 +376,13 @@ export function MyExpenses(){
                                 ))
                             }
 
-                            <div className='h2-collapse'>
+                            <div className='h2-collapse' onClick={() => handleCollapse('rejected')}>
                                 <h2 className='ExpenseType'>Rejected</h2>
 
                                 {isCollapsed.rejected ? (
-                                    <ArrowDownIcon onClick={() => handleCollapse('rejected')} />
+                                    <ArrowDownIcon />
                                 ) : (
-                                    <ArrowUpIcon onClick={() => handleCollapse('rejected')} />
+                                    <ArrowUpIcon />
                                 )}
                             </div>
                             {
@@ -397,13 +397,13 @@ export function MyExpenses(){
                                 ))
                             }
 
-                            <div className='h2-collapse'>
+                            <div className='h2-collapse' onClick={() => handleCollapse('accepted')}>
                                 <h2 className='ExpenseType'>Accepted</h2>
 
                                 {isCollapsed.accepted ? (
-                                    <ArrowDownIcon onClick={() => handleCollapse('accepted')} />
+                                    <ArrowDownIcon />
                                 ) : (
-                                    <ArrowUpIcon onClick={() => handleCollapse('accepted')} />
+                                    <ArrowUpIcon />
                                 )}
                             </div>
                             {

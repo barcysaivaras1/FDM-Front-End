@@ -22,13 +22,19 @@ nav .account {
 nav .account-dropdown {
     width: 140px;
     border-radius: 4px;
-    background-color: #e0e0e0;
+    background-color: #fff;
+    border: solid 1px #e0e0e0;
+}
+
+nav .account-dropdown .divider {
+    width: 100%;
+    border: solid 1px #f1f1f1;
+    margin: 4px 0;
 }
 
 nav .account-dropdown .links {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     height: 100%;
     width: 100%;
     padding: 8px;
@@ -44,9 +50,8 @@ nav .account-dropdown .links .dropdown-link {
 }
 
 nav .account-dropdown .links .dropdown-link:hover {
-    background-color: #d0d0d0;
+    background-color: #f1f1f1;
 }
-
 
 nav .account .accountNavIcon {
     margin: auto;
@@ -94,11 +99,9 @@ nav .account .accountNavIcon {
 
     nav .account-dropdown {
         position: absolute;
-        background-color: lightgrey;
         padding: 4px;
-        /*width: 200px;*/
-        /*left: 9rem;*/
-        bottom: 9rem;
+        /*right: 5rem;*/
+        bottom: 5rem;
     }
 
 
@@ -242,8 +245,8 @@ nav .account .accountNavIcon {
         position: absolute;
         padding: 4px;
         width: 200px;
-        left: 9rem;
-        bottom: 1rem;
+        left: 5rem;
+        bottom: 0;
     }
 }
 

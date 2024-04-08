@@ -54,6 +54,7 @@ body {
     gap: 1em;
     height: 2em;
     box-shadow: 0 3px 0px #204382;
+    cursor: pointer;
 }
 
 .ExpenseType{
