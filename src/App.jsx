@@ -15,7 +15,6 @@ import NotFound from "./components/NotFound";
 import RequireAuth from './components/RequireAuth';
 import Unauthorised from './components/Unauthorised';
 import Admin from "./components/Admin.jsx";
-import Settings from "./components/Settings.jsx";
 
 function App() {
   return (
@@ -29,7 +28,6 @@ function App() {
           <Route path="/view-expense" exact element={<ViewExpense />} />
           <Route path="/create-claim" exact element={<CreateClaim />} />
           <Route path="/profile" exact element={<Profile />} />
-          <Route path="/settings" exact element={<Settings />} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={[2]} />}>
