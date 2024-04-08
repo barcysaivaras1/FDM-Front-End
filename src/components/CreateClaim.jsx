@@ -356,9 +356,13 @@ export function CreateClaim () {
                                     type='file'
                                     accept='image/*'
                                     onChange={(e) => {
-                                        setImage(e.target.files[0]);
-                                        addAnImage(e.target.files[0]);
-                                        setPreview(URL.createObjectURL(e.target.files[0]));
+                                        const filesPicked = e.target.files;
+                                        console.log(`files picked: `, filesPicked);
+                                        for (let fileHandle of filesPicked) {
+                                            setImage(fileHandle);
+                                            addAnImage(fileHandle);
+                                            setPreview(URL.createObjectURL(fileHandle));
+                                        }
                                     }} 
                                     multiple 
                                     required
