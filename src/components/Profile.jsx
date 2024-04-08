@@ -157,7 +157,7 @@ export function Profile() {
 
                         <p className="cont">
                             {/* 1  */}
-                            {(totalAccepted !== 0) ? (totalAccepted / 2) : "0"}
+                            {(totalAccepted !== 0) ? (totalAccepted) : "0"}
                         </p>
                     </div>
 
@@ -168,7 +168,7 @@ export function Profile() {
 
                         <p className="cont">
                             {/* £49.99 */}
-                            {(totalSpent !== 0.0) ? ("£" + (totalSpent / 2).toFixed(2)) : "£0"}
+                            {(totalSpent !== 0.0) ? ("£" + (totalSpent).toFixed(2)) : "£0"}
                         </p>
                     </div>
 
