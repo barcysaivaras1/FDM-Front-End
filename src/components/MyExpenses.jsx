@@ -221,6 +221,11 @@ export function MyExpenses(){
             TempRejectedArr = RejectedArr
             TempPendingArr = PendingArr
         }
+        else{
+            AcceptedArr = TempAcceptedArr
+            RejectedArr = TempRejectedArr
+            PendingArr = TempPendingArr
+        }
         //Filtering based on amount
         if (amountF.Ten){
             AcceptedArr = filterAmountArray(AcceptedArr,10)
