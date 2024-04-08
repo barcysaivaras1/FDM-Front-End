@@ -279,7 +279,7 @@ export function CreateClaim () {
                         </div>
 
                         <div>
-                            <label>Date</label>
+                            <label>Date</label> <br />
                             <input
                                 type="date"
                                 className='infield dateInput'

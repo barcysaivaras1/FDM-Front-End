@@ -198,3 +198,10 @@ body{
         height: 100svh;
     }
 }
+
+/* mobile view  */
+@media screen and (max-width: 1024px) {
+    .dateInput {
+        min-width: 95%;
+    }
+}
