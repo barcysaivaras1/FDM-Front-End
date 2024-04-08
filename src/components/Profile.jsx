@@ -20,16 +20,6 @@ export function Profile() {
     const [successMessage, setSuccessMessage] = useState();
     const [errorMessage, setErrorMessage] = useState();
 
-    async function logoutBackend() {
-        await httpClient.post("/api/auth/logout")
-        .then(function (response) {
-            console.log("Response:  ", response);
-        })
-        .catch(function (error) {
-            console.log("Error: ", error);
-        })
-    }
-
     function fetchProfile() {
         httpClient.get('/api/users/profile')
         .then(function (response) {
@@ -227,9 +217,6 @@ export function Profile() {
                         </Modal>
                     </div>
                 </div>
-                <NavLink to="/" id="LogoutBtnProfile" onClick={() => { logoutBackend() }}>
-                    <p>Logout</p>
-                </NavLink>
             </div>
             </Animate_page>
         </div>
