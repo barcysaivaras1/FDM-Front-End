@@ -49,7 +49,7 @@ function NavBar() {
                 {/* All this needs now is an if statement to check whether user is a line manager - DONE :3 */}
                 {
                     auth.role === 2 && (
-                        <NavLink to="/line-manager-expenses" className="DesktopIdentifiers">
+                        <NavLink to="/line-manager-expenses" className="DesktopIdentifiers link">
                             <div>
                                 <p>Review Expenses</p>
                             </div>
