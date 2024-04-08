@@ -141,8 +141,8 @@ export function ViewExpense() {
                         <h2>Date</h2>
                         <p>{isNOTNullish(claim?.date)? claim?.date.replace(" 00:00:00 GMT", "") : 'No Date'}</p>
 
-                        <h2>Amount</h2>
-                        <p>{isNOTNullish(claim?.currency)? claim?.currency : 'No Currency'+ isNOTNullish(claim?.amount)? claim?.amount: 'No Amount'} <i className="AI">AI detected amount to be {isNOTNullish(claim?.currency)? claim?.currency: 'No Currency'+isNOTNullish(claim?.amount)? claim?.amount: 'No Amount'}.</i></p>
+                        <h2>Amount</h2> {console.log("Amount is: " + claim?.amount)}
+                        <p>{amountHandler(claim?.currency, claim?.amount)} <i className="AI">AI detected amount to be {amountHandler(claim?.currency, claim?.amount)}.</i></p>
 
                         <h2>Type</h2>
                         <p>{isNOTNullish(claim?.expenseType)? claim?.expenseType : 'No Expense Type'}</p>
@@ -223,6 +223,17 @@ export function ViewExpense() {
 function isNOTNullish(value) {
     return value != null || value != undefined;
 };
+
+function amountHandler(currency, amount) {
+    var retString = ""
+    if (isNOTNullish(currency)) {
+        retString = retString + currency;
+    }
+    if (isNOTNullish(amount)) {
+        retString = retString + amount;
+    }
+    return retString;
+}
 
 /* 
     Model output from { state }:
