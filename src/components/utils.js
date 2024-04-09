@@ -1,6 +1,7 @@
 export const ls_keys = {
     "create-claim": "fdm-expenses-client/create-claim/form-data",
-    "save-draft-claim": "fdm-expenses-client/draft-claim"
+    "save-draft-claim": "fdm-expenses-client/draft-claim",
+    "view-expense-recent": "fdm-expenses-client/view-expense/recent"
 };
 
 /**
@@ -26,6 +27,30 @@ export function ensureLS_saveDraftClaim_exists() {
         ls_draftStorage = window.localStorage.getItem(ls_keys["save-draft-claim"]);
     }
     return JSON.parse(ls_draftStorage);
+};
+
+/**
+ * 
+ * @returns {{
+ * "most-recent-id": number,
+ * "most-recent-timestamp": number,
+ * "expense_ids": Array<number>,
+ * "state": object
+ * }} - Returns the localStorage object for the most recently viewed expense.
+ */
+export function ensureLS_recentViewedExpense_exists() {
+    let ls_recentViewedExpense = window.localStorage.getItem(ls_keys["view-expense-recent"]);
+    if (ls_recentViewedExpense === null) {
+        ls_recentViewedExpense = {
+            "most-recent-id": -1,
+            "most-recent-timestamp": 0,
+            "expense_ids": [],
+            "state": {}
+        };
+        window.localStorage.setItem(ls_keys["view-expense-recent"], JSON.stringify(ls_recentViewedExpense));
+        ls_recentViewedExpense = window.localStorage.getItem(ls_keys["view-expense-recent"]);
+    }
+    return JSON.parse(ls_recentViewedExpense);
 };
 
 

@@ -6,13 +6,22 @@ import { Link, useLocation } from "react-router-dom";
 import httpClient from "../httpClient";
 import Animate_page from "./Animate-page";
 import { removeFromDraftsArr } from "./MyExpenses.jsx";
-import { ensureLS_saveDraftClaim_exists, ls_keys } from "./utils";
+import { ensureLS_recentViewedExpense_exists, ensureLS_saveDraftClaim_exists, ls_keys } from "./utils";
 
 
 export function ViewExpense() {
     let { state } = useLocation();
     console.log(state);
     const [claim, setClaim] = useState();
+
+    const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
+    console.log(`ls_recentViewedExpense: `, ls_recentViewedExpense);
+    if (ls_recentViewedExpense["most-recent-id"] !== -1) {
+        console.info(`ViewExpense : This expense was the most recently viewed expense.`);
+        state = ls_recentViewedExpense["state"];
+    } else {
+        console.info(`ViewExpense : This expense was not the most recently viewed expense.`);
+    }
 
     useEffect(() => {
         document.title = "View Expense";
@@ -171,7 +180,17 @@ export function ViewExpense() {
                                     
                                     return (
                                     <>
-                                        <a href='' onClick={() => {openUp()}}>Attached evidence</a> <br />
+                                        <a href='' onClick={()=>{
+                                            const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
+                                            ls_recentViewedExpense["most-recent-id"] = claim.claim_id;
+                                            ls_recentViewedExpense["most-recent-timestamp"] = Date.now();
+                                            if (!ls_recentViewedExpense["expense_ids"].includes(claim.claim_id)) {
+                                                ls_recentViewedExpense["expense_ids"].push(claim.claim_id);
+                                            }
+                                            ls_recentViewedExpense["state"] = state;
+                                            window.localStorage.setItem(ls_keys["view-expense-recent"], JSON.stringify(ls_recentViewedExpense));
+                                            openUp();
+                                        }}>Attached evidence</a> <br />
                                     </>
                                     )
                                 })
