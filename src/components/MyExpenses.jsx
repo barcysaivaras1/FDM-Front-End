@@ -28,7 +28,19 @@ let DraftsArr_Local = [];
 function removeDuplicatesFromArray(arr) {
     return arr.filter((value, index) => arr.indexOf(value) === index);
 };
-
+function sortDraftsArray() {
+    DraftsArr = DraftsArr.sort((a,b) => {
+        // confirm date attributes exist
+        if (a.date_time === undefined || b.date_time === undefined) {
+            return 0;
+        }
+        // convert to date objects
+        const aDate = new Date(a.date);
+        const bDate = new Date(b.date);
+        // compare date objects
+        return bDate - aDate;
+    });
+};
 async function fetchClaims (setIsLoading) {
     await httpClient.get('/api/claims/').then(function(response) {
         setIsLoading(true);
@@ -53,7 +65,10 @@ async function fetchClaims (setIsLoading) {
         }
     }).catch(function(error) {
         console.log(error);
-    }).finally(() => setIsLoading(false));
+    }).finally(() => {
+        setIsLoading(false)
+        sortDraftsArray();
+    });
 };
 
 var TempAcceptedArr = [];
@@ -102,6 +117,8 @@ export function addToDraftsArr(draftClaimId, details) {
     DraftsArr.push(output);
     DraftsArr_Local.push(Object.assign({}, output));
     console.log(`Drafts array updated, with: `, output);
+    
+    sortDraftsArray();
 
     return;
 };
@@ -135,6 +152,7 @@ export function removeFromDraftsArr(draftClaimId) {
     return;
 };
 
+let interval_sortDraftsArr = undefined;
 export function MyExpenses(){
     const [isLoading, setIsLoading] = useState(true);
 
@@ -339,6 +357,17 @@ export function MyExpenses(){
         }
         return newArr;
     };
+
+    
+
+    // useEffect(()=>{
+    //     sortDraftsArray();
+    // }, [DraftsArr]);
+    if (interval_sortDraftsArr === undefined) {
+        interval_sortDraftsArr = setInterval(()=>{
+            sortDraftsArray();
+        }, 3000);
+    }
 
     
     return(
