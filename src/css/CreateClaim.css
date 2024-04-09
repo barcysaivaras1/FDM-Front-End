@@ -321,6 +321,10 @@ broken, so yipee!                                                               
 
 /* mobile view  */
 @media screen and (max-width: 1024px) {
+    .createContainer {
+        max-width: none;
+    }
+    
     .dateInput {
         min-width: 95%;
     }

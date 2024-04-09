@@ -20,6 +20,7 @@ body {
 @media screen and (max-width: 1024px) {
     .ViewExpensesPage {
         height: 88svh;
+        max-width: none;
     }
 }
 
