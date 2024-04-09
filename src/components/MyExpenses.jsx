@@ -347,21 +347,23 @@ export function MyExpenses(){
                                 )}
                             </div>
                             {
-                                removeDuplicatesFromArray(DraftsArr).map((expense, index) =>
-                                    (transition_drafts((style, item) =>
-                                    item ? <animated.div style={style}>
-                                        <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: (()=>{
-                                            const local_draft = DraftsArr_Local.find((draftLocal) => draftLocal.id === expense.claim_id);
-                                            let output_expense = Object.assign({}, local_draft, expense);
-                                            console.log(`DraftsArr_Local: `, DraftsArr_Local);
-                                            console.log(`output_expense: `, output_expense);
-                                            return output_expense;
-                                        })() }}>
-                                            <ExpenseBox key={index} expense={expense} />
-                                        </Link>
-                                    </animated.div>
-                                    : '')
-                                ))
+                                (!isNullish(DraftsArr) && DraftsArr.length > 0) ? (
+                                    removeDuplicatesFromArray(DraftsArr).map((expense, index) =>
+                                        (transition_drafts((style, item) =>
+                                        item ? <animated.div style={style}>
+                                            <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: (()=>{
+                                                const local_draft = DraftsArr_Local.find((draftLocal) => draftLocal.id === expense.claim_id);
+                                                let output_expense = Object.assign({}, local_draft, expense);
+                                                console.log(`DraftsArr_Local: `, DraftsArr_Local);
+                                                console.log(`output_expense: `, output_expense);
+                                                return output_expense;
+                                            })() }}>
+                                                <ExpenseBox key={index} expense={expense} />
+                                            </Link>
+                                        </animated.div>
+                                        : '')
+                                    ))
+                                ) : (<p style={{padding:"1rem"}}>Nothing Here right now...</p>)
                             }
 
                             <div className='h2-collapse' onClick={() => handleCollapse('pending')}>
