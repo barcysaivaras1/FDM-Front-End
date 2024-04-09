@@ -246,6 +246,8 @@ async function saveAsDraft(details) {
 
 export function CreateClaim () {
     let alreadyLoadedDraft = false;
+    let manuallyRerenderedViaTitleCounter = 0;
+    let manualTitleTimeout = undefined;
     const [claimId, set_claimId] = useState(null);
     const [title, setTitle] = useState(null);
     const [type, setType] = useState(null);
@@ -370,11 +372,19 @@ export function CreateClaim () {
     }, [claimId, state, alreadyLoadedDraft, setTitle, setType, setCurrency, setAmount, setDate, setDescription]);
 
     useEffect(()=>{
-        setTimeout(()=>{
-            setTitle(title);
-            // manually trigger re-render so image previews appear?
-        }, 1000);
-    }, [setTitle, title]);
+        console.log(`Title is: `, title);
+        if (manualTitleTimeout === undefined) {
+            manualTitleTimeout = setTimeout(()=>{
+                if (manuallyRerenderedViaTitleCounter < 1) {
+                    // setTitle(title);
+                    set_rerender_counter(_rerender_counter + 1);
+                    // manually trigger re-render so image previews appear?
+                    manuallyRerenderedViaTitleCounter += 1;
+                }
+                manualTitleTimeout = false;
+            }, 1000);
+        }
+    }, [title, _rerender_counter, manualTitleTimeout]);
 
     const navigate = useNavigate();
     
@@ -415,6 +425,7 @@ export function CreateClaim () {
         let request = undefined;
         const isFreshForm = isNullish(claimId);
         const wasEditingADraft = !isFreshForm;
+        let api_endpoint = "";
         if (wasEditingADraft) {
             // this means submitting this draft, becomes pending claim
             api_endpoint = `/api/claims/drafts/${claimId}/submit`;
