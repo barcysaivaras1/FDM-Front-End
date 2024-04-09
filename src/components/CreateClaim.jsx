@@ -12,6 +12,9 @@ import { Link, useLocation } from 'react-router-dom';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
+function isNullish(value) {
+    return value === null || value === undefined;
+};
 
 /**
  * @param {Blob} blob
@@ -120,6 +123,7 @@ async function saveAsDraft(details) {
 
 export function CreateClaim () {
     let alreadyLoadedDraft = false;
+    const [claimId, set_claimId] = useState(null);
     const [title, setTitle] = useState(null);
     const [type, setType] = useState(null);
     const [currency, setCurrency] = useState(null);
@@ -167,13 +171,15 @@ export function CreateClaim () {
         if (state !== null && !alreadyLoadedDraft && state["draftClaim"] !== undefined) {
             console.log(`Draft claim found in state: `, state["draftClaim"]);
             alreadyLoadedDraft = true;
-            const { amount, claim_id, currency, date, description, expenseType, receipts, status, title, user_id } = state["draftClaim"];
+            const { amount, claim_id, currency, date, description, expenseType, receipts, status, title, user_id, imagesArr } = state["draftClaim"];
+            set_claimId(claim_id);
             setTitle(title);
             setType(expenseType);
             setCurrency(currency);
             setAmount(amount);
             setDate(date);
             setDescription(description);
+            setImagesArr(imagesArr);
             // setImage(receipts);
             // setPreview(receipts);
             console.log(`Loaded draft: `, state["draftClaim"]);
@@ -184,7 +190,7 @@ export function CreateClaim () {
             console.log(`state is: `, state);
             console.log(`alreadyLoadedDraft is: `, alreadyLoadedDraft);
         }
-    }, [state, alreadyLoadedDraft, setTitle, setType, setCurrency, setAmount, setDate, setDescription]);
+    }, [claimId, state, alreadyLoadedDraft, setTitle, setType, setCurrency, setAmount, setDate, setDescription]);
 
     const navigate = useNavigate();
     
@@ -330,7 +336,7 @@ export function CreateClaim () {
                         <div className="proofArea">
                             <section className="proofArea-picture-gallery">
                                 {
-                                    (imagesArr.length > 0) ? (
+                                    ( !isNullish(imagesArr) && imagesArr.length > 0) ? (
                                         imagesArr.map((fileHandle)=>{
                                             return (
                                             <>
@@ -393,7 +399,7 @@ export function CreateClaim () {
                     </div>
 
                     <button type="button" className="infield clearSubmit saveDraftSubmit" onClick={()=>{
-                        saveAsDraft({title, type, currency, amount, date, description, imagesArr});
+                        saveAsDraft({claimId, title, type, currency, amount, date, description, imagesArr});
                     }}>Save as Draft</button>
                     <Link className='infield clearSubmit' to="/create-claim" state={{
                         draftClaim: {
