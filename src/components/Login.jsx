@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import '../css/Login.css'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
 import useAuth from '../hooks/useAuth';
@@ -52,9 +52,8 @@ function Login() {
                 />
                 <button className='loginSubmit'>Login</button>
             </form>
-            <a href='https://careers.fdmgroup.com/forgotten-password.aspx' target='_blank' rel='noreferrer' className='forgor'>
-                Forgot your password?
-            </a>
+            
+            <Link to='/forgot-password' className='forgor'>Forgot your password?</Link>
         </div>
         </Animate_page>
     )

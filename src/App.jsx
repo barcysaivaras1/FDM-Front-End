@@ -15,6 +15,7 @@ import NotFound from "./components/NotFound";
 import RequireAuth from './components/RequireAuth';
 import Unauthorised from './components/Unauthorised';
 import Admin from "./components/Admin.jsx";
+import ForgotPassword from './components/ForgotPassword.jsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       </style>
       <Routes>
         <Route path='/' exact element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/unauthorised' element={<Unauthorised />} />
 
         <Route element={<RequireAuth allowedRoles={[1, 2, 4]} />}>
