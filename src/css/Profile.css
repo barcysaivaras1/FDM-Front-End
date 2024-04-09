@@ -2,10 +2,6 @@ body{
     margin: 0;
 }
 
-#ProfileContainer {
-    margin: auto;
-}
-
 #ViewProfileHeader {
     text-align: center;
     font-family: "Public Sans", Verdana, sans-serif;
