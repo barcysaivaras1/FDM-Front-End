@@ -92,8 +92,8 @@ async function saveAsDraft(details) {
 
     // await httpClient.post("/api/claims/drafts", bodyFormData)
     request.then(function(response) {
-        console.log(`[CREATE DRAFT-CLAIM] Successfully created draft-claim 👍. Status: ${response.status}`);
-        console.log(`data: `, response.data);
+        console.log(`[${isEditingDraft ? "EDIT" : "CREATE"} DRAFT-CLAIM] Successfully ${isEditingDraft ? "edited" : "created"} draft-claim 👍. Status: ${response.status}`);
+        console.log(`Response data: `, response.data);
 
         /**
          * These fields are KNOWN, as it's what server returns.
@@ -111,7 +111,7 @@ async function saveAsDraft(details) {
 
         // navigate("/my-expenses");
     }).catch(function(error) {
-        console.error(`[CREATE DRAFT-CLAIM] Failed to create draft-claim. Status: ${error.response.status}`);
+        console.error(`[${isEditingDraft ? "EDIT" : "CREATE"} DRAFT-CLAIM] Failed to ${isEditingDraft ? "edit" : "create"} draft-claim. Status: ${error.response.status}`);
     });
     return;
 
