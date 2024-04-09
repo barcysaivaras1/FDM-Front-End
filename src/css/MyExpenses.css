@@ -14,7 +14,7 @@ body {
 .ViewExpensesPage{
     font-family: "Kaiti SC";
     width: 95%;
-    max-width: 70rem;
+    max-width: 89vw;
 }
 
 @media screen and (max-width: 1024px) {
@@ -54,6 +54,7 @@ body {
     gap: 1em;
     height: 2em;
     box-shadow: 0 3px 0px #204382;
+    cursor: pointer;
 }
 
 .ExpenseType{
@@ -116,15 +117,6 @@ body {
 }
 
 
-@media screen and (min-width: 1024px) {
-    .ViewExpensesPage{
-        margin-left: 9.375vw;
-    }
-}
-
-
-
-
 /*This is all to do with the Filtering component of the page*/
 .Filter-Icon{ 
     margin-left: auto;
@@ -145,6 +137,7 @@ body {
     border-radius: 20px;
     margin-left: auto;
     margin-right: auto;
+    right: 0;
 }
 .Filter-Title{
     display: flex;
@@ -221,4 +214,24 @@ body {
 
 .filter-box .month-button, .filter-box .amount-button, .filter-box .currency-button {
     cursor: pointer;
+}
+
+/* End of filtering section */
+
+/* Desktop View */
+
+@media screen and (min-width: 1024px) {
+    .view-expenses {
+        width: calc(100% - 9.375vw);
+        overflow-y: scroll;
+        margin-left: 9.375vw;
+    }
+
+    .ViewExpensesPage{
+        width: 89vw;
+    }
+
+    .filter-box {
+        width: calc(100% - 9.375vw);
+    }
 }

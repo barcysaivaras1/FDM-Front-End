@@ -9,7 +9,7 @@
 // EDIT: We are sooo back 😈😈😈
 
 import React from "react"
-import '../css/navbar.css';
+import '../css/NavBar.css';
 
 export function UsernameIcon() {
     return (
@@ -211,14 +211,20 @@ export function ArrowDownIcon({onClick}) {
 export function AccountNavIcon(props) {
     return (
         <svg
-            viewBox="0 0 24 24"
-            fill="#ffffff"
-            height="48px"
-            width="48px"
+            viewBox="0 0 31 31"
+            fill="none"
+            width="31"
+            height="31"
             {...props}
         >
-            <path
-                d="M12 2A10 10 0 002 12a10 10 0 0010 10 10 10 0 0010-10A10 10 0 0012 2M7.07 18.28c.43-.9 3.05-1.78 4.93-1.78s4.5.88 4.93 1.78A7.893 7.893 0 0112 20c-1.86 0-3.57-.64-4.93-1.72m11.29-1.45c-1.43-1.74-4.9-2.33-6.36-2.33s-4.93.59-6.36 2.33A7.928 7.928 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.82-.62 3.5-1.64 4.83M12 6c-1.94 0-3.5 1.56-3.5 3.5S10.06 13 12 13s3.5-1.56 3.5-3.5S13.94 6 12 6m0 5a1.5 1.5 0 01-1.5-1.5A1.5 1.5 0 0112 8a1.5 1.5 0 011.5 1.5A1.5 1.5 0 0112 11z"/>
+            <path className="notClickedIcon" d="M15.3291 16.7288C15.4288 16.7138 15.5569 16.7138 15.6708 16.7288C18.1764 16.6388 20.1694 14.4776 20.1694 11.8211C20.1694 9.10455 18.0909 6.89832 15.4999 6.89832C12.9232 6.89832 10.8304 9.10455 10.8304 11.8211C10.8447 14.4776 12.8235 16.6388 15.3291 16.7288Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path className="notClickedIcon" d="M6 26.4082C8.5089 28.6428 11.8353 30 15.5 30C19.1647 30 22.4911 28.6428 25 26.4082C24.8591 25.1196 24.0134 23.8583 22.5052 22.8713C18.6432 20.3762 12.3286 20.3762 8.4948 22.8713C6.98664 23.8583 6.14095 25.1196 6 26.4082Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path className="notClickedIcon" d="M15.5 30C7.49194 30 0.999999 23.5081 0.999999 15.5C0.999999 7.49187 7.49194 1 15.5 1C23.5081 1 30 7.49187 30 15.5C30 23.5081 23.5081 30 15.5 30Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <path className="ClickedIcon activated" d="M15.3291 16.7288C15.4288 16.7138 15.5569 16.7138 15.6708 16.7288C18.1764 16.6388 20.1694 14.4776 20.1694 11.8211C20.1694 9.10455 18.0909 6.89832 15.4999 6.89832C12.9232 6.89832 10.8304 9.10455 10.8304 11.8211C10.8447 14.4776 12.8235 16.6388 15.3291 16.7288Z" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path className="ClickedIcon activated" d="M6 26.4082C8.5089 28.6428 11.8353 30 15.5 30C19.1647 30 22.4911 28.6428 25 26.4082C24.8591 25.1196 24.0134 23.8583 22.5052 22.8713C18.6432 20.3762 12.3286 20.3762 8.4948 22.8713C6.98664 23.8583 6.14095 25.1196 6 26.4082Z" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path className="ClickedIcon activated" d="M15.5 30C7.49194 30 0.999999 23.5081 0.999999 15.5C0.999999 7.49187 7.49194 1 15.5 1C23.5081 1 30 7.49187 30 15.5C30 23.5081 23.5081 30 15.5 30Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
+
     )
 }

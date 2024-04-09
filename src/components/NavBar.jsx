@@ -1,7 +1,7 @@
-import '../css/navbar.css';
+import '../css/NavBar.css';
 import { ViewExpensesIcon, CreateExpenseIcon, AccountNavIcon } from "../assets/Icons";
 import FDMLogo from "../assets/FDMLogo.png";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useAsyncError} from "react-router-dom";
 import httpClient from '../httpClient';
 import useAuth from '../hooks/useAuth';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -11,6 +11,7 @@ function NavBar() {
     const { setAuth } = useAuth();
     const { auth } = useContext(AuthContext); // auth.role = 1 (employee), auth.role = 2 (Line Manager), auth.role = 4 (System admin)
     const [accountNavOpen, setAccountNavOpen] = useState(false);
+    const [ style, setStyle ] = useState("account notClicked")
     let accountNavRef = useRef();
 
     async function logoutBackend() {
@@ -23,6 +24,11 @@ function NavBar() {
             console.log("Error: ", error);
         })
     }
+
+    const changeStyle = () => {
+        if (style !== "account notClicked") setStyle("account notClicked");
+        else setStyle("account clicked");
+    };
 
     useEffect(() => {
         let handler = (event) => {
@@ -40,13 +46,8 @@ function NavBar() {
 
     return (
         <nav className='navbar'>
-            <style>
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
-            </style>
             <div className='one'>
                 <img src={FDMLogo} id="FDMLogo" width={80} />
-
-                {/* All this needs now is an if statement to check whether user is a line manager - DONE :3 */}
                 {
                     auth.role === 2 && (
                         <NavLink to="/line-manager-expenses" className="DesktopIdentifiers link">
@@ -57,10 +58,10 @@ function NavBar() {
                     )
                 }
 
-                <NavLink to="/my-expenses" className='link'>
+                <NavLink to="/my-expenses" className='link' id='ViewBtn'>
                     <div>
                         <ViewExpensesIcon />
-                        <p className="MobileIdentifiers">View</p>
+                        {/* <p className="MobileIdentifiers">View</p> */}
                         <p className="DesktopIdentifiers">My Expenses</p>
                     </div>
                 </NavLink>
@@ -71,20 +72,25 @@ function NavBar() {
                         <p className="DesktopIdentifiers">Create Claim</p>
                     </div>
                 </NavLink>
-            </div>
 
-            <div className='account two' ref={accountNavRef}>
-                <AccountNavIcon onClick={() => setAccountNavOpen(!accountNavOpen)} className='accountNavIcon' />
+                <div className={style} ref={accountNavRef}>
+                    <AccountNavIcon onClick={() => {setAccountNavOpen(!accountNavOpen); changeStyle();}} className='accountNavIcon' />
+                    {/* <p className="MobileIdentifiers">Profile</p> */}
 
-                {accountNavOpen && (
-                    <div className='account-dropdown'>
-                        <div className='links'>
-                            <Link to='/profile' className='dropdown-link'>Profile</Link>
-                            <Link to='/' className='dropdown-link' onClick={() => logoutBackend()}>Logout</Link>
+                    {accountNavOpen && (
+                        <div className='account-dropdown'>
+                            <div className='links'>
+                                <Link to='/profile' className='dropdown-link'>Profile</Link>
+
+                                <hr className='divider' />
+
+                                <Link to='/' className='dropdown-link' onClick={() => logoutBackend()}>Logout</Link>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
+
         </nav>
 
     )

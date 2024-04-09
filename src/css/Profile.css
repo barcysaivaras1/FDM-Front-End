@@ -2,6 +2,14 @@ body{
     margin: 0;
 }
 
+#ProfileContainer {
+    margin: auto;
+}
+
+#ViewProfileHeader {
+    text-align: center;
+}
+
 .ProfileBody{
     display: flex;
     align-items: center;
@@ -61,16 +69,6 @@ body{
     font-weight: 300;
 }
 
-#LogoutBtnProfile {
-    width: 180px;
-    text-align: center;
-    color: red;
-    border: 2px solid red;
-    padding: 12px 0;
-    margin-bottom: 1svh;
-    border-radius: 10px;
-}
-
 .change-password {
     display: flex;
     flex-direction: column;
@@ -118,10 +116,13 @@ body{
 }
 
 @media screen and (min-width: 1024px) {
-    #LogoutBtnProfile {
-        display: none;
-    }
     .ProfileBody{
         height: 100svh;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .change-password {
+        margin-bottom: 4vh;
     }
 }

@@ -12,22 +12,29 @@ a:link {
 }
 
 nav .account {
-    height: 50px;
-    width: 50px;
     cursor: pointer;
+    /* the 10000 is very real 😭😭 */
     z-index: 10000;
+    display: flex;
+    place-content: center;
 }
 
 nav .account-dropdown {
     width: 140px;
     border-radius: 4px;
-    background-color: #e0e0e0;
+    background-color: #fff;
+    border: solid 1px #e0e0e0;
+}
+
+nav .account-dropdown .divider {
+    width: 100%;
+    border: solid 1px #f1f1f1;
+    margin: 4px 0;
 }
 
 nav .account-dropdown .links {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     height: 100%;
     width: 100%;
     padding: 8px;
@@ -43,12 +50,29 @@ nav .account-dropdown .links .dropdown-link {
 }
 
 nav .account-dropdown .links .dropdown-link:hover {
-    background-color: #d0d0d0;
+    background-color: #f1f1f1;
 }
-
 
 nav .account .accountNavIcon {
     margin: auto;
+}
+
+.notClicked {
+    .ClickedIcon {
+        display: none;
+    }
+    .notClickedIcon {
+        display: unset;
+    }
+}
+
+.clicked, .notClicked:hover, .active {
+    .notClickedIcon {
+        display: none;
+    }
+    .ClickedIcon {
+        display: unset;
+    }
 }
 
 /* mobile view of the navbar */
@@ -57,7 +81,7 @@ nav .account .accountNavIcon {
         position: absolute;
         bottom: 0;
         width: 100vw;
-        height: 9.824svh;
+        min-height: 5.7em;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -70,29 +94,22 @@ nav .account .accountNavIcon {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        width: calc(100% * (2/3));
-    }
-
-    nav .two {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        width: calc(100% * (1/3));
+        width: calc(100% * (7/8));
     }
 
     nav .account-dropdown {
         position: absolute;
-        background-color: lightgrey;
         padding: 4px;
-        /*width: 200px;*/
-        /*left: 9rem;*/
-        bottom: 9rem;
+        /*right: 5rem;*/
+        bottom: 5rem;
     }
+
 
     nav .link div {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-block: auto;
     }
 
     nav svg {
@@ -114,6 +131,10 @@ nav .account .accountNavIcon {
         margin-bottom: 0
     }
 
+    #ViewBtn {
+        display: flex;
+    }
+
     #FDMLogo, .DesktopIdentifiers {
         display: none;
     }
@@ -128,6 +149,7 @@ nav .account .accountNavIcon {
             display: none;
         }
     }
+
 
     #LogoutBtn {
         display: none;
@@ -155,14 +177,6 @@ nav .account .accountNavIcon {
         display: flex;
         flex-direction: column;
         align-content: center;
-    }
-
-    nav .two {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-content: center;
-        padding: 14px 0;
     }
 
     nav .link div {
@@ -201,7 +215,7 @@ nav .account .accountNavIcon {
         display: none;
     }
     
-    nav .link div:hover, .active {
+    nav .link div:hover, .active:not(.dropdown-link) {
         cursor: pointer;
         background-color: #0F1F3C;
         box-shadow: 0 4px 4px rgba(255, 255, 255, 0.25);
@@ -219,12 +233,20 @@ nav .account .accountNavIcon {
         margin: 0;
     }
 
+    nav .account {
+        position: absolute;
+        left: 0; right: 0;
+        bottom: 2svh;
+        margin: auto;
+        width: max-content;
+    }
+
     nav .account-dropdown {
         position: absolute;
         padding: 4px;
         width: 200px;
-        left: 9rem;
-        bottom: 1rem;
+        left: 3rem;
+        bottom: 0;
     }
 }
 

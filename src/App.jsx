@@ -1,5 +1,5 @@
 import Login from './components/Login'
-import './css/navbar.css';
+import './css/NavBar.css';
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,6 +19,9 @@ import Admin from "./components/Admin.jsx";
 function App() {
   return (
     <Router>
+      <style>
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
+      </style>
       <Routes>
         <Route path='/' exact element={<Login />} />
         <Route path='/unauthorised' element={<Unauthorised />} />

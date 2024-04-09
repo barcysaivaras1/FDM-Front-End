@@ -50,87 +50,89 @@ export function ReviewExpense() {
         <div>
             <NavBar />
             <Animate_page>
-            <div id="ExpenseBody">
-                <div id="TitleBar">
-                    <NavLink to={"/line-manager-expenses"}><BackButtonIcon/></NavLink>
-                    <h1>Review Expense</h1>
-                </div>
-                <hr/>
-                <div id="Status">
-                    {
-                        state.claim.status === "Pending" ? <PendingIcon/> : (
-                            state.claim.status === "Approved" ? <AcceptedIcon/> : (
-                                state.claim.status === "Denied" && <RejectedIcon/>
+            <div className='view-expense'>
+                <div id="ExpenseBody">
+                    <div id="TitleBar">
+                        <NavLink to={"/line-manager-expenses"}><BackButtonIcon/></NavLink>
+                        <h1>Review Expense</h1>
+                    </div>
+                    <hr/>
+                    <div id="Status">
+                        {
+                            state.claim.status === "Pending" ? <PendingIcon/> : (
+                                state.claim.status === "Approved" ? <AcceptedIcon/> : (
+                                    state.claim.status === "Denied" && <RejectedIcon/>
+                                )
                             )
+                        }
+                        <h2>Status</h2>
+                        <p>{state.claim.status}</p>
+                    </div>
+                    <div id="ExpenseDetails">
+                        <h2>Expense</h2>
+                        <p>{state.claim.title}</p>
+
+                        <h2>Date</h2>
+                        <p>{state.claim.date.replace(" 00:00:00 GMT", "")}</p>
+
+                        <h2>Amount</h2>
+                        <p>{state.claim.currency+state.claim.amount} <i className="AI">AI detected amount to be {state.claim.currency+state.claim.amount}.</i></p>
+
+                        <h2>Type</h2>
+                        <p>{state.claim.expenseType}</p>
+
+                        <h2>Description</h2>
+                        <p>{state.claim.description}</p>
+
+                        <h2>Evidence</h2>
+                        {
+                            state.claim && (
+                                state.claim.receipts.length > 0 ? (
+                                    state.claim.receipts.map((evidence) => {
+                                        const imageUrl = evidence.imageContentsBase64;
+
+                                        const imgElem = document.createElement("img");
+                                        imgElem.src = imageUrl;
+
+                                        /*
+                                            Acknowledgements:
+
+                                            https://stackoverflow.com/a/73502589
+                                        */
+                                        function openUp() {
+                                            let image = new Image();
+                                            image.src = imageUrl;
+                                            var newTab = window.open();
+                                            newTab.document.body.innerHTML = image.outerHTML;
+                                        }
+                                        
+                                        
+                                        return (
+                                        <>
+                                            <a href='' onClick={() => {openUp()}}>Attached evidence</a> <br />
+                                        </>
+                                        )
+                                    })
+                                ) : (
+                                    <p>No evidence attached to this claim.</p>
+                                )
+                            )
+                        }
+                    </div>
+
+                    {
+                        state.claim.status === "Pending" && (
+                            <div id='JudgmentContainer'>
+                                    <div id="DenyClaim" className='JudgementButton' onClick={() => {denyClaim()}}>
+                                        <p>Deny this claim</p>
+                                    </div>
+                                    <div id="ApproveClaim" className='JudgementButton' onClick={() => {approveClaim()}}>
+                                        <p>Approve this claim</p>
+                                    </div>
+                            </div>
                         )
                     }
-                    <h2>Status</h2>
-                    <p>{state.claim.status}</p>
                 </div>
-                <div id="ExpenseDetails">
-                    <h2>Expense</h2>
-                    <p>{state.claim.title}</p>
-
-                    <h2>Date</h2>
-                    <p>{state.claim.date.replace(" 00:00:00 GMT", "")}</p>
-
-                    <h2>Amount</h2>
-                    <p>{state.claim.currency+state.claim.amount} <i className="AI">AI detected amount to be {state.claim.currency+state.claim.amount}.</i></p>
-
-                    <h2>Type</h2>
-                    <p>{state.claim.expenseType}</p>
-
-                    <h2>Description</h2>
-                    <p>{state.claim.description}</p>
-
-                    <h2>Evidence</h2>
-                    {
-                        state.claim && (
-                            state.claim.receipts.length > 0 ? (
-                                state.claim.receipts.map((evidence) => {
-                                    const imageUrl = evidence.imageContentsBase64;
-
-                                    const imgElem = document.createElement("img");
-                                    imgElem.src = imageUrl;
-
-                                    /*
-                                        Acknowledgements:
-
-                                        https://stackoverflow.com/a/73502589
-                                    */
-                                    function openUp() {
-                                        let image = new Image();
-                                        image.src = imageUrl;
-                                        var newTab = window.open();
-                                        newTab.document.body.innerHTML = image.outerHTML;
-                                    }
-                                    
-                                    
-                                    return (
-                                    <>
-                                        <a href='' onClick={() => {openUp()}}>Attached evidence</a> <br />
-                                    </>
-                                    )
-                                })
-                            ) : (
-                                <p>No evidence attached to this claim.</p>
-                            )
-                        )
-                    }
-                </div>
-
-                {
-                    state.claim.status === "Pending" && (
-                        <div id='JudgmentContainer'>
-                                <div id="DenyClaim" onClick={() => {denyClaim()}}>
-                                    <p>Deny this claim</p>
-                                </div>
-                                <div id="ApproveClaim" onClick={() => {approveClaim()}}>
-                                    <p>Approve this claim</p>
-                                </div>
-                        </div>
-                    )
-                }
             </div>
             </Animate_page>
         </div>

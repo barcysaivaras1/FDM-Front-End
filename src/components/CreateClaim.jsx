@@ -231,7 +231,7 @@ export function CreateClaim () {
 
         await httpClient.post('/api/claims/', bodyFormData).then(function(response) {
             console.log(`[CREATE CLAIM] Successfully created claim 👍. Status: ${response.status}`);
-            // navigate("/my-expenses");
+            navigate("/my-expenses");
         }).catch(function(error) {
             console.error(`[CREATE CLAIM] Failed to create claim. Status: ${error.response.status}`);
         });
@@ -251,12 +251,12 @@ export function CreateClaim () {
                     <legend className='createLegend'>Create Claim</legend>
                     <form className='createForm' onSubmit={handleSubmit}>
                         <div>
-                            <label>Title</label>
+                            {/* <label>Title</label> */}
                             <input
                                 type="text"
                                 className='infield titleInput'
                                 name='title'
-                                placeholder='Title...'
+                                placeholder='Title'
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 required
@@ -264,7 +264,7 @@ export function CreateClaim () {
                         </div>
 
                         <div>
-                            <label>Expense Type</label>
+                            {/* <label>Expense Type</label> */}
                             <select
                                 name="expenseType"
                                 className='infield typeInput'
@@ -282,7 +282,7 @@ export function CreateClaim () {
                         <div>
                             <div className='inlineContainer'>
                                 <div>
-                                    <label>Currency</label>
+                                    {/* <label>Currency</label> */}
                                     <select
                                         name="currencyType"
                                         className='infield currencyInput'
@@ -298,7 +298,7 @@ export function CreateClaim () {
                                 </div>
 
                                 <div>
-                                    <label>Amount</label>
+                                    {/* <label>Amount</label> */}
                                     <input
                                         type="number"
                                         className='infield amountInput'
@@ -315,7 +315,7 @@ export function CreateClaim () {
                         </div>
 
                         <div>
-                            <label>Date</label>
+                            {/* <label>Date</label> <br /> */}
                             <input
                                 type="date"
                                 className='infield dateInput'
@@ -329,7 +329,7 @@ export function CreateClaim () {
                         </div>
 
                         <div>
-                            <label>Description</label>
+                            {/* <label>Description</label> */}
                             <textarea
                                 name="description"
                                 className='infield descriptionInput'
