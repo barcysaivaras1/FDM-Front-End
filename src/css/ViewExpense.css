@@ -118,6 +118,9 @@ p {
     #AppealClaim, #DraftEdit, #DraftDelete {
         width: 100%;
     }
+    #AppealClaim{
+        margin-bottom: 1em;
+    }
 }
 
 /* mobile view */

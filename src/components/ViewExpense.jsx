@@ -13,6 +13,13 @@ export function ViewExpense() {
     let { state } = useLocation();
     console.log(state);
     const [claim, setClaim] = useState();
+    const [appealClick,setAppealClick] = useState(false);
+
+
+    const handleAppealClick = () => {
+        setAppealClick(true)
+
+    }
 
     useEffect(() => {
         document.title = "View Expense";
@@ -205,11 +212,31 @@ export function ViewExpense() {
 
                     { /* Tested, fully functional. */
                         isNOTNullish(claim?.status)? claim?.status === "Denied" && (
+                            appealClick?
+                        <div>
+                        <legend className='createLegend'>Reason For Appeal</legend>
+                        <form className='createForm'>
+                        <div>
+                            {/* <label>Description</label> */}
+                            <textarea
+                                name="description"
+                                className='infield descriptionInput'
+                                placeholder='Explanation...'
+                                required
+                            />
+                        </div>
+                         </form>
+
                             <Link to={"/my-expenses"} onClick={() => {appealClaim()}}>
                                 <div id="AppealClaim">
                                     <p>Appeal this claim</p>
                                 </div>
                             </Link>
+                            </div>
+                            :
+                            <div>
+                            <div id="AppealClaim" onClick={() =>handleAppealClick()}>
+                            <p>Appeal this claim</p></div> </div>
                         )
                         : ''
                     }
