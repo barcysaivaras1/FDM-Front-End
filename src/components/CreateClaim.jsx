@@ -68,6 +68,15 @@ async function saveAsDraft(details) {
     await httpClient.post("/api/claims/drafts", bodyFormData).then(function(response) {
         console.log(`[CREATE DRAFT-CLAIM] Successfully created draft-claim 👍. Status: ${response.status}`);
         console.log(`data: `, response.data);
+
+        /**
+         * These fields are KNOWN, as it's what server returns.
+         */
+        const {id, message} = response.data;
+        const claim_id = id;
+
+        addToDraftsArr(claim_id, details);
+
         // navigate("/my-expenses");
     }).catch(function(error) {
         console.error(`[CREATE DRAFT-CLAIM] Failed to create draft-claim. Status: ${error.response.status}`);
