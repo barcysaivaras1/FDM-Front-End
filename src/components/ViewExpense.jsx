@@ -152,8 +152,7 @@ export function ViewExpense() {
 
                         <h2>Evidence</h2>
                         {
-                        claim && (
-                            claim.receipts.length > 0 ? (
+                            (isNOTNullish(claim) && claim.receipts.length > 0) ? (
                                 claim.receipts.map((evidence) => {
                                     const imageUrl = evidence.imageContentsBase64;
 
@@ -179,12 +178,10 @@ export function ViewExpense() {
                             ) : (
                                 <p>No evidence attached to this claim.</p>
                             )
-                        )
-                    }
+                        }
                     </div>
 
                     {
-
                         isNOTNullish(claim?.status)? claim?.status === "Draft" && (
                             <div id="DraftDiv">
                                 <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >

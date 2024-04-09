@@ -7,7 +7,7 @@ import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
 import { ls_keys } from './utils';
 import { ensureLS_saveDraftClaim_exists } from './utils';
-import { addToDraftsArr } from './MyExpenses.jsx';
+import { addToDraftsArr, editDraft } from './MyExpenses.jsx';
 import { Link, useLocation } from 'react-router-dom';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
@@ -44,7 +44,7 @@ function blobToBase64(blob) {
  */
 async function saveAsDraft(details) {
     const ls_draftStorage = ensureLS_saveDraftClaim_exists();
-    const { title, type, currency, amount, date, description, imagesArr } = details;
+    const { claimId, title, type, currency, amount, date, description, imagesArr } = details;
 
     /**
      * Acknowledgements: 
@@ -60,15 +60,38 @@ async function saveAsDraft(details) {
     bodyFormData.append("type", type);
     bodyFormData.append("date", date);
     bodyFormData.append("description", description);
-    imagesArr.forEach((fileHandle)=>{
-        // This works because with FormData, we're appending File objects to the same key.
-        //   Think of FormData as a HashMap, where each entry is an ArrayList.
-        //   We append item to the ArrayList indexed by the key.
-        // On the server, I will extract the data from FormData object.
-        bodyFormData.append("images[]", fileHandle);
-    });
+    if (!isNullish(imagesArr)) {
+        imagesArr.forEach((fileHandle)=>{
+            // This works because with FormData, we're appending File objects to the same key.
+            //   Think of FormData as a HashMap, where each entry is an ArrayList.
+            //   We append item to the ArrayList indexed by the key.
+            // On the server, I will extract the data from FormData object.
+            bodyFormData.append("images[]", fileHandle);
+        });
+    } else {
+        bodyFormData.append("images[]", null);
+    }
 
-    await httpClient.post("/api/claims/drafts", bodyFormData).then(function(response) {
+    /**
+     * @type {Promise<Response>}
+     */
+    let request = undefined;
+    let api_endpoint = "";
+    let isEditingDraft = false;
+    if (isNullish(claimId)) {
+        // this means submitting a draft
+        api_endpoint = "/api/claims/drafts";
+        request = httpClient.post(api_endpoint, bodyFormData);
+        isEditingDraft = false;
+    } else {
+        // this means want to edit a draft with particular claimId
+        api_endpoint = `/api/claims/drafts/${claimId}`;
+        request = httpClient.patch(api_endpoint, bodyFormData);
+        isEditingDraft = true;
+    }
+
+    // await httpClient.post("/api/claims/drafts", bodyFormData)
+    request.then(function(response) {
         console.log(`[CREATE DRAFT-CLAIM] Successfully created draft-claim 👍. Status: ${response.status}`);
         console.log(`data: `, response.data);
 
@@ -78,7 +101,13 @@ async function saveAsDraft(details) {
         const {id, message} = response.data;
         const claim_id = id;
 
-        addToDraftsArr(claim_id, details);
+        if (isEditingDraft) {
+            editDraft(claim_id, details);
+            window.alert(`Edited draft 👍!`);
+        } else {
+            addToDraftsArr(claim_id, details);
+            window.alert(`Successfully saved draft 👍!`);
+        }
 
         // navigate("/my-expenses");
     }).catch(function(error) {
@@ -178,7 +207,7 @@ export function CreateClaim () {
             setCurrency(currency);
             setAmount(amount);
             setDate(date);
-            setDescription(description);
+            setDescription(description !== "null" ? description : "");
             setImagesArr(imagesArr);
             // setImage(receipts);
             // setPreview(receipts);
@@ -211,13 +240,19 @@ export function CreateClaim () {
         bodyFormData.append("type", type);
         bodyFormData.append("date", date);
         bodyFormData.append("description", description);
-        imagesArr.forEach((fileHandle)=>{
-            // This works because with FormData, we're appending File objects to the same key.
-            //   Think of FormData as a HashMap, where each entry is an ArrayList.
-            //   We append item to the ArrayList indexed by the key.
-            // On the server, I will extract the data from FormData object.
-            bodyFormData.append("images[]", fileHandle);
-        });
+        if (!isNullish(imagesArr) && imagesArr.length > 0) {
+            imagesArr.forEach((fileHandle)=>{
+                // This works because with FormData, we're appending File objects to the same key.
+                //   Think of FormData as a HashMap, where each entry is an ArrayList.
+                //   We append item to the ArrayList indexed by the key.
+                // On the server, I will extract the data from FormData object.
+                bodyFormData.append("images[]", fileHandle);
+            });
+        } else {
+            console.error(`[CREATE CLAIM] No images were uploaded. Please upload at least one image.`);
+            window.alert(`Please upload at least one image!`);
+            return;
+        }
 
         await httpClient.post('/api/claims/', bodyFormData).then(function(response) {
             console.log(`[CREATE CLAIM] Successfully created claim 👍. Status: ${response.status}`);

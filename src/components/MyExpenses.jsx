@@ -105,6 +105,26 @@ export function addToDraftsArr(draftClaimId, details) {
 
     return;
 };
+export function editDraft(draftClaimId, details) {
+    const { title, type, currency, amount, date, description, imagesArr } = details;
+    const present_info = DraftsArr.find((claim) => claim.id === draftClaimId);
+    if (present_info === undefined) {
+        console.error(`Draft with id ${draftClaimId} not found.`);
+        return undefined;
+    }
+    present_info.title = title;
+    present_info.type = type;
+    present_info.currency = currency;
+    present_info.amount = amount;
+    present_info.date = date;
+    present_info.description = description;
+    present_info.imagesArr = imagesArr;
+    present_info.date_time = date;
+    present_info.currency_type = currency;
+    present_info.desc = title;
+    console.log(`Drafts array updated, with: `, present_info);
+    return present_info;
+};
 export let _GLOB_FORCE_RELOAD = undefined;
 export function removeFromDraftsArr(draftClaimId) {
     DraftsArr = DraftsArr.filter((claim) => claim.id !== draftClaimId);
