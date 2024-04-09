@@ -14,6 +14,7 @@ body{
     height: 90.176svh;
     width: 95%;
     position: relative;
+    max-width: 50vw;
 }
 
 /* Dear Konrad Dominik Vincler */
