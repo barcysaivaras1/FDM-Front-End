@@ -4,7 +4,17 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    
+}
+
+#TitleBar {
+    display: flex;
+    align-items: center;
+}
+
+#TitleBar .page-title {
+    font-family: "Public Sans", Verdana, sans-serif;
+    font-size: 2em;
+    font-weight: 600;
 }
 
 #DenyClaim {

@@ -38,7 +38,7 @@ export function LineManagerExpenses() {
             <NavBar />
             <Animate_page>
             <div className='LMEBody'>
-                <h1 className = 'title'>Expenses</h1>
+                <div className = 'title'>Review Expenses</div>
 
                 <ToggleButton displayType = {displayType} setDisplayType = {setDisplayType} updateDisplayType = {updateDisplayType}/>
 

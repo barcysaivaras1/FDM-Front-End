@@ -26,9 +26,10 @@
     margin-top: 3.025svh;
 }
 
-#TitleBar h1 {
+#TitleBar .page-title {
     font-family: 'Public Sans', Verdana, sans-serif;
-    margin: 3px;
+    font-size: 2em;
+    font-weight: 600;
 }
 
 #Status, #ExpenseDetails {

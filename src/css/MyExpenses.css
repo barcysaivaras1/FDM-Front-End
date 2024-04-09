@@ -45,6 +45,9 @@ body {
 #Title{
     max-width: fit-content;
     margin: 0;
+    font-family: "Public Sans", Verdana, sans-serif;
+    font-size: 2em;
+    font-weight: 600;
 }
 
 

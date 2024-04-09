@@ -54,7 +54,7 @@ export function ReviewExpense() {
                 <div id="ExpenseBody">
                     <div id="TitleBar">
                         <NavLink to={"/line-manager-expenses"}><BackButtonIcon/></NavLink>
-                        <h1>Review Expense</h1>
+                        <div className='page-title'>Review Expense</div>
                     </div>
                     <hr/>
                     <div id="Status">

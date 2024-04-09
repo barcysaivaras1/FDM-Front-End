@@ -326,7 +326,7 @@ export function MyExpenses(){
                 <div className='ViewExpensesPage'>
                     <div id='PhoneBox'>
                         <div id='TitleBox'>
-                            <h1 id='Title'>View Expenses</h1>
+                            <div id='Title'>My Expenses</div>
                             { apply_filters ? <button className='Filters-Applied-Text' onClick={handleRemoveFilters}>Filters Applied  X</button> : "" }
                             <button className='Filter-Icon' onClick={() => handleCollapse("filter")}>
                                 <FilterIcon />

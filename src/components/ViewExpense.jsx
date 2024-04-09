@@ -122,7 +122,7 @@ export function ViewExpense() {
                 <div id="ExpenseBody">
                     <div id="TitleBar">
                         <Link to={"/my-expenses"}><BackButtonIcon/></Link>
-                        <h1>View Expense</h1>
+                        <div className="page-title">View Expense</div>
                     </div>
                     <hr/>
                     <div id="Status">
