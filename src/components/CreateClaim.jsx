@@ -7,7 +7,7 @@ import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
 import { ls_keys } from './utils';
 import { ensureLS_saveDraftClaim_exists } from './utils';
-import { addToDraftsArr, editDraft } from './MyExpenses.jsx';
+import { addToDraftsArr, editDraft, removeFromDraftsArr } from './MyExpenses.jsx';
 import { Link, useLocation } from 'react-router-dom';
 
 
@@ -369,6 +369,13 @@ export function CreateClaim () {
         }
     }, [claimId, state, alreadyLoadedDraft, setTitle, setType, setCurrency, setAmount, setDate, setDescription]);
 
+    useEffect(()=>{
+        setTimeout(()=>{
+            setTitle(title);
+            // manually trigger re-render so image previews appear?
+        }, 1000);
+    }, [setTitle, title]);
+
     const navigate = useNavigate();
     
     async function handleSubmit(e) {
@@ -402,11 +409,29 @@ export function CreateClaim () {
             return;
         }
 
-        await httpClient.post('/api/claims/', bodyFormData).then(function(response) {
-            console.log(`[CREATE CLAIM] Successfully created claim 👍. Status: ${response.status}`);
+        /**
+         * @type {Promise<Response>}
+         */
+        let request = undefined;
+        const isFreshForm = isNullish(claimId);
+        const wasEditingADraft = !isFreshForm;
+        if (wasEditingADraft) {
+            // this means submitting this draft, becomes pending claim
+            api_endpoint = `/api/claims/drafts/${claimId}/submit`;
+            request = httpClient.post(api_endpoint, bodyFormData);
+        } else {
+            // this means want to submit fresh form, no drafts involved
+            api_endpoint = "/api/claims/";
+            request = httpClient.post(api_endpoint, bodyFormData);
+        }
+
+        await request.then(function(response) {
+            console.log(`[CREATE CLAIM] Successfully ${wasEditingADraft ? "submitted draft ➡ pending-claim" : "created claim"} 👍. Status: ${response.status}`);
+            console.log(`Response data: `, response.data);
+            removeFromDraftsArr(claimId);
             navigate("/my-expenses");
         }).catch(function(error) {
-            console.error(`[CREATE CLAIM] Failed to create claim. Status: ${error.response.status}`);
+            console.error(`[CREATE CLAIM] Failed to ${wasEditingADraft ? "submit draft ➡ pending-claim" : "create claim"}. Status: ${error.response.status}`);
         });
         return;
     };
