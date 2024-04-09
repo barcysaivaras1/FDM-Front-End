@@ -8,6 +8,7 @@ body{
 
 #ViewProfileHeader {
     text-align: center;
+    font-family: "Public Sans", Verdana, sans-serif;
 }
 
 .ProfileBody{
@@ -37,7 +38,8 @@ body{
 
 #EmployeeName{
     font-size: 30px;
-    font-family: 'Kaiti SC';
+    /* font-family: 'Kaiti SC'; */
+    font-family: "Public Sans", Verdana, sans-serif;
     text-align: center;
 }
 

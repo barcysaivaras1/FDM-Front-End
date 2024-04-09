@@ -46,7 +46,7 @@ export function LineManagerExpenses() {
                     <p>Date</p> <p>Expense</p> <p>Amount</p> <p>Type</p> <p>State</p>
                 </div>
 
-                <div className = "scrollboxExpenses"><ExpenseList listOfClaims = {bigList} displayType = {displayType}/></div>
+                <div className = "scrollboxExpenses"><ExpenseList listOfClaims = {bigList} displayType = {displayType} className='test' /></div>
             </div>
             </Animate_page>
         </div>
