@@ -41,96 +41,71 @@ function blobToBase64(blob) {
  */
 async function saveAsDraft(details) {
     const ls_draftStorage = ensureLS_saveDraftClaim_exists();
-    const { title, type, currency, amount, date, description, image } = details;
+    const { title, type, currency, amount, date, description, imagesArr } = details;
 
-    const thingsToCheckNull = [title, type, currency, amount, date, description];
-    if (thingsToCheckNull.every((v)=> v === null)) {
-        console.log(`saveAsDraft : Nothing to save, all fields are null.`);
-        return;
-    }
+    /**
+     * Acknowledgements: 
+     * - https://stackoverflow.com/questions/62677113/sending-an-image-uploaded-in-a-form-to-a-server-using-formdata-and-fetchapi-in-j
+     * - https://stackoverflow.com/questions/66584058/how-do-i-post-an-array-of-images-using-formdata-reactjs
+     * - https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
+     */
     
-    const image_contents_base64 = "something";
-    const output_to_server = {
-        title, type, currency, amount, date, description, image: image_contents_base64
-    };
-    const reqClaims = new Request("/api/claims/drafts", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(output_to_server),
+    const bodyFormData = new FormData();
+    bodyFormData.append("title", title);
+    bodyFormData.append("amount", amount);
+    bodyFormData.append("currency", currency);
+    bodyFormData.append("type", type);
+    bodyFormData.append("date", date);
+    bodyFormData.append("description", description);
+    imagesArr.forEach((fileHandle)=>{
+        // This works because with FormData, we're appending File objects to the same key.
+        //   Think of FormData as a HashMap, where each entry is an ArrayList.
+        //   We append item to the ArrayList indexed by the key.
+        // On the server, I will extract the data from FormData object.
+        bodyFormData.append("images[]", fileHandle);
     });
 
+    await httpClient.post("/api/claims/drafts", bodyFormData).then(function(response) {
+        console.log(`[CREATE DRAFT-CLAIM] Successfully created draft-claim 👍. Status: ${response.status}`);
+        console.log(`data: `, response.data);
+        // navigate("/my-expenses");
+    }).catch(function(error) {
+        console.error(`[CREATE DRAFT-CLAIM] Failed to create draft-claim. Status: ${error.response.status}`);
+    });
+    return;
 
-    async function submit_draft() {
-        /**
-         * Acknowledgements: 
-         * - https://stackoverflow.com/questions/62677113/sending-an-image-uploaded-in-a-form-to-a-server-using-formdata-and-fetchapi-in-j
-         * - https://stackoverflow.com/questions/66584058/how-do-i-post-an-array-of-images-using-formdata-reactjs
-         * - https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
-         */
-        
-        const bodyFormData = new FormData();
-        bodyFormData.append("title", title);
-        bodyFormData.append("amount", amount);
-        bodyFormData.append("currency", currency);
-        bodyFormData.append("type", type);
-        bodyFormData.append("date", date);
-        bodyFormData.append("description", description);
-        imagesArr.forEach((fileHandle)=>{
-            // This works because with FormData, we're appending File objects to the same key.
-            //   Think of FormData as a HashMap, where each entry is an ArrayList.
-            //   We append item to the ArrayList indexed by the key.
-            // On the server, I will extract the data from FormData object.
-            bodyFormData.append("images[]", fileHandle);
-        });
-
-        await httpClient.post("/api/claims/drafts", bodyFormData).then(function(response) {
-            console.log(`[CREATE DRAFT-CLAIM] Successfully created draft-claim 👍. Status: ${response.status}`);
-            // navigate("/my-expenses");
-        }).catch(function(error) {
-            console.error(`[CREATE DRAFT-CLAIM] Failed to create draft-claim. Status: ${error.response.status}`);
-        });
-        return;
-    };
-
-
-
-    // console.info({reqClaims});
     /**
      * @type {Response}
      */
-    const response = await fetch(reqClaims);
-    try {
-        if (response.status === 200) {
-            const json = await response.json();
-            console.info(`saveAsDraft : response: `, json);
-            // server is returning {"id": number, "message": string}
-            // so we unpack that
-            const {id, message} = json;
-            if (id !== undefined && id !== null) {
-                ls_draftStorage["most-recent-draft"] = id;
-                ls_draftStorage["most-recent-timestamp"] = Date.now();
-                ls_draftStorage["draft_ids"].push(id);
-                window.localStorage.setItem(ls_keys["save-draft-claim"], JSON.stringify(ls_draftStorage));
-                console.log(`saveAsDraft : Draft-claim created with id: ${id}.`);
-                window.alert(`This has been saved as a draft, and the form has been cleared.\nTo open the draft, go to the \"My Expenses\" section.`);
+    // const response = await fetch(reqClaims);
+    // try {
+    //     if (response.status === 200) {
+    //         const json = await response.json();
+    //         console.info(`saveAsDraft : response: `, json);
+    //         // server is returning {"id": number, "message": string}
+    //         // so we unpack that
+    //         const {id, message} = json;
+    //         if (id !== undefined && id !== null) {
+    //             ls_draftStorage["most-recent-draft"] = id;
+    //             ls_draftStorage["most-recent-timestamp"] = Date.now();
+    //             ls_draftStorage["draft_ids"].push(id);
+    //             window.localStorage.setItem(ls_keys["save-draft-claim"], JSON.stringify(ls_draftStorage));
+    //             console.log(`saveAsDraft : Draft-claim created with id: ${id}.`);
+    //             window.alert(`This has been saved as a draft, and the form has been cleared.\nTo open the draft, go to the \"My Expenses\" section.`);
 
-                addToDraftsArr(id, details);
-            } else {
-                console.error(`saveAsDraft : Failed to create draft-claim. Id was nullish.`);
-            }
-        } else {
-            console.error(`saveAsDraft : Failed to do/view claim. Status: ${response.status}`);
-        }
-    } catch (e) {
-        console.error(e);
-    }
+    //             addToDraftsArr(id, details);
+    //         } else {
+    //             console.error(`saveAsDraft : Failed to create draft-claim. Id was nullish.`);
+    //         }
+    //     } else {
+    //         console.error(`saveAsDraft : Failed to do/view claim. Status: ${response.status}`);
+    //     }
+    // } catch (e) {
+    //     console.error(e);
+    // }
 
-    console.info(`Save as Draft: `, {details});
-    return;
+    // console.info(`Save as Draft: `, {details});
+    // return;
 };
 
 
@@ -409,7 +384,7 @@ export function CreateClaim () {
                     </div>
 
                     <button type="button" className="infield clearSubmit saveDraftSubmit" onClick={()=>{
-                        saveAsDraft({title, type, currency, amount, date, description, image: recentImage});
+                        saveAsDraft({title, type, currency, amount, date, description, imagesArr});
                     }}>Save as Draft</button>
                     <Link className='infield clearSubmit' to="/create-claim" state={{
                         draftClaim: {
