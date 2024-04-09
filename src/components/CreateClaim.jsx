@@ -62,6 +62,42 @@ async function saveAsDraft(details) {
         },
         body: JSON.stringify(output_to_server),
     });
+
+
+    async function submit_draft() {
+        /**
+         * Acknowledgements: 
+         * - https://stackoverflow.com/questions/62677113/sending-an-image-uploaded-in-a-form-to-a-server-using-formdata-and-fetchapi-in-j
+         * - https://stackoverflow.com/questions/66584058/how-do-i-post-an-array-of-images-using-formdata-reactjs
+         * - https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
+         */
+        
+        const bodyFormData = new FormData();
+        bodyFormData.append("title", title);
+        bodyFormData.append("amount", amount);
+        bodyFormData.append("currency", currency);
+        bodyFormData.append("type", type);
+        bodyFormData.append("date", date);
+        bodyFormData.append("description", description);
+        imagesArr.forEach((fileHandle)=>{
+            // This works because with FormData, we're appending File objects to the same key.
+            //   Think of FormData as a HashMap, where each entry is an ArrayList.
+            //   We append item to the ArrayList indexed by the key.
+            // On the server, I will extract the data from FormData object.
+            bodyFormData.append("images[]", fileHandle);
+        });
+
+        await httpClient.post("/api/claims/drafts", bodyFormData).then(function(response) {
+            console.log(`[CREATE DRAFT-CLAIM] Successfully created draft-claim 👍. Status: ${response.status}`);
+            // navigate("/my-expenses");
+        }).catch(function(error) {
+            console.error(`[CREATE DRAFT-CLAIM] Failed to create draft-claim. Status: ${error.response.status}`);
+        });
+        return;
+    };
+
+
+
     // console.info({reqClaims});
     /**
      * @type {Response}
@@ -397,6 +433,7 @@ export function CreateClaim () {
                                 setAmount("");
                                 setDate("");
                                 setDescription("");
+                                setImagesArr([]);
                                 setImage(null);
                                 setPreview(null);
                                 alreadyLoadedDraft = true;
