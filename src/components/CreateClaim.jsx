@@ -12,15 +12,101 @@ import { Link, useLocation } from 'react-router-dom';
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
+function combineArrays(...arrs) {
+    return arrs.reduce((acc, arr)=> acc.concat(arr), []);
+};
+
 function isNullish(value) {
     return value === null || value === undefined;
 };
 function isFile(thing) {
     return thing instanceof File;
 };
-function isClaimsMetaInfo(thing) {
-    return thing instanceof Object && !isNullish(thing["title"]);
+
+/**
+ * @typedef {{
+ * id: number,
+ * title: string,
+ * image: string,
+ * imageContentsBase64: string,
+ * imageFileName: string,
+ * contentType?: string
+ * }} ReceiptMetaInfo
+ */
+/**
+ * # Meta-info for Receipts
+ * Format:
+ * - id: number
+ * - image: string
+ * - imageContentsBase64: string
+ * - title: string
+ * @param {ReceiptMetaInfo} thing 
+ * @returns {boolean}
+ */
+function isReceiptMetaInfo(thing) {
+    return thing instanceof Object && !isNullish(thing["image"]);
 };
+
+// const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+//     const byteCharacters = atob(b64Data);
+//     const byteArrays = [];
+  
+//     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+//         const slice = byteCharacters.slice(offset, offset + sliceSize);
+    
+//         const byteNumbers = new Array(slice.length);
+//         for (let i = 0; i < slice.length; i++) {
+//             byteNumbers[i] = slice.charCodeAt(i);
+//         }
+    
+//         const byteArray = new Uint8Array(byteNumbers);
+//         byteArrays.push(byteArray);
+//     }
+      
+//     const blob = new Blob(byteArrays, {type: contentType});
+//     return blob;
+// };
+/**
+ * 
+ * @param {ReceiptMetaInfo} receiptMetaInfo 
+ * @param {(blob: Blob) => void} onsuccess
+ * @param {(error: Error) => void} onerror
+ */
+function buildFileFromReceiptMetaInfo(receiptMetaInfo, onsuccess, onerror) {
+    try {
+        const fileName = String(receiptMetaInfo.imageFileName);
+        const fileExtension = fileName.split(".").pop();
+        const fileContentsBase64 = receiptMetaInfo["imageContentsBase64"];
+        const contentType = `image/${fileExtension}`;
+        // THIS IS AN INTENTIONAL MUTATION OF THE OBJECT
+        receiptMetaInfo["contentType"] = contentType;
+        console.log(`[BUILD FILE FROM RECEIPT META-INFO] Built file from receipt meta-info: `, receiptMetaInfo);
+        
+        const img = new Image();
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        console.log(`[BUILD FILE FROM RECEIPT META-INFO] Created canvas: `, canvas);
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            console.log(`[BUILD FILE FROM RECEIPT META-INFO] Drew image on canvas: `, img, canvas);
+            canvas.toBlob(onsuccess);
+            console.log(`[BUILD FILE FROM RECEIPT META-INFO] Converted canvas to blob: `, canvas);
+        };
+        img.src = fileContentsBase64;
+        return {
+            fileName, fileExtension, fileContentsBase64, contentType
+        };
+    } catch(err) {
+        onerror(err);
+        return {
+            fileName: undefined, fileExtension: undefined, fileContentsBase64: undefined, contentType: undefined
+        };
+    }
+    // return new File([blob], fileName, {type: contentType});
+};
+
 
 
 /**
@@ -234,7 +320,23 @@ export function CreateClaim () {
              */
             let imagesMetaArr_toSet = [];
             if (!isNullish(receipts)) {
-                imagesMetaArr_toSet.push(...receipts);
+                console.info(`Receipts are: `, receipts);
+                receipts.forEach(
+                    /**
+                     * @param {ReceiptMetaInfo} receiptMetaInfo
+                     */
+                    (receiptMetaInfo)=>{
+
+                    console.log(`Receipt meta-info: `, receiptMetaInfo);
+                    buildFileFromReceiptMetaInfo(receiptMetaInfo, (blob)=>{
+                        console.log(`Built blob from receipt meta-info: `, blob)
+                        const fileHandle = new File([blob], receiptMetaInfo.imageFileName, {type: receiptMetaInfo.contentType});
+                        console.log(`Built file from receipt meta-info: `, fileHandle)
+                        imagesMetaArr_toSet.push(fileHandle);
+                        console.log(`imagesMetaArr_toSet is now: `, imagesMetaArr_toSet);
+                    }, (err)=> console.error(err));
+                });
+                // imagesMetaArr_toSet.push(...receipts);
             }
             if (!isNullish(imagesArr)) {
                 imagesMetaArr_toSet.push(...imagesArr);
