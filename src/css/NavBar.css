@@ -66,7 +66,7 @@ nav .account .accountNavIcon {
     }
 }
 
-.clicked, .notClicked:hover {
+.clicked, .notClicked:hover, .active {
     .notClickedIcon {
         display: none;
     }
@@ -81,7 +81,7 @@ nav .account .accountNavIcon {
         position: absolute;
         bottom: 0;
         width: 100vw;
-        height: 9.824svh;
+        min-height: 5.7em;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -94,7 +94,7 @@ nav .account .accountNavIcon {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        width: calc(100% * (2/3));
+        width: calc(100% * (7/8));
     }
 
     nav .account-dropdown {
@@ -215,7 +215,7 @@ nav .account .accountNavIcon {
         display: none;
     }
     
-    nav .link div:hover, .active {
+    nav .link div:hover, .active:not(.dropdown-link) {
         cursor: pointer;
         background-color: #0F1F3C;
         box-shadow: 0 4px 4px rgba(255, 255, 255, 0.25);
@@ -245,7 +245,7 @@ nav .account .accountNavIcon {
         position: absolute;
         padding: 4px;
         width: 200px;
-        left: 5rem;
+        left: 3rem;
         bottom: 0;
     }
 }

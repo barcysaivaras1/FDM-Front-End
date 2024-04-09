@@ -107,114 +107,116 @@ export function Profile() {
             <NavBar />
             <Animate_page>
             <div className="ProfileBody">
-                <h1>View Profile</h1>
+                <div id='ProfileContainer'>
+                    <h1 id='ViewProfileHeader'>View Profile</h1>
 
-                <div className='info'>
-                    {profile ? (
-                        profile.profile_picture ? (
-                            <img className='pfp' src={'/api/' + profile.profile_picture} alt="pfp" />
-                        ) : (
-                            // ensure that even with an unset profile picture, the default picture gets displayed
-                            <img className='pfp' src={'/api/static/profile-pictures/default.png'} alt="Your profile picture" />
-                        )
-                    ) : null}
-                    
-                    <p id="EmployeeName">
-                        {profile ? (profile.first_name + " " + profile.last_name) : "-"}
-                    </p>
-
-                    <p id='EmployeeRole'>
-                        {profile ? (profile.role) : "-"}
-                    </p>
-                </div>
-                <div id='Stats'>
-                    <div className='stat'>
-                        <p className="StatsTitle" id='LMETitle'>
-                            Your Email
-                        </p>
+                    <div className='info'>
+                        {profile ? (
+                            profile.profile_picture ? (
+                                <img className='pfp' src={'/api/' + profile.profile_picture} alt="pfp" />
+                            ) : (
+                                // ensure that even with an unset profile picture, the default picture gets displayed
+                                <img className='pfp' src={'/api/static/profile-pictures/default.png'} alt="Your profile picture" />
+                            )
+                        ) : null}
                         
-                        <p className="cont">
-                            {profile ? profile.email : null}
+                        <p id="EmployeeName">
+                            {profile ? (profile.first_name + " " + profile.last_name) : "-"}
+                        </p>
+
+                        <p id='EmployeeRole'>
+                            {profile ? (profile.role) : "-"}
                         </p>
                     </div>
+                    <div id='Stats'>
+                        <div className='stat'>
+                            <p className="StatsTitle" id='LMETitle'>
+                                Your Email
+                            </p>
+                            
+                            <p className="cont">
+                                {profile ? profile.email : null}
+                            </p>
+                        </div>
 
-                    <div className='stat'>
-                        <p className="StatsTitle" id='LMETitle'>
-                            Your Line Manager
-                        </p>
+                        <div className='stat'>
+                            <p className="StatsTitle" id='LMETitle'>
+                                Your Line Manager
+                            </p>
 
-                        <p className="cont">
-                            {profile ? (
-                                profile.line_manager ? profile.line_manager : ("-")
-                            ) : "-"}
-                        </p>
-                    </div>
-                    
-                    <div className='stat'>
-                        <p className="StatsTitle">
-                            Total Accepted Claims
-                        </p>
+                            <p className="cont">
+                                {profile ? (
+                                    profile.line_manager ? profile.line_manager : ("-")
+                                ) : "-"}
+                            </p>
+                        </div>
+                        
+                        <div className='stat'>
+                            <p className="StatsTitle">
+                                Total Accepted Claims
+                            </p>
 
-                        <p className="cont">
-                            {/* 1  */}
-                            {(totalAccepted !== 0) ? (totalAccepted) : "0"}
-                        </p>
-                    </div>
+                            <p className="cont">
+                                {/* 1  */}
+                                {(totalAccepted !== 0) ? (totalAccepted) : "0"}
+                            </p>
+                        </div>
 
-                    <div className='stat'>
-                        <p className="StatsTitle">
-                            Total Budget Spent
-                        </p>
+                        <div className='stat'>
+                            <p className="StatsTitle">
+                                Total Budget Spent
+                            </p>
 
-                        <p className="cont">
-                            {/* £49.99 */}
-                            {(totalSpent !== 0.0) ? ("£" + (totalSpent).toFixed(2)) : "£0"}
-                        </p>
-                    </div>
+                            <p className="cont">
+                                {/* £49.99 */}
+                                {(totalSpent !== 0.0) ? ("£" + (totalSpent).toFixed(2)) : "£0"}
+                            </p>
+                        </div>
 
-                    <div className='change-password'>
-                        <button onClick={() => setIsModalOpen(true)} className='modal-button'>Change password</button>
+                        <div className='change-password'>
+                            <button onClick={() => setIsModalOpen(true)} className='modal-button'>Change password</button>
 
-                        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                            <form onSubmit={handleSubmit} className='change-password-form'>
-                                <div>
-                                    <label>Old Password</label>
-                                    <input 
-                                        type="password"
-                                        name="oldPassword"
-                                        value={oldPassword}
-                                        onChange={(e) => setOldPassword(e.target.value)}
-                                        required
-                                    />
-                                </div>
+                            <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                                <form onSubmit={handleSubmit} className='change-password-form'>
+                                    <div>
+                                        <label>Old Password</label>
+                                        <input 
+                                            type="password"
+                                            name="oldPassword"
+                                            value={oldPassword}
+                                            onChange={(e) => setOldPassword(e.target.value)}
+                                            required
+                                        />
+                                    </div>
 
-                                <div>
-                                    <label>New Password</label>
-                                    <input 
-                                        type="password"
-                                        name="newPassword"
-                                        value={newPassword}
-                                        onChange={(e) => {setNewPassword(e.target.value); validatePasswords(e)}}
-                                        required
-                                    />
-                                </div>
+                                    <div>
+                                        <label>New Password</label>
+                                        <input 
+                                            type="password"
+                                            name="newPassword"
+                                            value={newPassword}
+                                            onChange={(e) => {setNewPassword(e.target.value); validatePasswords(e)}}
+                                            required
+                                        />
+                                    </div>
 
-                                <div>
-                                    <label>Confirm New Password</label>
-                                    <input 
-                                        type="password"
-                                        name="confirmNewPassword"
-                                        value={confirmNewPassword}
-                                        onChange={(e) => {setConfirmNewPassword(e.target.value); validatePasswords(e)}}
-                                        required
-                                    />
-                                </div>
+                                    <div>
+                                        <label>Confirm New Password</label>
+                                        <input 
+                                            type="password"
+                                            name="confirmNewPassword"
+                                            value={confirmNewPassword}
+                                            onChange={(e) => {setConfirmNewPassword(e.target.value); validatePasswords(e)}}
+                                            required
+                                        />
+                                    </div>
 
-                                <p className='success-message'>{successMessage}</p>
-                                <p className='error-message'>{errorMessage}</p>
-                                <button className='submit-button'>Update Password</button>
-                            </form>
-                        </Modal>
+                                    <p className='success-message'>{successMessage}</p>
+                                    <p className='error-message'>{errorMessage}</p>
+                                    <button className='submit-button'>Update Password</button>
+                                </form>
+                            </Modal>
+                        </div>
                     </div>
                 </div>
             </div>

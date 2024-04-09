@@ -2,6 +2,14 @@ body{
     margin: 0;
 }
 
+#ProfileContainer {
+    margin: auto;
+}
+
+#ViewProfileHeader {
+    text-align: center;
+}
+
 .ProfileBody{
     display: flex;
     align-items: center;

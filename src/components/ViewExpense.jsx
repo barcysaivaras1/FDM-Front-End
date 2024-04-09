@@ -186,7 +186,7 @@ export function ViewExpense() {
                     {
 
                         isNOTNullish(claim?.status)? claim?.status === "Draft" && (
-                            <div>
+                            <div id="DraftDiv">
                                 <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
                                     <div id="DraftEdit">
                                         <p>Edit this Draft</p>
