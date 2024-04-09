@@ -148,31 +148,31 @@ export function MyExpenses(){
         from: {x:-2000, opacty:0, height:0},
         enter: {x:0, opacity:1, height:76},
         leave: {x:2000 ,opacity:0, height:0},
-        config: { duration: 200 },
+        config: { duration: 500 },
     });
     const transition_pending = useTransition(isCollapsed.pending ,{
         from: {x:-2000,opacty:0, height:0},
         enter: {x:0, opacity:1, height:76},
         leave: {x:2000 ,opacity:0, height:0},
-        config: { duration: 400 },
+        config: { duration: 500 },
     })
     const transition_rejected = useTransition(isCollapsed.rejected ,{
         from: {x:-2000, opacty:0, height:0},
         enter: {x:0, opacity:1, height:76},
         leave: {x:2000 ,opacity:0, height:0},
-        config: { duration: 400 },
+        config: { duration: 500 },
     })
     const transition_accepted = useTransition(isCollapsed.accepted ,{
         from: {x:-2000, opacty:0, height:0},
         enter: {x:0, opacity:1, height:76},
         leave: {x:2000 ,opacity:0, height:0},
-        config: { duration: 400 },
+        config: { duration: 500 },
     })
     const transition_filter = useTransition(isCollapsed.filter ,{
         from: {y:500, opacty:0},
-        enter: {y:-600, opacity:1},
+        enter: {y:-500, opacity:1},
         leave: {y:500 ,opacity:0},
-        config: { duration: 600 },
+        config: { duration: 500 },
     })
 
     //This handles what will happen when the collapse button is pressed
