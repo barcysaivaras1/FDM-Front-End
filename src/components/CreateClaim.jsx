@@ -10,6 +10,7 @@ import { ensureLS_saveDraftClaim_exists } from './utils';
 import { addToDraftsArr, editDraft } from './MyExpenses.jsx';
 import { Link, useLocation } from 'react-router-dom';
 
+
 const ls_key = "fdm-expenses-client/create-claim/form-data";
 
 function combineArrays(...arrs) {
@@ -72,7 +73,7 @@ function isReceiptMetaInfo(thing) {
  * @param {(blob: Blob) => void} onsuccess
  * @param {(error: Error) => void} onerror
  */
-function buildFileFromReceiptMetaInfo(receiptMetaInfo, onsuccess, onerror) {
+async function buildFileFromReceiptMetaInfo(receiptMetaInfo, onsuccess, onerror) {
     try {
         const fileName = String(receiptMetaInfo.imageFileName);
         const fileExtension = fileName.split(".").pop();
@@ -255,6 +256,10 @@ export function CreateClaim () {
     const [recentImage, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
 
+    const _CreateClaim = this;
+
+    const [_rerender_counter, set_rerender_counter] = useState(0);
+
     /**
      * @type {[File[], (images: File[]) => void}
      */
@@ -301,6 +306,11 @@ export function CreateClaim () {
         console.log(`Images Arr: `, imagesArr);
     }, [recentImage, imagesArr]);
 
+    const do_forceUpdate = ()=>{
+        // CreateClaim.forceUpdate();
+        _CreateClaim.setState({rerender_counter: _rerender_counter + 1, imagesArr: imagesArr});
+    };
+
     let { state } = useLocation();
     useEffect(()=>{
         console.log(state);
@@ -325,16 +335,18 @@ export function CreateClaim () {
                     /**
                      * @param {ReceiptMetaInfo} receiptMetaInfo
                      */
-                    (receiptMetaInfo)=>{
+                    async(receiptMetaInfo)=>{
 
                     console.log(`Receipt meta-info: `, receiptMetaInfo);
-                    buildFileFromReceiptMetaInfo(receiptMetaInfo, (blob)=>{
+                    await buildFileFromReceiptMetaInfo(receiptMetaInfo, (blob)=>{
                         console.log(`Built blob from receipt meta-info: `, blob)
                         const fileHandle = new File([blob], receiptMetaInfo.imageFileName, {type: receiptMetaInfo.contentType});
                         console.log(`Built file from receipt meta-info: `, fileHandle)
                         imagesMetaArr_toSet.push(fileHandle);
                         console.log(`imagesMetaArr_toSet is now: `, imagesMetaArr_toSet);
                     }, (err)=> console.error(err));
+                    set_rerender_counter(_rerender_counter + 1);
+                    do_forceUpdate();
                 });
                 // imagesMetaArr_toSet.push(...receipts);
             }
@@ -342,6 +354,9 @@ export function CreateClaim () {
                 imagesMetaArr_toSet.push(...imagesArr);
             }
             setImagesArr(imagesMetaArr_toSet);
+            set_rerender_counter(_rerender_counter + 1);
+            // do_forceUpdate();
+
             // setImage(receipts);
             // setPreview(receipts);
             console.log(`Loaded draft: `, state["draftClaim"]);
@@ -501,6 +516,7 @@ export function CreateClaim () {
                         </div>
 
                     <div>
+                        
                         <div className="proofArea">
                             <section className="proofArea-picture-gallery">
                                 {
