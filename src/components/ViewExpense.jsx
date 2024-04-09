@@ -180,7 +180,8 @@ export function ViewExpense() {
                                     
                                     return (
                                     <>
-                                        <a href='' onClick={()=>{
+                                        <a href='' onClick={(evt)=>{
+                                            evt.preventDefault(); // Prevent the default behavior of the anchor tag
                                             const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
                                             ls_recentViewedExpense["most-recent-id"] = claim.claim_id;
                                             ls_recentViewedExpense["most-recent-timestamp"] = Date.now();
