@@ -14,14 +14,14 @@ export function ViewExpense() {
     console.log(state);
     const [claim, setClaim] = useState();
 
-    const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
-    console.log(`ls_recentViewedExpense: `, ls_recentViewedExpense);
-    if (ls_recentViewedExpense["most-recent-id"] !== -1) {
-        console.info(`ViewExpense : This expense was the most recently viewed expense.`);
-        state = ls_recentViewedExpense["state"];
-    } else {
-        console.info(`ViewExpense : This expense was not the most recently viewed expense.`);
-    }
+    // const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
+    // console.log(`ls_recentViewedExpense: `, ls_recentViewedExpense);
+    // if (ls_recentViewedExpense["most-recent-id"] !== -1) {
+    //     console.info(`ViewExpense : This expense was the most recently viewed expense.`);
+    //     state = ls_recentViewedExpense["state"];
+    // } else {
+    //     console.info(`ViewExpense : This expense was not the most recently viewed expense.`);
+    // }
 
     useEffect(() => {
         document.title = "View Expense";
@@ -182,14 +182,14 @@ export function ViewExpense() {
                                     <>
                                         <a href='' onClick={(evt)=>{
                                             evt.preventDefault(); // Prevent the default behavior of the anchor tag
-                                            const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
-                                            ls_recentViewedExpense["most-recent-id"] = claim.claim_id;
-                                            ls_recentViewedExpense["most-recent-timestamp"] = Date.now();
-                                            if (!ls_recentViewedExpense["expense_ids"].includes(claim.claim_id)) {
-                                                ls_recentViewedExpense["expense_ids"].push(claim.claim_id);
-                                            }
-                                            ls_recentViewedExpense["state"] = state;
-                                            window.localStorage.setItem(ls_keys["view-expense-recent"], JSON.stringify(ls_recentViewedExpense));
+                                            // const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
+                                            // ls_recentViewedExpense["most-recent-id"] = claim.claim_id;
+                                            // ls_recentViewedExpense["most-recent-timestamp"] = Date.now();
+                                            // if (!ls_recentViewedExpense["expense_ids"].includes(claim.claim_id)) {
+                                            //     ls_recentViewedExpense["expense_ids"].push(claim.claim_id);
+                                            // }
+                                            // ls_recentViewedExpense["state"] = state;
+                                            // window.localStorage.setItem(ls_keys["view-expense-recent"], JSON.stringify(ls_recentViewedExpense));
                                             openUp();
                                         }}>Attached evidence</a> <br />
                                     </>
