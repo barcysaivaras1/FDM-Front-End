@@ -195,7 +195,7 @@ export function CreateClaim () {
 
         await httpClient.post('/api/claims/', bodyFormData).then(function(response) {
             console.log(`[CREATE CLAIM] Successfully created claim 👍. Status: ${response.status}`);
-            // navigate("/my-expenses");
+            navigate("/my-expenses");
         }).catch(function(error) {
             console.error(`[CREATE CLAIM] Failed to create claim. Status: ${error.response.status}`);
         });
