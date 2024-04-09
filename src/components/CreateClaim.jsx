@@ -15,6 +15,13 @@ const ls_key = "fdm-expenses-client/create-claim/form-data";
 function isNullish(value) {
     return value === null || value === undefined;
 };
+function isFile(thing) {
+    return thing instanceof File;
+};
+function isClaimsMetaInfo(thing) {
+    return thing instanceof Object && !isNullish(thing["title"]);
+};
+
 
 /**
  * @param {Blob} blob
@@ -168,18 +175,20 @@ export function CreateClaim () {
     const [imagesArr, setImagesArr] = useState([]);
     /**
      * 
-     * @param {File} file 
+     * @param {File[]} files 
      * @returns {void}
      */
-    function addAnImage(file) {
+    const addImages = (...files)=>{
         /**
          * @type {File[]}
          */
         const thingToCopy = isNullish(imagesArr) ? [] : imagesArr;
         const tempCopy = Array.from(thingToCopy);
-        tempCopy.push(file);
+        tempCopy.push(...files);
         setImagesArr(tempCopy);
-        console.info(`[ADD AN IMAGE] I pushed `, file);
+        console.info(`[ADD AN IMAGE] I pushed `, files);
+        // console.info(`[ADD AN IMAGE] Images array is now: `, imagesArr);
+        // THIS METHOD DOESN'T IMMEDIATELY KNOW WHAT imagesArr IS! REACT IS STRANGE!
         return;
     };
     function removeAnImage(imageThing) {
@@ -220,7 +229,17 @@ export function CreateClaim () {
             setAmount(amount);
             setDate(date);
             setDescription(description !== "null" ? description : "");
-            setImagesArr(imagesArr);
+            /**
+             * @type {(Object | File)[]}
+             */
+            let imagesMetaArr_toSet = [];
+            if (!isNullish(receipts)) {
+                imagesMetaArr_toSet.push(...receipts);
+            }
+            if (!isNullish(imagesArr)) {
+                imagesMetaArr_toSet.push(...imagesArr);
+            }
+            setImagesArr(imagesMetaArr_toSet);
             // setImage(receipts);
             // setPreview(receipts);
             console.log(`Loaded draft: `, state["draftClaim"]);
@@ -384,7 +403,7 @@ export function CreateClaim () {
                             <section className="proofArea-picture-gallery">
                                 {
                                     ( !isNullish(imagesArr) && imagesArr.length > 0) ? (
-                                        imagesArr.map((fileHandle)=>{
+                                        imagesArr.filter(thing => isFile(thing)).map((fileHandle)=>{
                                             return (
                                             <>
                                                 <article className="proof-image-holder">
@@ -431,9 +450,11 @@ export function CreateClaim () {
                                     onChange={(e) => {
                                         const filesPicked = e.target.files;
                                         console.log(`files picked: `, filesPicked);
+                                        if (!isNullish(filesPicked)) {
+                                            addImages(...filesPicked);
+                                        }
                                         for (let fileHandle of filesPicked) {
                                             setImage(fileHandle);
-                                            addAnImage(fileHandle);
                                             setPreview(URL.createObjectURL(fileHandle));
                                         }
                                     }} 
