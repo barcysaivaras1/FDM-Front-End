@@ -162,12 +162,24 @@ export function CreateClaim () {
     const [recentImage, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
 
+    /**
+     * @type {[File[], (images: File[]) => void}
+     */
     const [imagesArr, setImagesArr] = useState([]);
-    function addAnImage(imageThing) {
-        var buffer = Array.from(imagesArr);
-        buffer.push(imageThing);
-        setImagesArr(buffer);
-        console.info(`[ADD AN IMAGE] I pushed ${imageThing}.`);
+    /**
+     * 
+     * @param {File} file 
+     * @returns {void}
+     */
+    function addAnImage(file) {
+        /**
+         * @type {File[]}
+         */
+        const thingToCopy = isNullish(imagesArr) ? [] : imagesArr;
+        const tempCopy = Array.from(thingToCopy);
+        tempCopy.push(file);
+        setImagesArr(tempCopy);
+        console.info(`[ADD AN IMAGE] I pushed `, file);
         return;
     };
     function removeAnImage(imageThing) {
@@ -178,7 +190,7 @@ export function CreateClaim () {
         if (index !== -1) {
             buffer.splice(index, 1);
             setImagesArr(buffer);
-            console.info(`[REMOVE IMAGE] I removed ${imageThing}.`);
+            console.info(`[REMOVE IMAGE] I removed `, imageThing);
         };
         return;
     };
@@ -190,7 +202,7 @@ export function CreateClaim () {
         //     console.log(`Our images are: ${imagesArr}`);
         //     return imagesArr;
         // });
-        console.log(`Recent image is ${recentImage}`);
+        console.log(`Recent image is `, recentImage);
         console.log(`Images Arr: `, imagesArr);
     }, [recentImage, imagesArr]);
 
