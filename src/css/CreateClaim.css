@@ -323,4 +323,7 @@ broken, so yipee!                                                               
     .dateInput {
         min-width: 95%;
     }
+    .createSubmit {
+        margin-bottom: 6.5vh;
+    }
 }
