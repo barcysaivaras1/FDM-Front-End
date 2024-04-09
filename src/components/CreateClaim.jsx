@@ -7,10 +7,107 @@ import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
 import { ls_keys } from './utils';
 import { ensureLS_saveDraftClaim_exists } from './utils';
-import { addToDraftsArr } from './MyExpenses.jsx';
+import { addToDraftsArr, editDraft, removeFromDraftsArr } from './MyExpenses.jsx';
 import { Link, useLocation } from 'react-router-dom';
 
+
 const ls_key = "fdm-expenses-client/create-claim/form-data";
+
+function combineArrays(...arrs) {
+    return arrs.reduce((acc, arr)=> acc.concat(arr), []);
+};
+
+function isNullish(value) {
+    return value === null || value === undefined;
+};
+function isFile(thing) {
+    return thing instanceof File;
+};
+
+/**
+ * @typedef {{
+ * id: number,
+ * title: string,
+ * image: string,
+ * imageContentsBase64: string,
+ * imageFileName: string,
+ * contentType?: string
+ * }} ReceiptMetaInfo
+ */
+/**
+ * # Meta-info for Receipts
+ * Format:
+ * - id: number
+ * - image: string
+ * - imageContentsBase64: string
+ * - title: string
+ * @param {ReceiptMetaInfo} thing 
+ * @returns {boolean}
+ */
+function isReceiptMetaInfo(thing) {
+    return thing instanceof Object && !isNullish(thing["image"]);
+};
+
+// const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+//     const byteCharacters = atob(b64Data);
+//     const byteArrays = [];
+  
+//     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+//         const slice = byteCharacters.slice(offset, offset + sliceSize);
+    
+//         const byteNumbers = new Array(slice.length);
+//         for (let i = 0; i < slice.length; i++) {
+//             byteNumbers[i] = slice.charCodeAt(i);
+//         }
+    
+//         const byteArray = new Uint8Array(byteNumbers);
+//         byteArrays.push(byteArray);
+//     }
+      
+//     const blob = new Blob(byteArrays, {type: contentType});
+//     return blob;
+// };
+/**
+ * 
+ * @param {ReceiptMetaInfo} receiptMetaInfo 
+ * @param {(blob: Blob) => void} onsuccess
+ * @param {(error: Error) => void} onerror
+ */
+async function buildFileFromReceiptMetaInfo(receiptMetaInfo, onsuccess, onerror) {
+    try {
+        const fileName = String(receiptMetaInfo.imageFileName);
+        const fileExtension = fileName.split(".").pop();
+        const fileContentsBase64 = receiptMetaInfo["imageContentsBase64"];
+        const contentType = `image/${fileExtension}`;
+        // THIS IS AN INTENTIONAL MUTATION OF THE OBJECT
+        receiptMetaInfo["contentType"] = contentType;
+        console.log(`[BUILD FILE FROM RECEIPT META-INFO] Built file from receipt meta-info: `, receiptMetaInfo);
+        
+        const img = new Image();
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        console.log(`[BUILD FILE FROM RECEIPT META-INFO] Created canvas: `, canvas);
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            console.log(`[BUILD FILE FROM RECEIPT META-INFO] Drew image on canvas: `, img, canvas);
+            canvas.toBlob(onsuccess);
+            console.log(`[BUILD FILE FROM RECEIPT META-INFO] Converted canvas to blob: `, canvas);
+        };
+        img.src = fileContentsBase64;
+        return {
+            fileName, fileExtension, fileContentsBase64, contentType
+        };
+    } catch(err) {
+        onerror(err);
+        return {
+            fileName: undefined, fileExtension: undefined, fileContentsBase64: undefined, contentType: undefined
+        };
+    }
+    // return new File([blob], fileName, {type: contentType});
+};
+
 
 
 /**
@@ -41,65 +138,117 @@ function blobToBase64(blob) {
  */
 async function saveAsDraft(details) {
     const ls_draftStorage = ensureLS_saveDraftClaim_exists();
-    const { title, type, currency, amount, date, description, image } = details;
+    const { claimId, title, type, currency, amount, date, description, imagesArr } = details;
 
-    const thingsToCheckNull = [title, type, currency, amount, date, description];
-    if (thingsToCheckNull.every((v)=> v === null)) {
-        console.log(`saveAsDraft : Nothing to save, all fields are null.`);
-        return;
-    }
+    /**
+     * Acknowledgements: 
+     * - https://stackoverflow.com/questions/62677113/sending-an-image-uploaded-in-a-form-to-a-server-using-formdata-and-fetchapi-in-j
+     * - https://stackoverflow.com/questions/66584058/how-do-i-post-an-array-of-images-using-formdata-reactjs
+     * - https://stackoverflow.com/questions/47630163/axios-post-request-to-send-form-data
+     */
     
-    const image_contents_base64 = "something";
-    const output_to_server = {
-        title, type, currency, amount, date, description, image: image_contents_base64
-    };
-    const reqClaims = new Request("/api/claims/drafts", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(output_to_server),
+    const bodyFormData = new FormData();
+    bodyFormData.append("title", title);
+    bodyFormData.append("amount", amount);
+    bodyFormData.append("currency", currency);
+    bodyFormData.append("type", type);
+    bodyFormData.append("date", date);
+    bodyFormData.append("description", description);
+    if (!isNullish(imagesArr)) {
+        imagesArr.forEach((fileHandle)=>{
+            // This works because with FormData, we're appending File objects to the same key.
+            //   Think of FormData as a HashMap, where each entry is an ArrayList.
+            //   We append item to the ArrayList indexed by the key.
+            // On the server, I will extract the data from FormData object.
+            bodyFormData.append("images[]", fileHandle);
+        });
+    } else {
+        bodyFormData.append("images[]", null);
+    }
+
+    /**
+     * @type {Promise<Response>}
+     */
+    let request = undefined;
+    let api_endpoint = "";
+    let isEditingDraft = false;
+    if (isNullish(claimId)) {
+        // this means submitting a draft
+        api_endpoint = "/api/claims/drafts";
+        request = httpClient.post(api_endpoint, bodyFormData);
+        isEditingDraft = false;
+    } else {
+        // this means want to edit a draft with particular claimId
+        api_endpoint = `/api/claims/drafts/${claimId}`;
+        request = httpClient.patch(api_endpoint, bodyFormData);
+        isEditingDraft = true;
+    }
+
+    // await httpClient.post("/api/claims/drafts", bodyFormData)
+    request.then(function(response) {
+        console.log(`[${isEditingDraft ? "EDIT" : "CREATE"} DRAFT-CLAIM] Successfully ${isEditingDraft ? "edited" : "created"} draft-claim 👍. Status: ${response.status}`);
+        console.log(`Response data: `, response.data);
+
+        /**
+         * These fields are KNOWN, as it's what server returns.
+         */
+        const {id, message} = response.data;
+        const claim_id = id;
+
+        if (isEditingDraft) {
+            editDraft(claim_id, details);
+            window.alert(`Edited draft 👍!`);
+        } else {
+            addToDraftsArr(claim_id, details);
+            window.alert(`Successfully saved draft 👍!`);
+        }
+
+        // navigate("/my-expenses");
+    }).catch(function(error) {
+        console.error(`[${isEditingDraft ? "EDIT" : "CREATE"} DRAFT-CLAIM] Failed to ${isEditingDraft ? "edit" : "create"} draft-claim. Status: ${error.response.status}`);
     });
-    // console.info({reqClaims});
+    return;
+
     /**
      * @type {Response}
      */
-    const response = await fetch(reqClaims);
-    try {
-        if (response.status === 200) {
-            const json = await response.json();
-            console.info(`saveAsDraft : response: `, json);
-            // server is returning {"id": number, "message": string}
-            // so we unpack that
-            const {id, message} = json;
-            if (id !== undefined && id !== null) {
-                ls_draftStorage["most-recent-draft"] = id;
-                ls_draftStorage["most-recent-timestamp"] = Date.now();
-                ls_draftStorage["draft_ids"].push(id);
-                window.localStorage.setItem(ls_keys["save-draft-claim"], JSON.stringify(ls_draftStorage));
-                console.log(`saveAsDraft : Draft-claim created with id: ${id}.`);
-                window.alert(`This has been saved as a draft, and the form has been cleared.\nTo open the draft, go to the \"My Expenses\" section.`);
+    // const response = await fetch(reqClaims);
+    // try {
+    //     if (response.status === 200) {
+    //         const json = await response.json();
+    //         console.info(`saveAsDraft : response: `, json);
+    //         // server is returning {"id": number, "message": string}
+    //         // so we unpack that
+    //         const {id, message} = json;
+    //         if (id !== undefined && id !== null) {
+    //             ls_draftStorage["most-recent-draft"] = id;
+    //             ls_draftStorage["most-recent-timestamp"] = Date.now();
+    //             ls_draftStorage["draft_ids"].push(id);
+    //             window.localStorage.setItem(ls_keys["save-draft-claim"], JSON.stringify(ls_draftStorage));
+    //             console.log(`saveAsDraft : Draft-claim created with id: ${id}.`);
+    //             window.alert(`This has been saved as a draft, and the form has been cleared.\nTo open the draft, go to the \"My Expenses\" section.`);
 
-                addToDraftsArr(id, details);
-            } else {
-                console.error(`saveAsDraft : Failed to create draft-claim. Id was nullish.`);
-            }
-        } else {
-            console.error(`saveAsDraft : Failed to do/view claim. Status: ${response.status}`);
-        }
-    } catch (e) {
-        console.error(e);
-    }
+    //             addToDraftsArr(id, details);
+    //         } else {
+    //             console.error(`saveAsDraft : Failed to create draft-claim. Id was nullish.`);
+    //         }
+    //     } else {
+    //         console.error(`saveAsDraft : Failed to do/view claim. Status: ${response.status}`);
+    //     }
+    // } catch (e) {
+    //     console.error(e);
+    // }
 
-    console.info(`Save as Draft: `, {details});
-    return;
+    // console.info(`Save as Draft: `, {details});
+    // return;
 };
 
 
 export function CreateClaim () {
     let alreadyLoadedDraft = false;
+    let manuallyRerenderedViaTitleCounter = 0;
+    let manualTitleTimeout = undefined;
+    const [claimId, set_claimId] = useState(null);
     const [title, setTitle] = useState(null);
     const [type, setType] = useState(null);
     const [currency, setCurrency] = useState(null);
@@ -109,12 +258,30 @@ export function CreateClaim () {
     const [recentImage, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
 
+    const _CreateClaim = this;
+
+    const [_rerender_counter, set_rerender_counter] = useState(0);
+
+    /**
+     * @type {[File[], (images: File[]) => void}
+     */
     const [imagesArr, setImagesArr] = useState([]);
-    function addAnImage(imageThing) {
-        var buffer = Array.from(imagesArr);
-        buffer.push(imageThing);
-        setImagesArr(buffer);
-        console.info(`[ADD AN IMAGE] I pushed ${imageThing}.`);
+    /**
+     * 
+     * @param {File[]} files 
+     * @returns {void}
+     */
+    const addImages = (...files)=>{
+        /**
+         * @type {File[]}
+         */
+        const thingToCopy = isNullish(imagesArr) ? [] : imagesArr;
+        const tempCopy = Array.from(thingToCopy);
+        tempCopy.push(...files);
+        setImagesArr(tempCopy);
+        console.info(`[ADD AN IMAGE] I pushed `, files);
+        // console.info(`[ADD AN IMAGE] Images array is now: `, imagesArr);
+        // THIS METHOD DOESN'T IMMEDIATELY KNOW WHAT imagesArr IS! REACT IS STRANGE!
         return;
     };
     function removeAnImage(imageThing) {
@@ -125,7 +292,7 @@ export function CreateClaim () {
         if (index !== -1) {
             buffer.splice(index, 1);
             setImagesArr(buffer);
-            console.info(`[REMOVE IMAGE] I removed ${imageThing}.`);
+            console.info(`[REMOVE IMAGE] I removed `, imageThing);
         };
         return;
     };
@@ -137,9 +304,14 @@ export function CreateClaim () {
         //     console.log(`Our images are: ${imagesArr}`);
         //     return imagesArr;
         // });
-        console.log(`Recent image is ${recentImage}`);
+        console.log(`Recent image is `, recentImage);
         console.log(`Images Arr: `, imagesArr);
     }, [recentImage, imagesArr]);
+
+    const do_forceUpdate = ()=>{
+        // CreateClaim.forceUpdate();
+        _CreateClaim.setState({rerender_counter: _rerender_counter + 1, imagesArr: imagesArr});
+    };
 
     let { state } = useLocation();
     useEffect(()=>{
@@ -147,13 +319,46 @@ export function CreateClaim () {
         if (state !== null && !alreadyLoadedDraft && state["draftClaim"] !== undefined) {
             console.log(`Draft claim found in state: `, state["draftClaim"]);
             alreadyLoadedDraft = true;
-            const { amount, claim_id, currency, date, description, expenseType, receipts, status, title, user_id } = state["draftClaim"];
+            const { amount, claim_id, currency, date, description, expenseType, receipts, status, title, user_id, imagesArr } = state["draftClaim"];
+            set_claimId(claim_id);
             setTitle(title);
             setType(expenseType);
             setCurrency(currency);
             setAmount(amount);
             setDate(date);
-            setDescription(description);
+            setDescription(description !== "null" ? description : "");
+            /**
+             * @type {(Object | File)[]}
+             */
+            let imagesMetaArr_toSet = [];
+            if (!isNullish(receipts)) {
+                console.info(`Receipts are: `, receipts);
+                receipts.forEach(
+                    /**
+                     * @param {ReceiptMetaInfo} receiptMetaInfo
+                     */
+                    async(receiptMetaInfo)=>{
+
+                    console.log(`Receipt meta-info: `, receiptMetaInfo);
+                    await buildFileFromReceiptMetaInfo(receiptMetaInfo, (blob)=>{
+                        console.log(`Built blob from receipt meta-info: `, blob)
+                        const fileHandle = new File([blob], receiptMetaInfo.imageFileName, {type: receiptMetaInfo.contentType});
+                        console.log(`Built file from receipt meta-info: `, fileHandle)
+                        imagesMetaArr_toSet.push(fileHandle);
+                        console.log(`imagesMetaArr_toSet is now: `, imagesMetaArr_toSet);
+                    }, (err)=> console.error(err));
+                    set_rerender_counter(_rerender_counter + 1);
+                    do_forceUpdate();
+                });
+                // imagesMetaArr_toSet.push(...receipts);
+            }
+            if (!isNullish(imagesArr)) {
+                imagesMetaArr_toSet.push(...imagesArr);
+            }
+            setImagesArr(imagesMetaArr_toSet);
+            set_rerender_counter(_rerender_counter + 1);
+            // do_forceUpdate();
+
             // setImage(receipts);
             // setPreview(receipts);
             console.log(`Loaded draft: `, state["draftClaim"]);
@@ -164,7 +369,22 @@ export function CreateClaim () {
             console.log(`state is: `, state);
             console.log(`alreadyLoadedDraft is: `, alreadyLoadedDraft);
         }
-    }, [state, alreadyLoadedDraft, setTitle, setType, setCurrency, setAmount, setDate, setDescription]);
+    }, [claimId, state, alreadyLoadedDraft, setTitle, setType, setCurrency, setAmount, setDate, setDescription]);
+
+    useEffect(()=>{
+        console.log(`Title is: `, title);
+        if (manualTitleTimeout === undefined) {
+            manualTitleTimeout = setTimeout(()=>{
+                if (manuallyRerenderedViaTitleCounter < 1) {
+                    // setTitle(title);
+                    set_rerender_counter(_rerender_counter + 1);
+                    // manually trigger re-render so image previews appear?
+                    manuallyRerenderedViaTitleCounter += 1;
+                }
+                manualTitleTimeout = false;
+            }, 1000);
+        }
+    }, [title, _rerender_counter, manualTitleTimeout]);
 
     const navigate = useNavigate();
     
@@ -185,19 +405,44 @@ export function CreateClaim () {
         bodyFormData.append("type", type);
         bodyFormData.append("date", date);
         bodyFormData.append("description", description);
-        imagesArr.forEach((fileHandle)=>{
-            // This works because with FormData, we're appending File objects to the same key.
-            //   Think of FormData as a HashMap, where each entry is an ArrayList.
-            //   We append item to the ArrayList indexed by the key.
-            // On the server, I will extract the data from FormData object.
-            bodyFormData.append("images[]", fileHandle);
-        });
+        if (!isNullish(imagesArr) && imagesArr.length > 0) {
+            imagesArr.forEach((fileHandle)=>{
+                // This works because with FormData, we're appending File objects to the same key.
+                //   Think of FormData as a HashMap, where each entry is an ArrayList.
+                //   We append item to the ArrayList indexed by the key.
+                // On the server, I will extract the data from FormData object.
+                bodyFormData.append("images[]", fileHandle);
+            });
+        } else {
+            console.error(`[CREATE CLAIM] No images were uploaded. Please upload at least one image.`);
+            window.alert(`Please upload at least one image!`);
+            return;
+        }
 
-        await httpClient.post('/api/claims/', bodyFormData).then(function(response) {
-            console.log(`[CREATE CLAIM] Successfully created claim 👍. Status: ${response.status}`);
+        /**
+         * @type {Promise<Response>}
+         */
+        let request = undefined;
+        const isFreshForm = isNullish(claimId);
+        const wasEditingADraft = !isFreshForm;
+        let api_endpoint = "";
+        if (wasEditingADraft) {
+            // this means submitting this draft, becomes pending claim
+            api_endpoint = `/api/claims/drafts/${claimId}/submit`;
+            request = httpClient.post(api_endpoint, bodyFormData);
+        } else {
+            // this means want to submit fresh form, no drafts involved
+            api_endpoint = "/api/claims/";
+            request = httpClient.post(api_endpoint, bodyFormData);
+        }
+
+        await request.then(function(response) {
+            console.log(`[CREATE CLAIM] Successfully ${wasEditingADraft ? "submitted draft ➡ pending-claim" : "created claim"} 👍. Status: ${response.status}`);
+            console.log(`Response data: `, response.data);
+            removeFromDraftsArr(claimId);
             navigate("/my-expenses");
         }).catch(function(error) {
-            console.error(`[CREATE CLAIM] Failed to create claim. Status: ${error.response.status}`);
+            console.error(`[CREATE CLAIM] Failed to ${wasEditingADraft ? "submit draft ➡ pending-claim" : "create claim"}. Status: ${error.response.status}`);
         });
         return;
     };
@@ -307,11 +552,12 @@ export function CreateClaim () {
                         </div>
 
                     <div>
+                        
                         <div className="proofArea">
                             <section className="proofArea-picture-gallery">
                                 {
-                                    (imagesArr.length > 0) ? (
-                                        imagesArr.map((fileHandle)=>{
+                                    ( !isNullish(imagesArr) && imagesArr.length > 0) ? (
+                                        imagesArr.filter(thing => isFile(thing)).map((fileHandle)=>{
                                             return (
                                             <>
                                                 <article className="proof-image-holder">
@@ -356,9 +602,15 @@ export function CreateClaim () {
                                     type='file'
                                     accept='image/*'
                                     onChange={(e) => {
-                                        setImage(e.target.files[0]);
-                                        addAnImage(e.target.files[0]);
-                                        setPreview(URL.createObjectURL(e.target.files[0]));
+                                        const filesPicked = e.target.files;
+                                        console.log(`files picked: `, filesPicked);
+                                        if (!isNullish(filesPicked)) {
+                                            addImages(...filesPicked);
+                                        }
+                                        for (let fileHandle of filesPicked) {
+                                            setImage(fileHandle);
+                                            setPreview(URL.createObjectURL(fileHandle));
+                                        }
                                     }} 
                                     multiple 
                                     required
@@ -369,7 +621,7 @@ export function CreateClaim () {
                     </div>
 
                     <button type="button" className="infield clearSubmit saveDraftSubmit" onClick={()=>{
-                        saveAsDraft({title, type, currency, amount, date, description, image: recentImage});
+                        saveAsDraft({claimId, title, type, currency, amount, date, description, imagesArr});
                     }}>Save as Draft</button>
                     <Link className='infield clearSubmit' to="/create-claim" state={{
                         draftClaim: {
@@ -393,6 +645,7 @@ export function CreateClaim () {
                                 setAmount("");
                                 setDate("");
                                 setDescription("");
+                                setImagesArr([]);
                                 setImage(null);
                                 setPreview(null);
                                 alreadyLoadedDraft = true;

@@ -23,6 +23,8 @@ var PendingArr = []
 var RejectedArr = []
 var DraftsArr = []
 
+let DraftsArr_Local = [];
+
 function removeDuplicatesFromArray(arr) {
     return arr.filter((value, index) => arr.indexOf(value) === index);
 };
@@ -79,7 +81,7 @@ export function emptyDraftsArr() {
  * }} details 
  */
 export function addToDraftsArr(draftClaimId, details) {
-    const { title, type ,currency, amount, date, description, image } = details;
+    const { title, type, currency, amount, date, description, imagesArr } = details;
   
     const output = {
         id: draftClaimId,
@@ -89,7 +91,7 @@ export function addToDraftsArr(draftClaimId, details) {
         amount: amount,
         date: date,
         description: description,
-        image: image,
+        imagesArr: imagesArr,
 
         // but then the thing that code below actually uses (which weren't covered above)...
         date_time: date,
@@ -98,9 +100,30 @@ export function addToDraftsArr(draftClaimId, details) {
         claim_id: draftClaimId
     };
     DraftsArr.push(output);
+    DraftsArr_Local.push(Object.assign({}, output));
     console.log(`Drafts array updated, with: `, output);
 
     return;
+};
+export function editDraft(draftClaimId, details) {
+    const { title, type, currency, amount, date, description, imagesArr } = details;
+    const present_info = DraftsArr.find((claim) => claim.id === draftClaimId);
+    if (present_info === undefined) {
+        console.error(`Draft with id ${draftClaimId} not found.`);
+        return undefined;
+    }
+    present_info.title = title;
+    present_info.type = type;
+    present_info.currency = currency;
+    present_info.amount = amount;
+    present_info.date = date;
+    present_info.description = description;
+    present_info.imagesArr = imagesArr;
+    present_info.date_time = date;
+    present_info.currency_type = currency;
+    present_info.desc = title;
+    console.log(`Drafts array updated, with: `, present_info);
+    return present_info;
 };
 export let _GLOB_FORCE_RELOAD = undefined;
 export function removeFromDraftsArr(draftClaimId) {
@@ -344,15 +367,23 @@ export function MyExpenses(){
                                 )}
                             </div>
                             {
-                                removeDuplicatesFromArray(DraftsArr).map((expense, index) =>
-                                    (transition_drafts((style, item) =>
-                                    item ? <animated.div style={style}>
-                                        <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: expense}}>
-                                            <ExpenseBox key={index} expense={expense} />
-                                        </Link>
-                                    </animated.div>
-                                    : '')
-                                ))
+                                (!isNullish(DraftsArr) && DraftsArr.length > 0) ? (
+                                    removeDuplicatesFromArray(DraftsArr).map((expense, index) =>
+                                        (transition_drafts((style, item) =>
+                                        item ? <animated.div style={style}>
+                                            <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: (()=>{
+                                                const local_draft = DraftsArr_Local.find((draftLocal) => draftLocal.id === expense.claim_id);
+                                                let output_expense = Object.assign({}, local_draft, expense);
+                                                console.log(`DraftsArr_Local: `, DraftsArr_Local);
+                                                console.log(`output_expense: `, output_expense);
+                                                return output_expense;
+                                            })() }}>
+                                                <ExpenseBox key={index} expense={expense} />
+                                            </Link>
+                                        </animated.div>
+                                        : '')
+                                    ))
+                                ) : (<p style={{padding:"1rem"}}>Nothing Here right now...</p>)
                             }
 
                             <div className='h2-collapse' onClick={() => handleCollapse('pending')}>
