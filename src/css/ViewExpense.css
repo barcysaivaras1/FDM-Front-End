@@ -33,7 +33,7 @@
 #Status, #ExpenseDetails {
     margin-inline: auto;
     width: 100%;
-    padding-top: 1svh;
+    /* padding-top: 1svh; */
     padding-inline: 4vw;
     padding-bottom: 2svh;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
@@ -97,6 +97,12 @@ p {
     font-size: 16px;
 }
 
+#Status svg {
+    min-width: 41px;
+    min-height: 41px;
+
+}
+
 /* laptop view of the navbar */
 @media screen and (min-width: 1024px) {
     .view-expense {
@@ -111,8 +117,11 @@ p {
     }
 
     #Status, #ExpenseDetails {
-        padding: 2vw;
         box-sizing: border-box;
+    }
+
+    #ExpenseDetails {
+        padding: 2vw;
     }
 
     #AppealClaim, #DraftEdit, #DraftDelete {
@@ -133,7 +142,7 @@ p {
         padding-right: 2vw;
     }
     #DraftDelete, #AppealClaim {
-        margin-bottom: 4vh;
+        margin-bottom: 4svh;
     }
 }
 

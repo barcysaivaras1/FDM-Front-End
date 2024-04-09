@@ -25,10 +25,7 @@ function NavBar() {
         })
     }
 
-    const changeStyle = () => {
-        if (style !== "account notClicked") setStyle("account notClicked");
-        else setStyle("account clicked");
-    };
+
 
     useEffect(() => {
         let handler = (event) => {
@@ -36,13 +33,19 @@ function NavBar() {
                 setAccountNavOpen(false);
             }
         }
+        
+        if (accountNavOpen) {
+            setStyle("account clicked");
+        } else {
+            setStyle("account notClicked");
+        }
 
         document.addEventListener("mousedown", handler);
-
+        
         return() => {
             document.removeEventListener("mousedown", handler);
         }
-    }, []);
+    }, [accountNavOpen]);
 
     return (
         <nav className='navbar'>
@@ -53,6 +56,17 @@ function NavBar() {
                         <NavLink to="/line-manager-expenses" className="DesktopIdentifiers link">
                             <div>
                                 <p>Review Expenses</p>
+                            </div>
+                        </NavLink>
+                    )
+                }
+
+                {/* Idk if we're meant to have this but here we are :D */}
+                {
+                    auth.role === 4 && (
+                        <NavLink to="/admin" className="DesktopIdentifiers link">
+                            <div>
+                                <p>Admin</p>
                             </div>
                         </NavLink>
                     )
@@ -74,7 +88,7 @@ function NavBar() {
                 </NavLink>
 
                 <div className={style} ref={accountNavRef}>
-                    <AccountNavIcon onClick={() => {setAccountNavOpen(!accountNavOpen); changeStyle();}} className='accountNavIcon' />
+                    <AccountNavIcon onClick={() => {setAccountNavOpen(!accountNavOpen);}} className='accountNavIcon' />
                     {/* <p className="MobileIdentifiers">Profile</p> */}
 
                     {accountNavOpen && (
