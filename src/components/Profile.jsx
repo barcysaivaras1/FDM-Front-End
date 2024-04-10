@@ -178,7 +178,7 @@ export function Profile() {
 
                             <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
                                 <form onSubmit={handleSubmit} className='change-password-form'>
-                                    <div>
+                                    <div className='row'>
                                         <label>Old Password</label>
                                         <input 
                                             type="password"
@@ -189,7 +189,7 @@ export function Profile() {
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className='row'>
                                         <label>New Password</label>
                                         <input 
                                             type="password"
@@ -200,7 +200,7 @@ export function Profile() {
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className='row'>
                                         <label>Confirm New Password</label>
                                         <input 
                                             type="password"
