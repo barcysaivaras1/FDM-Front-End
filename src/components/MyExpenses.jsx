@@ -518,9 +518,9 @@ const ExpenseBox = (props) =>{
             <div className='Status-Img'>{img}</div>
 
             <div className='claim-info'>
-                <div className='claim-date'>{ isNullish(props.expense.date) ? ("No Date") : (props.expense.date.replace(" 00:00:00 GMT", "")) }</div>
+                <div className='title'>{ isNullish(props.expense.title) ? ("Title Unknown (impossible... how?)") : (props.expense.title) }</div>
                 <div>{isNullish(props.expense.currency) ? ("No Currency") : props.expense.currency} {isNullish(props.expense.amount) ? "No Amount" : props.expense.amount}</div>
-                <div>{ isNullish(props.expense.title) ? ("Title Unknown (impossible... how?)") : (props.expense.title) }</div>
+                <div className='claim-date'>{ isNullish(props.expense.date) ? ("No Date") : (props.expense.date.replace(" 00:00:00 GMT", "")) }</div>
             </div>
 
             <div className='claim-arrow'>
