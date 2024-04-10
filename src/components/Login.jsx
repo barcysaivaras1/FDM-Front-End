@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import httpClient from '../httpClient';
 import Animate_page from './Animate-page';
 import useAuth from '../hooks/useAuth';
+import { CloseIcon } from '../assets/Icons';
 
 function Login() {
     const [un, setUn] = useState("");
     const [pw, setPw] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
     const navigate = useNavigate();
     const { setAuth } = useAuth();
 
@@ -28,7 +30,7 @@ function Login() {
         })
         .catch(function (error) {
             console.log("Error: ", error);
-            alert("Incorrect username or password");
+            setErrorMessage("Incorrect username or password");
         })
     }
 
@@ -42,15 +44,26 @@ function Login() {
         <div className='loginContainer'>
             <legend className='loginLegend'>Login</legend>
             <form className='loginForm' onSubmit={handleSubmit}>
+                {errorMessage && (
+                    <div className='error'>
+                        <div className='error-message'>{errorMessage}</div>
+
+                        <CloseIcon className='error-dismiss' onClick={() => setErrorMessage(null)} />
+                    </div>
+                )}
+
                 <input type="text" placeholder='Username' className='loginField un' required
                     value={un}
                     onChange={(e) => { setUn(e.target.value) }}
                 />
+
                 <input type="password" placeholder='Password' className='loginField pw' required
                     value={pw}
                     onChange={(e) => { setPw(e.target.value) }}
                 />
+
                 <button className='loginSubmit'>Login</button>
+
             </form>
             <a href='https://careers.fdmgroup.com/forgotten-password.aspx' target='_blank' rel='noreferrer' className='forgor'>
                 Forgot your password?
