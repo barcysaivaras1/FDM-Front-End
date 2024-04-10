@@ -9,6 +9,7 @@ import { ls_keys } from './utils';
 import { ensureLS_saveDraftClaim_exists } from './utils';
 import { addToDraftsArr, editDraft, removeFromDraftsArr } from './MyExpenses.jsx';
 import { Link, useLocation } from 'react-router-dom';
+import Modal from './Modal.jsx';
 
 
 const ls_key = "fdm-expenses-client/create-claim/form-data";
@@ -257,6 +258,7 @@ export function CreateClaim () {
     const [description, setDescription] = useState(null);
     const [recentImage, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
+    const [showClearModal, setShowClearModal] = useState(false);
 
     const _CreateClaim = this;
 
@@ -620,7 +622,6 @@ export function CreateClaim () {
                         </div>
                     </div>
                         <div className='buttons'>
-                            
                             <button type="button" className="infield clearSubmit saveDraftSubmit" onClick={()=>{
                                 saveAsDraft({claimId, title, type, currency, amount, date, description, imagesArr});
                             }}>Save as Draft</button>
@@ -642,23 +643,39 @@ export function CreateClaim () {
                                 }
                             }} >
                                 <button type="button" className='infield clearSubmit' 
-                                    onClick={() => {
-                                        setTitle("");
-                                        setType("");
-                                        setCurrency("");
-                                        setAmount("");
-                                        setDate("");
-                                        setDescription("");
-                                        setImagesArr([]);
-                                        setImage(null);
-                                        setPreview(null);
-                                        alreadyLoadedDraft = true;
-                                    }}
+                                    onClick={() => setShowClearModal(true)}
                                 >
                                     Clear form
                                 </button>
                             </Link>
 
+                            <Modal open={showClearModal} onClose={() => setShowClearModal(false)}>
+                                <div className="draft-clear-modal">
+                                    <div>Are you sure you want to clear?</div>
+
+                                    <div className="options">
+                                        <div className="cancel" onClick={() => setShowClearModal(false)}>
+                                            Cancel
+                                        </div>
+
+                                        <div className="clear" onClick={() => {
+                                            setTitle("");
+                                            setType("");
+                                            setCurrency("");
+                                            setAmount("");
+                                            setDate("");
+                                            setDescription("");
+                                            setImagesArr([]);
+                                            setImage(null);
+                                            setPreview(null);
+                                            alreadyLoadedDraft = true;   
+                                            setShowClearModal(false);   
+                                        }}>
+                                            OK
+                                        </div>
+                                    </div>
+                                </div>
+                            </Modal>
                         </div>
                     </form>
                 </div>

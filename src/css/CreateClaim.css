@@ -314,6 +314,52 @@ broken, so yipee!                                                               
 }
 
 
+/* Clear draft modal */
+
+.createForm .draft-clear-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: 'Public Sans', Verdana, sans-serif;
+}
+
+.createForm .draft-clear-modal .options {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    height: 50px;
+    color: white;
+}
+
+.createForm .draft-clear-modal .options .clear, .createForm .draft-clear-modal .options .cancel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.createForm .draft-clear-modal .options .clear {
+    background-color: #122446;
+}
+
+.createForm .draft-clear-modal .options .clear:hover {
+    background-color: #172e5a;
+}
+
+.createForm .draft-clear-modal .options .cancel {
+    background-color: #ccced3;
+}
+
+.createForm .draft-clear-modal .options .cancel:hover {
+    background-color: #bec1c7;
+}
+
+/*  */
+
 
 
 /* laptop view of the navbar */
@@ -341,5 +387,11 @@ broken, so yipee!                                                               
     }
     .createSubmit {
         margin-bottom: 6.5vh;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .createForm .draft-clear-modal {
+        width: 80vw;
     }
 }
