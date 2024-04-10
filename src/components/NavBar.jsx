@@ -67,7 +67,7 @@ function NavBar() {
                     <div>
                         <ViewExpensesIcon />
                         {/* <p className="MobileIdentifiers">View</p> */}
-                        <p className="DesktopIdentifiers">My Expenses</p>
+                        <p className="DesktopIdentifiers">My Claims</p>
                     </div>
                 </NavLink>
 
@@ -84,7 +84,7 @@ function NavBar() {
                     <NavLink to="/line-manager-expenses" className="DesktopIdentifiers link">
 
                     <div>
-                        <p>Review Expenses</p>
+                        <p>Review Claims</p>
                     </div>
 
                     </NavLink>
