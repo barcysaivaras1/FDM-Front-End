@@ -477,6 +477,7 @@ export function MyExpenses(){
                                     : '')
                                 ))
                             }
+                            <div className='pseudoMargin'></div>
                         </div>
                     </div>
                 </div>

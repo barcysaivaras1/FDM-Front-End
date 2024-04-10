@@ -16,11 +16,17 @@ body {
     width: 95%;
     max-width: 50vw;
 }
+.pseudoMargin {
+    height: 0vh;
+}
 
 @media screen and (max-width: 1024px) {
     .ViewExpensesPage {
         height: 88svh;
         max-width: none;
+    }
+    .pseudoMargin {
+        height: 4vh;
     }
 }
 
