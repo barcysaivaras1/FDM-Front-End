@@ -104,8 +104,12 @@ body {
 .claim-info{
     display: flex;
     flex-direction: column;
-    font-size: 0.8em;
+    font-size: 0.9rem;
     color: rgb(19, 31, 58);
+}
+
+.claim-info .title {
+    font-weight: 600;
 }
 
 /*I HAVE NO IDEA WHY THIS CENTERS THE IMAGE BUT LEAVE IT*/
