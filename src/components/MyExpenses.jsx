@@ -40,6 +40,7 @@ function sortDraftsArray() {
         // compare date objects
         return bDate - aDate;
     });
+    return DraftsArr;
 };
 async function fetchClaims (setIsLoading) {
     await httpClient.get('/api/claims/').then(function(response) {
@@ -155,6 +156,8 @@ export function removeFromDraftsArr(draftClaimId) {
 let interval_sortDraftsArr = undefined;
 export function MyExpenses(){
     const [isLoading, setIsLoading] = useState(true);
+
+    const [_rerender_counter, set_rerender_counter] = useState(0);
 
     const clearClaimsArrays = () => {
         document.title = "Your Expenses";
@@ -360,14 +363,18 @@ export function MyExpenses(){
 
     
 
+    interval_sortDraftsArr = setInterval(()=>{
+        // sortDraftsArray();
+        sortDraftsArray();
+        set_rerender_counter(_rerender_counter + 1);
+    }, 5000);
     // useEffect(()=>{
-    //     sortDraftsArray();
-    // }, [DraftsArr]);
-    if (interval_sortDraftsArr === undefined) {
-        interval_sortDraftsArr = setInterval(()=>{
-            sortDraftsArray();
-        }, 3000);
-    }
+    //     if (interval_sortDraftsArr === undefined) {
+    //         // interval_sortDraftsArr = false;
+    //         sortDraftsArray();
+    //     }
+    // }, [_rerender_counter]);
+    
 
     
     return(
@@ -395,9 +402,10 @@ export function MyExpenses(){
                                     <ArrowUpIcon />
                                 )}
                             </div>
+                            <div style={{display: "block", visibility: "hidden", width: "1px", height: "1px"}}><>{_rerender_counter}</></div>
                             {
                                 (!isNullish(DraftsArr) && DraftsArr.length > 0) ? (
-                                    removeDuplicatesFromArray(DraftsArr).map((expense, index) =>
+                                    removeDuplicatesFromArray(sortDraftsArray()).map((expense, index) =>
                                         (transition_drafts((style, item) =>
                                         item ? <animated.div style={style}>
                                             <Link to="/view-expense" state={{id: expense.claim_id, draftClaim: (()=>{
