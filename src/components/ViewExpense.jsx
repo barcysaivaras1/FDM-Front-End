@@ -169,7 +169,7 @@ export function ViewExpense() {
                         <h2>Evidence</h2>
                         {
                             (isNOTNullish(claim) && claim.receipts.length > 0) ? (
-                                claim.receipts.map((evidence) => {
+                                claim.receipts.map((evidence, index) => {
                                     const imageUrl = evidence.imageContentsBase64;
 
                                     /*
@@ -186,7 +186,7 @@ export function ViewExpense() {
                                     
                                     
                                     return (
-                                    <>
+                                    <div key={index}>
                                         <a href='' onClick={(evt)=>{
                                             evt.preventDefault(); // Prevent the default behavior of the anchor tag
                                             // const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
@@ -199,7 +199,7 @@ export function ViewExpense() {
                                             // window.localStorage.setItem(ls_keys["view-expense-recent"], JSON.stringify(ls_recentViewedExpense));
                                             openUp();
                                         }}>Attached evidence</a> <br />
-                                    </>
+                                    </div>
                                     )
                                 })
                             ) : (
@@ -211,15 +211,15 @@ export function ViewExpense() {
                     {
                         isNOTNullish(claim?.status)? claim?.status === "Draft" && (
                             <div id="DraftDiv">
-                                <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} >
+                                <Link to={"/create-claim"} state={{draftClaim: state.draftClaim}} className="edit-link">
                                     <div id="DraftEdit">
-                                        <p>Edit this Draft</p>
+                                        <p>Edit Draft</p>
                                     </div>
                                 </Link>
 
-                                <Link to={"/my-expenses"} onClick={() => {deleteDraft()}}>
+                                <Link to={"/my-expenses"} onClick={() => {deleteDraft()}} className="delete-link">
                                     <div id="DraftDelete">
-                                        <p>Delete this Draft</p>
+                                        <p>Delete Draft</p>
                                     </div>
                                 </Link>
                             </div>
@@ -246,14 +246,14 @@ export function ViewExpense() {
 
                             <Link to={"/my-expenses"} onClick={() => {appealClaim()}}>
                                 <div id="AppealClaim">
-                                    <p>Appeal this claim</p>
+                                    <p>Appeal Claim</p>
                                 </div>
                             </Link>
                             </div>
                             :
                             <div>
                             <div id="AppealClaim" onClick={() =>handleAppealClick()}>
-                            <p>Appeal this claim</p></div> </div>
+                            <p>Appeal Claim</p></div> </div>
                         )
                         : ''
                     }
