@@ -51,15 +51,6 @@ function NavBar() {
         <nav className='navbar'>
             <div className='one'>
                 <img src={FDMLogo} id="FDMLogo" width={80} />
-                {
-                    auth.role === 2 && (
-                        <NavLink to="/line-manager-expenses" className="DesktopIdentifiers link">
-                            <div>
-                                <p>Review Expenses</p>
-                            </div>
-                        </NavLink>
-                    )
-                }
 
                 {/* Idk if we're meant to have this but here we are :D */}
                 {
@@ -87,6 +78,17 @@ function NavBar() {
                     </div>
                 </NavLink>
 
+                <hr className='divider'></hr>
+
+                {auth.role === 2 && (
+                    <NavLink to="/line-manager-expenses" className="DesktopIdentifiers link">
+
+                    <div>
+                        <p>Review Expenses</p>
+                    </div>
+
+                    </NavLink>
+                )}
                 <div className={style} ref={accountNavRef}>
                     <AccountNavIcon onClick={() => {setAccountNavOpen(!accountNavOpen);}} className='accountNavIcon' />
                     {/* <p className="MobileIdentifiers">Profile</p> */}
