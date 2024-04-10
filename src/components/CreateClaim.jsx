@@ -619,43 +619,47 @@ export function CreateClaim () {
                             </section>
                         </div>
                     </div>
+                        <div className='buttons'>
+                            
+                            <button type="button" className="infield clearSubmit saveDraftSubmit" onClick={()=>{
+                                saveAsDraft({claimId, title, type, currency, amount, date, description, imagesArr});
+                            }}>Save as Draft</button>
 
-                    <button type="button" className="infield clearSubmit saveDraftSubmit" onClick={()=>{
-                        saveAsDraft({claimId, title, type, currency, amount, date, description, imagesArr});
-                    }}>Save as Draft</button>
-                    <Link className='infield clearSubmit' to="/create-claim" state={{
-                        draftClaim: {
-                            amount: null, 
-                            claim_id: null, 
-                            currency: null, 
-                            date: null, 
-                            description: null, 
-                            expenseType: null, 
-                            receipts: null, 
-                            status: null, 
-                            title: null, 
-                            user_id: null
-                        }
-                    }} >
-                        <button type="button" className='infield clearSubmit' 
-                            onClick={() => {
-                                setTitle("");
-                                setType("");
-                                setCurrency("");
-                                setAmount("");
-                                setDate("");
-                                setDescription("");
-                                setImagesArr([]);
-                                setImage(null);
-                                setPreview(null);
-                                alreadyLoadedDraft = true;
-                            }}
-                        >
-                            Clear form
-                        </button>
-                    </Link>
+                            <button className='infield createSubmit'>Submit Claim</button>
+                            
+                            <Link className='infield clearSubmit' to="/create-claim" state={{
+                                draftClaim: {
+                                    amount: null, 
+                                    claim_id: null, 
+                                    currency: null, 
+                                    date: null, 
+                                    description: null, 
+                                    expenseType: null, 
+                                    receipts: null, 
+                                    status: null, 
+                                    title: null, 
+                                    user_id: null
+                                }
+                            }} >
+                                <button type="button" className='infield clearSubmit' 
+                                    onClick={() => {
+                                        setTitle("");
+                                        setType("");
+                                        setCurrency("");
+                                        setAmount("");
+                                        setDate("");
+                                        setDescription("");
+                                        setImagesArr([]);
+                                        setImage(null);
+                                        setPreview(null);
+                                        alreadyLoadedDraft = true;
+                                    }}
+                                >
+                                    Clear form
+                                </button>
+                            </Link>
 
-                        <button className='infield createSubmit'>Submit Claim</button>
+                        </div>
                     </form>
                 </div>
             </div>
