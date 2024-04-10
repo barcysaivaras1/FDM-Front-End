@@ -75,7 +75,7 @@ body{
 }
 
 .change-password label {
-    font-family: 'Kaiti SC';
+    font-family: 'Public Sans', Verdana, sans-serif;
 }
 
 .change-password .modal-button, .change-password .submit-button {

@@ -2,23 +2,24 @@ import { useState, useEffect } from "react";
 import "../css/ViewExpense.css"
 import NavBar from "./NavBar";
 import { BackButtonIcon, PendingIcon, RejectedIcon, AcceptedIcon, DraftIcon } from "../assets/Icons"
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import httpClient from "../httpClient";
 import Animate_page from "./Animate-page";
 import { removeFromDraftsArr } from "./MyExpenses.jsx";
 import { ensureLS_recentViewedExpense_exists, ensureLS_saveDraftClaim_exists, ls_keys } from "./utils";
+import Modal from "./Modal.jsx";
 
 
 export function ViewExpense() {
+    const navigate = useNavigate();
     let { state } = useLocation();
     console.log(state);
     const [claim, setClaim] = useState();
     const [appealClick,setAppealClick] = useState(false);
-
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleAppealClick = () => {
         setAppealClick(true)
-
     }
 
     // const ls_recentViewedExpense = ensureLS_recentViewedExpense_exists();
@@ -105,7 +106,8 @@ export function ViewExpense() {
                         }
                         window.localStorage.setItem(ls_keys["save-draft-claim"], JSON.stringify(ls_draftStorage));
                         console.log(`delete draft : Draft-claim deleted, id was: ${id}.`);
-                        window.alert(`This draft-claim has been deleted.`);
+                        // window.alert(`This draft-claim has been deleted.`);
+                        navigate('/my-expenses')
         
                         removeFromDraftsArr(id);
                     } else {
@@ -121,7 +123,7 @@ export function ViewExpense() {
             return;
         }
         return;
-    };
+    }
 
     return (
         <div>
@@ -217,11 +219,25 @@ export function ViewExpense() {
                                     </div>
                                 </Link>
 
-                                <Link to={"/my-expenses"} onClick={() => {deleteDraft()}} className="delete-link">
-                                    <div id="DraftDelete">
-                                        <p>Delete Draft</p>
+                                <div id="DraftDelete" onClick={() => setShowDeleteModal(true)}>
+                                    <p>Delete Draft</p>
+                                </div>
+
+                                <Modal open={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+                                    <div className="draft-delete-modal">
+                                        <div>Are you sure you want to delete this draft?</div>
+
+                                        <div className="options">
+                                            <div className="cancel" onClick={() => setShowDeleteModal(false)}>
+                                                Cancel
+                                            </div>
+
+                                            <div className="delete" onClick={() => {deleteDraft()}}>
+                                                Delete
+                                            </div>
+                                        </div>
                                     </div>
-                                </Link>
+                                </Modal>
                             </div>
                         )
                         :''
