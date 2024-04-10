@@ -492,7 +492,7 @@ export function MyExpenses(){
 export default MyExpenses;
 
 function isNullish(value) {
-    return value === null || value === undefined;
+    return value === null || value === undefined || value === "0.00";
 };
 
 const ExpenseBox = (props) =>{
@@ -517,11 +517,9 @@ const ExpenseBox = (props) =>{
             <div className='Status-Img'>{img}</div>
 
             <div className='claim-info'>
-                <div className='title'>{ isNullish(props.expense.title) ? ("Title Unknown (impossible... how?)") : (props.expense.title) }</div>
-
-                <div>{ (isNullish(props.expense.currency) || isNullish(props.expense.amount)) ? ("Unknown Currency") : (props.expense.currency+props.expense.amount) }</div>
-
-                <div className='claim-date'>{ isNullish(props.expense.date) ? ("Unknown Date") : (props.expense.date.replace(" 00:00:00 GMT", "")) }</div>
+                <div className='claim-date'>{ isNullish(props.expense.date) ? ("No Date") : (props.expense.date.replace(" 00:00:00 GMT", "")) }</div>
+                <div>{isNullish(props.expense.currency) ? ("No Currency") : props.expense.currency} {isNullish(props.expense.amount) ? "No Amount" : props.expense.amount}</div>
+                <div>{ isNullish(props.expense.title) ? ("Title Unknown (impossible... how?)") : (props.expense.title) }</div>
             </div>
 
             <div className='claim-arrow'>
