@@ -30,6 +30,8 @@ Manager can review expenses to accept or deny them so that employees can be reim
 
 <img width="1912" height="949" alt="Expense-ManagerReview" src="https://github.com/user-attachments/assets/b134aef9-da5c-4be9-93c7-caaa9d658958" />
 
+<img width="1915" height="944" alt="Expense-MangerApproveDeny" src="https://github.com/user-attachments/assets/7b62583e-7351-4744-b63c-67fa80dfaf6d" />
+
 
 View your profile
 
