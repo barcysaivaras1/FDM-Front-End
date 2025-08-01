@@ -28,8 +28,6 @@ Create an Expense
 
 Manager can review expenses to accept or deny them so that employees can be reimbursed.
 
-<img width="1912" height="949" alt="Expense-ManagerReview" src="https://github.com/user-attachments/assets/5f5ace17-4f8c-4423-8bfa-e1e396ea24af" />
-
 <img width="1912" height="949" alt="Expense-ManagerReview" src="https://github.com/user-attachments/assets/b134aef9-da5c-4be9-93c7-caaa9d658958" />
 
 
